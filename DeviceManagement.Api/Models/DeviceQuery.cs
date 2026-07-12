@@ -1,0 +1,17 @@
+﻿namespace DeviceManagement.Api.Models
+{
+    public class DeviceQuery
+    {
+        public string? Name {  get; set; }
+        public DeviceStatus? Status { get; set; }
+
+        public bool ? IsDeleted { get; set; }
+
+        public int Page { get; set; } = 1;
+        public int PageSize { get; set; } = 10;
+
+        public string? SortBy { get; set; }
+
+        public bool IsDescending { get; set; }
+    }
+}
