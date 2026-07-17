@@ -42,7 +42,8 @@ namespace DeviceManagement.Api.Controllers
         {
             _logger.LogInformation("CreateDevice started");
             //return Ok(_deviceService.AddDevice(dto));
-            return Ok(ApiResponse<DeviceDto>.Ok(_deviceService.AddDevice(dto)));
+            //return Ok(ApiResponse<DeviceDto>.Ok(_deviceService.AddDevice(dto)));
+            return StatusCode(StatusCodes.Status201Created, ApiResponse<DeviceDto>.Ok(_deviceService.AddDevice(dto)));
         }
 
         [HttpPut("{id}")]

@@ -6281,11 +6281,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\AspNetCore\\LearningYang\\DeviceManagement.Api.Tests\\DeviceManagement.Api.Tests.csproj",
+      "projectUniqueName": "D:\\AspNetCore\\DeviceManagement\\DeviceManagement.Api.Tests\\DeviceManagement.Api.Tests.csproj",
       "projectName": "DeviceManagement.Api.Tests",
-      "projectPath": "D:\\AspNetCore\\LearningYang\\DeviceManagement.Api.Tests\\DeviceManagement.Api.Tests.csproj",
+      "projectPath": "D:\\AspNetCore\\DeviceManagement\\DeviceManagement.Api.Tests\\DeviceManagement.Api.Tests.csproj",
       "packagesPath": "C:\\Users\\yanja\\.nuget\\packages\\",
-      "outputPath": "D:\\AspNetCore\\LearningYang\\DeviceManagement.Api.Tests\\obj\\",
+      "outputPath": "D:\\AspNetCore\\DeviceManagement\\DeviceManagement.Api.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -6307,8 +6307,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "D:\\AspNetCore\\LearningYang\\DeviceManagement.Api\\DeviceManagement.Api.csproj": {
-              "projectPath": "D:\\AspNetCore\\LearningYang\\DeviceManagement.Api\\DeviceManagement.Api.csproj"
+            "D:\\AspNetCore\\DeviceManagement\\DeviceManagement.Api\\DeviceManagement.Api.csproj": {
+              "projectPath": "D:\\AspNetCore\\DeviceManagement\\DeviceManagement.Api\\DeviceManagement.Api.csproj"
             }
           }
         }

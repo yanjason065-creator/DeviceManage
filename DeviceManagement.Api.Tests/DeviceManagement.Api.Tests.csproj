@@ -29,8 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Intergration\Devices\" />
-    <Folder Include="Intergration\Categories\" />
+    <Folder Include="IntegrationTests\Categories\" />
     <Folder Include="TestData\" />
     <Folder Include="Collections\" />
   </ItemGroup>

@@ -13,19 +13,20 @@ using DeviceManagement.Api.Tests.Helpers;
 using System.Security.Claims;
 using Xunit.Abstractions;
 using Xunit.Abstractions;
+using DeviceManagement.Api.Tests.Infrastructure;
 
 namespace DeviceManagement.Api.Tests.Intergration.Authentication
 {
-    public  class LoginTests:IClassFixture<CustomWebApplicationFactory>
+    public  class LoginTests
+        :IntegrationTestBase,
+         IClassFixture<CustomWebApplicationFactory>
     {
-        private readonly HttpClient _client;
-        private readonly ITestOutputHelper _output;
+        //private readonly HttpClient _client;
+        //private readonly ITestOutputHelper _output;
 
         public LoginTests(CustomWebApplicationFactory factory,
-                ITestOutputHelper testOutputHelper)
-        {
-            _client = factory.CreateClient();
-            _output = testOutputHelper;
+                ITestOutputHelper testOutputHelper):base(factory,testOutputHelper)
+        {            
         }
 
         [Fact]
@@ -40,11 +41,11 @@ namespace DeviceManagement.Api.Tests.Intergration.Authentication
 
             //Act
             var response =
-                await _client.PostAsJsonAsync(
+                await Client.PostAsJsonAsync(
                     "/api/auth/login",
                     request
                     );
-            _output.WriteLine(
+            Output.WriteLine(
                 $"Status Code: {response.StatusCode}");
             if (!response.IsSuccessStatusCode)
             {
@@ -56,7 +57,7 @@ namespace DeviceManagement.Api.Tests.Intergration.Authentication
                 .Be(HttpStatusCode.OK);
 
             var content = await response.Content.ReadAsStringAsync();
-            _output.WriteLine(content);
+            Output.WriteLine(content);
             content
                 .Should()
                 .Contain("token");
@@ -74,11 +75,11 @@ namespace DeviceManagement.Api.Tests.Intergration.Authentication
 
             //Act
             var response =
-                await _client.PostAsJsonAsync(
+                await Client.PostAsJsonAsync(
                     "/api/auth/login",
                     request
                     );
-            _output.WriteLine(
+            Output.WriteLine(
                   $"Status Code: {response.StatusCode}");
             //Assert
             response.StatusCode.Should()
@@ -97,11 +98,11 @@ namespace DeviceManagement.Api.Tests.Intergration.Authentication
 
             //Act
             var response =
-                await _client.PostAsJsonAsync(
+                await Client.PostAsJsonAsync(
                     "/api/auth/login",
                     request
                     );
-            _output.WriteLine(
+            Output.WriteLine(
                 $"Status Code: {response.StatusCode}");
             //Assert
             response.StatusCode.Should()
@@ -120,11 +121,11 @@ namespace DeviceManagement.Api.Tests.Intergration.Authentication
 
             //Act
             var response =
-                await _client.PostAsJsonAsync(
+                await Client.PostAsJsonAsync(
                     "/api/auth/login",
                     request
                     );
-            _output.WriteLine(
+            Output.WriteLine(
                 $"Status Code: {response.StatusCode}");
             //Assert
             response.StatusCode.Should()
@@ -143,11 +144,11 @@ namespace DeviceManagement.Api.Tests.Intergration.Authentication
 
             //Act
             var response =
-                await _client.PostAsJsonAsync(
+                await Client.PostAsJsonAsync(
                     "/api/auth/login",
                     request
                     );
-            _output.WriteLine(
+            Output.WriteLine(
                 $"Status Code: {response.StatusCode}");
             response.StatusCode
                 .Should()
