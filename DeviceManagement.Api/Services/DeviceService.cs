@@ -40,6 +40,21 @@ namespace DeviceManagement.Api.Services
                 CategoryId = dto.CategoryId
             };
 
+            //Check if EmployeeId exists or not
+            var employee = _context.Employees
+                .FirstOrDefault(x=>x.Id==dto.EmployeeId);
+            if(employee is null)
+            {
+                throw new NotFoundException("Employee Not Found.");
+            }
+
+            var category = _context.Categories
+                .FirstOrDefault(x=>x.Id==dto.CategoryId);
+            if (category is null)
+            {
+                throw new NotFoundException("Category Not Found.");
+            }
+
             _context.Devices.Add(entity);
             _context.SaveChanges();
 

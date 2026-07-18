@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DeviceManagement.Api.Services;
+using System.ComponentModel.DataAnnotations;
 
 namespace DeviceManagement.Api.Middleware
 {
@@ -52,6 +53,21 @@ namespace DeviceManagement.Api.Middleware
             catch (KeyNotFoundException ex)
             {
                 _logger.LogWarning(ex, "Unauthorized access");
+                context.Response.ContentType = "application/json";
+                context.Response.StatusCode =
+                    StatusCodes.Status404NotFound;
+
+                var response = new
+                {
+                    success = false,
+                    message = ex.Message
+                };
+
+                await context.Response.WriteAsJsonAsync(response);
+            }
+            catch(NotFoundException ex)
+            {
+                _logger.LogWarning(ex, "Not found");
                 context.Response.ContentType = "application/json";
                 context.Response.StatusCode =
                     StatusCodes.Status404NotFound;

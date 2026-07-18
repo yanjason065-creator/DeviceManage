@@ -243,5 +243,112 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
                 "Device name must be between 2 and 50 characters.");
 
         }
+
+        [Fact]
+        public async Task CreateDevice_WithInvalidStatus_ShouldReturnBadRequest()
+        {
+            //Arrange
+            await LoginAsAdminAsync();
+            var request =CreateValidRequest();
+            request.Status = (DeviceStatus)999;
+
+            //Act
+            var response = await Client.PostAsJsonAsync(
+                DeviceUrl,
+                request);
+
+            //Assert
+            response.StatusCode.Should()
+                .Be(HttpStatusCode.BadRequest);
+            var result = await response.Content.ReadFromJsonAsync<ValidationErrorResponse>();
+            result?.Data["Status"].Should().NotBeNull();
+        }
+
+        [Fact]
+        public async Task CreateDevice_WithInvalidEmployeeId_ShouldReturnBadRequest()
+        {
+            //Arrange
+            await LoginAsAdminAsync();
+            var request =CreateValidRequest();
+            request.EmployeeId = 0;
+
+            //Act
+            var response = await Client.PostAsJsonAsync(
+                DeviceUrl,
+                request);
+
+            //Assert
+            response.StatusCode.Should()
+                .Be(HttpStatusCode.BadRequest);
+            var result = await response.Content.ReadFromJsonAsync<ValidationErrorResponse>();
+            result?.Data.Should()
+                .ContainKey("EmployeeId");
+        }
+
+        [Fact]
+        public async Task CreateDevice_WithNonExistingEmployee_ShouldReturnNotFound()
+        {
+            //Arrange
+            await LoginAsAdminAsync();
+            var request =CreateValidRequest();
+            request.EmployeeId = 999;
+
+        
+            //Act
+            var response = await Client.PostAsJsonAsync(
+                DeviceUrl,
+                request);
+
+            //Assert
+            response.StatusCode.Should()
+                .Be(HttpStatusCode.NotFound);
+            var result = await response.Content.ReadFromJsonAsync<ValidationErrorResponse>();
+            string expectMessage = "Employee Not Found.";
+            result?.Message.Should()
+                .Be(expectMessage);
+  
+        }
+        [Fact]
+        public async Task CreateDevice_WithInvalidCategoryId_ShouldReturnBadRequest()
+        {
+            //Arrange
+            await LoginAsAdminAsync();
+            var request = CreateValidRequest();
+            request.CategoryId = 0;
+
+            //Act
+            var response = await Client.PostAsJsonAsync(
+                DeviceUrl,
+                request);
+
+            //Assert
+            response.StatusCode.Should()
+                .Be(HttpStatusCode.BadRequest);
+            var result = await response.Content.ReadFromJsonAsync<ValidationErrorResponse>();
+            result?.Data.Should()
+                .ContainKey("Category");
+        }
+
+        [Fact]
+        public async Task CreateDevice_WithNonExistingCategory_ShouldReturnNotFound()
+        {
+            //Arrange
+            await LoginAsAdminAsync();
+            var request = CreateValidRequest();
+            request.CategoryId = 10;
+
+            //Act
+            var response = await Client.PostAsJsonAsync(
+                DeviceUrl,
+                request);
+
+            //Assert
+            response.StatusCode.Should()
+                .Be(HttpStatusCode.NotFound);
+            var result = await response.Content.ReadFromJsonAsync<ValidationErrorResponse>();
+            string expectMessage = "Category Not Found.";
+            result?.Message.Should()
+                .Be(expectMessage);
+        }
     }
 }
