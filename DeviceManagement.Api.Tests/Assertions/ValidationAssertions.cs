@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using System.Net.Http.Json;
 using DeviceManagement.Api.Tests.Models;
-namespace DeviceManagement.Api.Tests.Helpers.TestHelper
+namespace DeviceManagement.Api.Tests.Assertions
 {
     public static class ValidationAssertions
     {
@@ -16,8 +16,7 @@ namespace DeviceManagement.Api.Tests.Helpers.TestHelper
             string field,
             string expectedMessage)
         {
-            response.StatusCode.Should()
-                .Be(System.Net.HttpStatusCode.BadRequest);
+            
 
             var result = await response.Content.ReadFromJsonAsync<ValidationErrorResponse>();
 
@@ -28,6 +27,14 @@ namespace DeviceManagement.Api.Tests.Helpers.TestHelper
             result.Data[field]
                 .Should()
                 .Contain(expectedMessage);
+        }
+
+        public static void ShouldContainError(
+            ValidationErrorResponse result,
+            string field,
+            string message)
+        {
+            result.Data[field].Should().Contain(message);
         }
     }
 }

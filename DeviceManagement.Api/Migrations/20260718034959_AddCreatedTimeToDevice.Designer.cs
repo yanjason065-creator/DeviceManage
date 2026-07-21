@@ -4,6 +4,7 @@ using DeviceManagement.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeviceManagement.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260718034959_AddCreatedTimeToDevice")]
+    partial class AddCreatedTimeToDevice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,34 +108,34 @@ namespace DeviceManagement.Api.Migrations
                         {
                             Id = 1L,
                             CategoryId = 1L,
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2026, 7, 18, 3, 49, 57, 960, DateTimeKind.Utc).AddTicks(3217),
                             EmployeeId = 1L,
                             IsDeleted = false,
                             Name = "Laptop1",
                             Status = 0,
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                            UpdatedAt = new DateTime(2026, 7, 18, 3, 49, 57, 960, DateTimeKind.Utc).AddTicks(3367)
                         },
                         new
                         {
                             Id = 2L,
                             CategoryId = 2L,
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2026, 7, 18, 3, 49, 57, 960, DateTimeKind.Utc).AddTicks(3647),
                             EmployeeId = 2L,
                             IsDeleted = false,
                             Name = "Desktop1",
                             Status = 1,
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                            UpdatedAt = new DateTime(2026, 7, 18, 3, 49, 57, 960, DateTimeKind.Utc).AddTicks(3647)
                         },
                         new
                         {
                             Id = 3L,
                             CategoryId = 3L,
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2026, 7, 18, 3, 49, 57, 960, DateTimeKind.Utc).AddTicks(3649),
                             EmployeeId = 1L,
                             IsDeleted = false,
                             Name = "Monitor1",
                             Status = 3,
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                            UpdatedAt = new DateTime(2026, 7, 18, 3, 49, 57, 960, DateTimeKind.Utc).AddTicks(3649)
                         });
                 });
 

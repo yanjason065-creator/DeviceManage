@@ -17,5 +17,9 @@ namespace DeviceManagement.Api.DTOs
         public string CategoryName { get; set; } = string.Empty;
 
         public string UserName {  get; set; } = string.Empty;
+
+        public DateTime CreatedAt { get; set; }
+
+        public DateTime? UpdatedAt { get; set; }
     }
 }

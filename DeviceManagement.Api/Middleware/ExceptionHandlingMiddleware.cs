@@ -80,6 +80,21 @@ namespace DeviceManagement.Api.Middleware
 
                 await context.Response.WriteAsJsonAsync(response);
             }
+            catch(ConflictException ex)
+            {
+                _logger.LogWarning($"Conflict {ex.Message}");
+                context.Response.ContentType = "application/json";
+                context.Response.StatusCode = 
+                    StatusCodes.Status409Conflict;
+
+                var response = new
+                {
+                    success = false,
+                    message = ex.Message
+                };
+
+                await context.Response.WriteAsJsonAsync(response) ;
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unhandled exception occurred");

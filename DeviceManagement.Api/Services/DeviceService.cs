@@ -32,12 +32,22 @@ namespace DeviceManagement.Api.Services
         public DeviceDto AddDevice(CreateDeviceDto dto)
         {
 
+            var exists = 
+                _context.Devices
+                .Any(x=>x.Name == dto.Name &&
+                !x.IsDeleted);
+            if (exists)
+            {
+                throw new ConflictException(ErrorMessages.DeviceAlreadyExists);
+            }
+
             var entity = new Device 
             { 
                 Name = dto.Name, 
                 Status = dto.Status, 
                 EmployeeId = dto.EmployeeId,
-                CategoryId = dto.CategoryId
+                CategoryId = dto.CategoryId,
+                CreatedAt = DateTime.UtcNow
             };
 
             //Check if EmployeeId exists or not
@@ -45,14 +55,14 @@ namespace DeviceManagement.Api.Services
                 .FirstOrDefault(x=>x.Id==dto.EmployeeId);
             if(employee is null)
             {
-                throw new NotFoundException("Employee Not Found.");
+                throw new NotFoundException(ErrorMessages.EmployeeNotFound);
             }
 
             var category = _context.Categories
                 .FirstOrDefault(x=>x.Id==dto.CategoryId);
             if (category is null)
             {
-                throw new NotFoundException("Category Not Found.");
+                throw new NotFoundException(ErrorMessages.CategoryNotFound);
             }
 
             _context.Devices.Add(entity);
@@ -85,9 +95,15 @@ namespace DeviceManagement.Api.Services
             {
                 return false;
             }
+            if(device.IsDeleted)
+            {
+                throw new NotFoundException(ErrorMessages.DeviceAlreadyDeleted);
+            }
             //_context.Devices.Remove(device);
             //Soft Delete
             device.IsDeleted = true;
+            device.UpdatedAt = DateTime.UtcNow;
+
             _context.SaveChanges();
             return true;
         }
@@ -180,13 +196,49 @@ namespace DeviceManagement.Api.Services
             if (device == null)
             {
                 _logger.LogWarning("Device not found. Id: {Id}", id);
-                return null;
+               throw new NotFoundException(ErrorMessages.DeviceNotFound); ;
             }
+            //Check Name Dupicate
+            var exists =
+               _context.Devices
+               .Any(x => x.Name == dto.Name &&
+               x.Id != id && //Most important
+               !x.IsDeleted);
+            if (exists)
+            {
+                throw new ConflictException(ErrorMessages.DeviceAlreadyExists);
+            }
+
+            //Check employee exists or not
+            var employeeExists =
+                _context.Employees.Any(e =>
+                e.Id == dto.EmployeeId);
+
+            if (!employeeExists)
+            {
+                throw new NotFoundException(
+                    ErrorMessages.EmployeeNotFound);
+            }
+
+
+            var categoryExists =
+                _context.Categories.Any(c =>
+                c.Id == dto.CategoryId);
+
+            if (!categoryExists)
+            {
+                throw new NotFoundException(
+                    ErrorMessages.CategoryNotFound);
+            }
+
+
             device.Name = dto.Name;
             device.Status = dto.Status;
             device.IsDeleted = dto.IsDeleted;
             device.EmployeeId = dto.EmployeeId;
             device.CategoryId = dto.CategoryId;
+
+            device.UpdatedAt = DateTime.UtcNow;
 
             _context.SaveChanges();
 

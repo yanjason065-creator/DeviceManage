@@ -29,8 +29,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Helpers\TestHelper\" />
     <Folder Include="IntegrationTests\Categories\" />
-    <Folder Include="TestData\" />
     <Folder Include="Collections\" />
   </ItemGroup>
 

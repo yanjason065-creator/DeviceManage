@@ -14,5 +14,11 @@
         public long EmployeeId {  get; set; }
 
         public Employee Employee { get; set; } = null!;
+
+        public DateTime CreatedAt { get; set; }
+
+        public DateTime? UpdatedAt { get; set; }
+
+
     }
 }

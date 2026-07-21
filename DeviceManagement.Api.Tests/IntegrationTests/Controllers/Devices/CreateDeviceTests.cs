@@ -19,7 +19,8 @@ using Microsoft.VisualBasic;
 using DeviceManagement.Api.Models.Common;
 using DeviceManagement.Api.Tests.Helpers;
 using DeviceManagement.Api.Tests.Models;
-using DeviceManagement.Api.Tests.Helpers.TestHelper;
+using DeviceManagement.Api.Tests.TestData;
+using DeviceManagement.Api.Tests.Assertions;
 
 namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 {
@@ -31,16 +32,6 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
         private readonly ITestOutputHelper _output;
         private const string DeviceUrl = "/api/device";
 
-        private static CreateDeviceDto CreateValidRequest()
-        {
-            return new CreateDeviceDto
-            {
-                Name = $"QA Device {Guid.NewGuid()}",
-                Status = DeviceStatus.Active,
-                EmployeeId = 1,
-                CategoryId = 1,
-            };
-        }
 
         public CreateDeviceTests(CustomWebApplicationFactory factory
             ,ITestOutputHelper output)
@@ -55,8 +46,9 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             //Arrange
             await LoginAsAdminAsync();
 
-            var request = CreateValidRequest();
+            var request = DeviceTestData.CreateValidRequest();
 
+            var before = DateTime.UtcNow;
             //Act
             var response = await Client.PostAsJsonAsync(
                 DeviceUrl,
@@ -69,30 +61,30 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
                 await response.Content
                 .ReadFromJsonAsync<ApiResponse<DeviceDto>>();
 
-            using var scope = Factory.Services.CreateScope();
-            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+           
 
           
+            var after = DateTime.UtcNow;
 
 
-            result.Should().NotBeNull();
+            ApiResponseAssertions.ShouldBeSuccessful(result);
 
-            result!.Success.Should().BeTrue();
+            result?.Data?.Name.Should().Be(request.Name);
 
-            result.Data.Should().NotBeNull();
+            result?.Data?.Status.Should().Be(request.Status.ToString());
 
-            result.Data.Name.Should().Be(request.Name);
+            result?.Data?.UserName.Should().NotBeNullOrWhiteSpace();
 
-            result.Data.Status.Should().Be(request.Status.ToString());
+            result?.Data?.CategoryName.Should().NotBeNullOrWhiteSpace();
 
-            result.Data.UserName.Should().NotBeNullOrWhiteSpace();
+            var device = await Database.GetDeviceAsync(result.Data.Id);
+            //using var scope = Factory.Services.CreateScope();
+            //var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            result.Data.CategoryName.Should().NotBeNullOrWhiteSpace();
-
-            var device = await db.Devices
-                .Include(x => x.Employee)
-                .Include(x => x.Category)
-                .FirstOrDefaultAsync(x => x.Id == result.Data.Id);
+            //var device = await db.Devices
+            //    .Include(x => x.Employee)
+            //    .Include(x => x.Category)
+            //    .FirstOrDefaultAsync(x => x.Id == result.Data.Id);
 
             device.Should().NotBeNull();
 
@@ -108,13 +100,22 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
             device.Category.Name.Should().Be(result.Data.CategoryName);
 
+            device.CreatedAt.Should().BeOnOrAfter(before);
+
+            device.CreatedAt.Should().BeOnOrBefore(after);
+
+            device.UpdatedAt.Should().BeNull();
+
+            result.Data.CreatedAt
+                .Should()
+                .Be(device.CreatedAt);
         }
 
         //Case2
         [Fact]
         public async Task CreateDevice_WithoutToken_ShouldReturnUnauthorized()
         {
-            var request = CreateValidRequest();
+            var request = DeviceTestData.CreateValidRequest(); 
 
             //Act
             var response = await Client.PostAsJsonAsync(
@@ -131,7 +132,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
         {
             await LoginAsUserAsync();
 
-            var request =CreateValidRequest();
+            var request = DeviceTestData.CreateValidRequest(); 
 
             //Act
             var response = await Client.PostAsJsonAsync(
@@ -147,7 +148,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
         {
             //Arrange
             await LoginAsAdminAsync();
-            var request =CreateValidRequest();
+            var request = DeviceTestData.CreateValidRequest(); 
             request.Name = "";
 
             //Act
@@ -181,7 +182,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
         {
             //Arrange
             await LoginAsAdminAsync();
-            var request =CreateValidRequest();
+            var request = DeviceTestData.CreateValidRequest(); 
             request.Name = "A";
 
             //Act
@@ -215,7 +216,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
         {
             //Arrange
             await LoginAsAdminAsync();
-            var request =CreateValidRequest();
+            var request = DeviceTestData.CreateValidRequest(); 
             request.Name = new string('A', 51);
 
             //Act
@@ -249,7 +250,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
         {
             //Arrange
             await LoginAsAdminAsync();
-            var request =CreateValidRequest();
+            var request = DeviceTestData.CreateValidRequest(); 
             request.Status = (DeviceStatus)999;
 
             //Act
@@ -269,7 +270,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
         {
             //Arrange
             await LoginAsAdminAsync();
-            var request =CreateValidRequest();
+            var request = DeviceTestData.CreateValidRequest(); 
             request.EmployeeId = 0;
 
             //Act
@@ -290,7 +291,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
         {
             //Arrange
             await LoginAsAdminAsync();
-            var request =CreateValidRequest();
+            var request = DeviceTestData.CreateValidRequest(); 
             request.EmployeeId = 999;
 
         
@@ -303,9 +304,9 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             response.StatusCode.Should()
                 .Be(HttpStatusCode.NotFound);
             var result = await response.Content.ReadFromJsonAsync<ValidationErrorResponse>();
-            string expectMessage = "Employee Not Found.";
+            
             result?.Message.Should()
-                .Be(expectMessage);
+                .Be(ErrorMessages.EmployeeNotFound);
   
         }
         [Fact]
@@ -313,7 +314,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
         {
             //Arrange
             await LoginAsAdminAsync();
-            var request = CreateValidRequest();
+            var request = DeviceTestData.CreateValidRequest(); 
             request.CategoryId = 0;
 
             //Act
@@ -326,7 +327,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
                 .Be(HttpStatusCode.BadRequest);
             var result = await response.Content.ReadFromJsonAsync<ValidationErrorResponse>();
             result?.Data.Should()
-                .ContainKey("Category");
+                .ContainKey("CategoryId");
         }
 
         [Fact]
@@ -334,7 +335,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
         {
             //Arrange
             await LoginAsAdminAsync();
-            var request = CreateValidRequest();
+            var request = DeviceTestData.CreateValidRequest(); 
             request.CategoryId = 10;
 
             //Act
@@ -346,9 +347,46 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             response.StatusCode.Should()
                 .Be(HttpStatusCode.NotFound);
             var result = await response.Content.ReadFromJsonAsync<ValidationErrorResponse>();
-            string expectMessage = "Category Not Found.";
+            
             result?.Message.Should()
-                .Be(expectMessage);
+                .Be(ErrorMessages.CategoryNotFound);
+        }
+
+        [Fact]
+        public async Task CreateDevice_WithDuplicateName_ShouldReturnConflict()
+        {
+            //Arrange
+            await LoginAsAdminAsync();
+
+            var request = DeviceTestData.CreateValidRequest();
+
+            //Act
+            var firstResponse = await Client.PostAsJsonAsync(
+                DeviceUrl,
+                request);
+
+            firstResponse.StatusCode.Should().Be(HttpStatusCode.Created);
+
+            var duplicateRequest = DeviceTestData.CreateValidRequest();
+            duplicateRequest.Name = request.Name;
+
+            var countBefore = await Database.CountDevicesAsync();
+
+            var response = await Client.PostAsJsonAsync(
+                DeviceUrl,
+                duplicateRequest);
+
+            var countAfter = await Database.CountDevicesAsync();
+
+            countBefore.Should().Be(countAfter);
+
+            response.StatusCode.Should().Be(HttpStatusCode.Conflict);
+
+            var result = await response.Content
+                .ReadFromJsonAsync<ApiResponse<object>>();
+
+            result.Success.Should().BeFalse();
+            result.Message.Should().Be(ErrorMessages.DeviceAlreadyExists);
         }
     }
 }

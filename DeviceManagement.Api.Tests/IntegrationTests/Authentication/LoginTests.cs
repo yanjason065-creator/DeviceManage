@@ -12,7 +12,7 @@ using System.IdentityModel.Tokens.Jwt;
 using DeviceManagement.Api.Tests.Helpers;
 using System.Security.Claims;
 using Xunit.Abstractions;
-using Xunit.Abstractions;
+
 using DeviceManagement.Api.Tests.Infrastructure;
 
 namespace DeviceManagement.Api.Tests.Intergration.Authentication

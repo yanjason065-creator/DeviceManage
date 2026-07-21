@@ -64,7 +64,7 @@ namespace DeviceManagement.Api.Controllers
         public IActionResult DeleteDevice(long id) {
             var result  = _deviceService.DeleteDevice(id);
             if (!result) {
-                return NotFound(ApiResponse<string>.Fail("Device Not Found"));
+                return NotFound(ApiResponse<string>.Fail(ErrorMessages.DeviceNotFound));
             }
 
             return Ok(ApiResponse<string>.Ok("Deleted Successfully"));

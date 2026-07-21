@@ -15,7 +15,9 @@ namespace DeviceManagement.Api.Tests.Infrastructure
         protected readonly HttpClient Client;
         protected readonly ITestOutputHelper Output;
         protected readonly CustomWebApplicationFactory Factory;
+        
         protected DatabaseHelper Database {  get; }
+        protected DeviceTestHelper DeviceHelper { get; }
 
         protected IntegrationTestBase(CustomWebApplicationFactory factory, ITestOutputHelper output)
         {
@@ -23,6 +25,7 @@ namespace DeviceManagement.Api.Tests.Infrastructure
             Client = factory.CreateClient();
             Output = output;
             Database = new DatabaseHelper(factory.Services);
+            DeviceHelper = new DeviceTestHelper(Client);
         }
 
         protected async Task<string> GetAdminTokenAsync()
@@ -42,6 +45,8 @@ namespace DeviceManagement.Api.Tests.Infrastructure
             Client.DefaultRequestHeaders.Authorization
                 = new AuthenticationHeaderValue("Bearer", token);
         }
+
+  
 
         protected async Task LoginAsUserAsync()
         {

@@ -19,7 +19,7 @@ namespace DeviceManagement.Api.Tests.Helpers
             _serviceProvider = serviceProvider;
         }
 
-        public  async Task<Device?> GetDeviceAsync(int id)
+        public  async Task<Device?> GetDeviceAsync(long id)
         {
             using var scope = 
                 _serviceProvider.CreateScope();
@@ -27,7 +27,36 @@ namespace DeviceManagement.Api.Tests.Helpers
             var db = scope.ServiceProvider
                 .GetRequiredService<AppDbContext> ();
 
-            return await db.Devices.FirstOrDefaultAsync(x => x.Id == id);
+            return await db.Devices
+            .Include(x => x.Employee)
+            .Include(x => x.Category)
+            .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<int> CountDevicesAsync()
+        {
+            using var scope =
+               _serviceProvider.CreateScope();
+
+            var db = scope.ServiceProvider
+                .GetRequiredService<AppDbContext>();
+
+            return await db.Devices.CountAsync();
+        }
+
+        public async Task<Device?> GetDeviceIngnoreFilterAsync(long id)
+        {
+            using var scope =
+                _serviceProvider.CreateScope();
+
+            var db = scope.ServiceProvider
+                .GetRequiredService<AppDbContext>();
+
+            return await db.Devices
+                .IgnoreQueryFilters()
+                .Include(x => x.Employee)
+                .Include(x => x.Category)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }
