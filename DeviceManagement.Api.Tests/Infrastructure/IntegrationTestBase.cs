@@ -1,5 +1,4 @@
-﻿using DeviceManagement.Api.Tests.Fixtures;
-using DeviceManagement.Api.Tests.Helpers;
+﻿using DeviceManagement.Api.Tests.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit.Abstractions;
 using System.Net.Http.Headers;
+using DeviceManagement.Api.Tests.Clients;
 
 namespace DeviceManagement.Api.Tests.Infrastructure
 {
@@ -15,7 +15,8 @@ namespace DeviceManagement.Api.Tests.Infrastructure
         protected readonly HttpClient Client;
         protected readonly ITestOutputHelper Output;
         protected readonly CustomWebApplicationFactory Factory;
-        
+        protected DeviceApiClient DeviceApi;
+
         protected DatabaseHelper Database {  get; }
         protected DeviceTestHelper DeviceHelper { get; }
 
@@ -26,6 +27,7 @@ namespace DeviceManagement.Api.Tests.Infrastructure
             Output = output;
             Database = new DatabaseHelper(factory.Services);
             DeviceHelper = new DeviceTestHelper(Client);
+            DeviceApi = new DeviceApiClient(Client);
         }
 
         protected async Task<string> GetAdminTokenAsync()

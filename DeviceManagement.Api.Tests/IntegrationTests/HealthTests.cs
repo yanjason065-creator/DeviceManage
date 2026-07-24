@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
-using DeviceManagement.Api.Tests.Fixtures;
+using DeviceManagement.Api.Tests.Infrastructure;
 
 namespace DeviceManagement.Api.Tests.Intergration
 {

@@ -13,13 +13,11 @@ using DeviceManagement.Api.Data;
 using DeviceManagement.Api.DTOs;
 using DeviceManagement.Api.Models;
 using DeviceManagement.Api.Tests.Infrastructure;
-using DeviceManagement.Api.Tests.Fixtures;
 using Xunit.Abstractions;
 using Microsoft.VisualBasic;
 using DeviceManagement.Api.Models.Common;
 using DeviceManagement.Api.Tests.Helpers;
 using DeviceManagement.Api.Tests.Models;
-using DeviceManagement.Api.Tests.TestData;
 using DeviceManagement.Api.Tests.Assertions;
 
 namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
@@ -61,10 +59,12 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
             var before = await Database.GetDeviceAsync(deviceId);
 
-            var response =
-                await Client.PutAsJsonAsync(
-                    $"{DeviceUrl}/{deviceId}",
-                    updateRequest);
+            //var response =
+            //    await Client.PutAsJsonAsync(
+            //        $"{DeviceUrl}/{deviceId}",
+            //        updateRequest);
+
+            var response = await DeviceApi.UpdateAsync(deviceId, updateRequest);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -115,10 +115,10 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
                 CategoryId = 1
             };
 
-            var response = await Client.PutAsJsonAsync(
-                $"{DeviceUrl}/{device.Id}",
-                updateRequest);
-                
+            //var response = await Client.PutAsJsonAsync(
+            //    $"{DeviceUrl}/{device.Id}",
+            //    updateRequest);
+            var response = await DeviceApi.UpdateAsync(device.Id, updateRequest);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -144,10 +144,10 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
                 CategoryId = 1
             };
 
-            var response = await Client.PutAsJsonAsync(
-                $"{DeviceUrl}/{device.Id}",
-                updateRequest);
-
+            //var response = await Client.PutAsJsonAsync(
+            //    $"{DeviceUrl}/{device.Id}",
+            //    updateRequest);
+            var response = await DeviceApi.UpdateAsync(device.Id, updateRequest);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
@@ -171,9 +171,10 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
             //Act
             const long nonExistingId = 999999;
-            var response = await Client.PutAsJsonAsync(
-                $"{DeviceUrl}/{nonExistingId}",
-                request);
+            //var response = await Client.PutAsJsonAsync(
+            //    $"{DeviceUrl}/{nonExistingId}",
+            //    request);
+            var response = await DeviceApi.UpdateAsync(nonExistingId, request);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -207,9 +208,10 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             var before = await Database.GetDeviceAsync(device.Id);
 
             //Act
-            var response = await Client.PutAsJsonAsync(
-                $"{DeviceUrl}/{device.Id}",
-                request);
+            //var response = await Client.PutAsJsonAsync(
+            //    $"{DeviceUrl}/{device.Id}",
+            //    request);
+            var response = await DeviceApi.UpdateAsync(device.Id, request);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -259,9 +261,10 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
             var before = await Database.GetDeviceAsync(device.Id);
             //Act
-            var response = await Client.PutAsJsonAsync(
-                $"{DeviceUrl}/{device.Id}",
-                request);
+            //var response = await Client.PutAsJsonAsync(
+            //    $"{DeviceUrl}/{device.Id}",
+            //    request);
+            var response = await DeviceApi.UpdateAsync(device.Id, request);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -309,9 +312,10 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
                 IsDeleted = false
             };
 
-            var response = await Client.PutAsJsonAsync(
-                $"{DeviceUrl}/{device2.Id}",
-                request);
+            //var response = await Client.PutAsJsonAsync(
+            //    $"{DeviceUrl}/{device2.Id}",
+            //    request);
+            var response = await DeviceApi.UpdateAsync(device2.Id, request);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.Conflict);
@@ -352,9 +356,10 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             var before = await Database.GetDeviceAsync(device.Id);
 
             //Act
-            var response = await Client.PutAsJsonAsync(
-                $"{DeviceUrl}/{device.Id}",
-                request);
+            //var response = await Client.PutAsJsonAsync(
+            //    $"{DeviceUrl}/{device.Id}",
+            //    request);
+            var response = await DeviceApi.UpdateAsync(device.Id, request);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -394,9 +399,10 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             var before = await Database.GetDeviceAsync(device.Id);
 
             //Act
-            var response = await Client.PutAsJsonAsync(
-                $"{DeviceUrl}/{device.Id}",
-                request);
+            //var response = await Client.PutAsJsonAsync(
+            //    $"{DeviceUrl}/{device.Id}",
+            //    request);
+            var response = await DeviceApi.UpdateAsync(device.Id, request);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -433,9 +439,10 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             var before = await Database.GetDeviceAsync(device.Id);
 
             //Act
-            var response = await Client.PutAsJsonAsync(
-                $"{DeviceUrl}/{device.Id}",
-                request);
+            //var response = await Client.PutAsJsonAsync(
+            //    $"{DeviceUrl}/{device.Id}",
+            //    request);
+            var response = await DeviceApi.UpdateAsync(device.Id, request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
             var result = await response.Content
@@ -468,9 +475,10 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
             var before = await Database.GetDeviceAsync(device.Id);
             //Act
-            var response = await Client.PutAsJsonAsync(
-                $"{DeviceUrl}/{device.Id}",
-                request);
+            //var response = await Client.PutAsJsonAsync(
+            //    $"{DeviceUrl}/{device.Id}",
+            //    request);
+            var response = await DeviceApi.UpdateAsync(device.Id, request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
             var result = await response.Content

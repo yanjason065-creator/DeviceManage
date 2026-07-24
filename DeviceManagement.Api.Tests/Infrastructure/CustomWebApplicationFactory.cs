@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace DeviceManagement.Api.Tests.Fixtures
+namespace DeviceManagement.Api.Tests.Infrastructure
 {
    public class CustomWebApplicationFactory:
         WebApplicationFactory<Program>

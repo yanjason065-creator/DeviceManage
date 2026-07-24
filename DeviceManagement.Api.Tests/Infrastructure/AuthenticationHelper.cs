@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http.Json;
 
-namespace DeviceManagement.Api.Tests.Helpers
+namespace DeviceManagement.Api.Tests.Infrastructure
 {
     public class AuthenticationHelper
     {

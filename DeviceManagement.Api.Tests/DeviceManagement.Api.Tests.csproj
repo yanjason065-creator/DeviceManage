@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Fixtures\" />
     <Folder Include="Helpers\TestHelper\" />
     <Folder Include="IntegrationTests\Categories\" />
     <Folder Include="Collections\" />

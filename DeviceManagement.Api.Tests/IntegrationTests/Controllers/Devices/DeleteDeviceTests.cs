@@ -13,13 +13,11 @@ using DeviceManagement.Api.Data;
 using DeviceManagement.Api.DTOs;
 using DeviceManagement.Api.Models;
 using DeviceManagement.Api.Tests.Infrastructure;
-using DeviceManagement.Api.Tests.Fixtures;
 using Xunit.Abstractions;
 using Microsoft.VisualBasic;
 using DeviceManagement.Api.Models.Common;
 using DeviceManagement.Api.Tests.Helpers;
 using DeviceManagement.Api.Tests.Models;
-using DeviceManagement.Api.Tests.TestData;
 using DeviceManagement.Api.Tests.Assertions;
 
 namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
@@ -50,7 +48,8 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
             var before = await Database.GetDeviceAsync(deleteId);
             //Act
-            var response = await Client.DeleteAsync($"{DeviceUrl}/{deleteId}");
+            //var response = await Client.DeleteAsync($"{DeviceUrl}/{deleteId}");
+            var response = await DeviceApi.DeleteAsync(deleteId);
 
             //Assert Http
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -82,7 +81,8 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
             Logout();
             //Act
-            var response = await Client.DeleteAsync($"{DeviceUrl}/{deleteId}");
+            //var response = await Client.DeleteAsync($"{DeviceUrl}/{deleteId}");
+            var response = await DeviceApi.DeleteAsync(deleteId);
 
             //Assert Http
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -110,7 +110,8 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
             await LoginAsUserAsync();
             //Act
-            var response = await Client.DeleteAsync($"{DeviceUrl}/{deleteId}");
+            //var response = await Client.DeleteAsync($"{DeviceUrl}/{deleteId}");
+            var response = await DeviceApi.DeleteAsync(deleteId);
 
             //Assert Http
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
@@ -129,8 +130,10 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
             //Act
             const long nonExistingId = 999999;
-            var response = await Client.DeleteAsync(
-                $"{DeviceUrl}/{nonExistingId}");
+            //var response = await Client.DeleteAsync(
+            //    $"{DeviceUrl}/{nonExistingId}");
+
+            var response = await DeviceApi.DeleteAsync(nonExistingId);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -154,8 +157,9 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             var deleteId = create.Id;
 
             var before = await Database.GetDeviceAsync(deleteId);
-            
-            var responseA = await Client.DeleteAsync($"{DeviceUrl}/{deleteId}");
+
+            //var responseA = await Client.DeleteAsync($"{DeviceUrl}/{deleteId}");
+            var responseA = await DeviceApi.DeleteAsync(deleteId);
 
             responseA.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -164,7 +168,8 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             DeviceAssertions.ShouldBeDeleted(before!, after1);
 
             //
-            var response = await Client.DeleteAsync($"{DeviceUrl}/{deleteId}");
+            //var response = await Client.DeleteAsync($"{DeviceUrl}/{deleteId}");
+            var response = await DeviceApi.DeleteAsync(deleteId);
 
             //Assert Http
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -194,7 +199,8 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
             var before = await Database.GetDeviceAsync(deleteId);
 
-            var deleteResponse = await Client.DeleteAsync($"{DeviceUrl}/{deleteId}");
+            //var deleteResponse = await Client.DeleteAsync($"{DeviceUrl}/{deleteId}");
+            var deleteResponse = await DeviceApi.DeleteAsync(deleteId);
 
             deleteResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeviceManagement.Api.Tests.TestData
+namespace DeviceManagement.Api.Tests.Helpers
 {
     public static class DeviceTestData
     {

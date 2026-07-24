@@ -1,5 +1,4 @@
 ﻿using DeviceManagement.Api.DTOs;
-using DeviceManagement.Api.Tests.TestData;
 using FluentAssertions;
 using System;
 using System.Collections.Generic;

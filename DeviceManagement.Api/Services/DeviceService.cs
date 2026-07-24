@@ -135,7 +135,20 @@ namespace DeviceManagement.Api.Services
         {
                       
             _logger.LogInformation("Getting devices with query: {@query}", query);
-            var result = _context.Devices.IgnoreQueryFilters().AsNoTracking().AsQueryable();
+
+            var result = _context.Devices.AsNoTracking().AsQueryable();
+            if (query.IsDeleted == true)
+            {
+                result = _context.Devices
+                    .IgnoreQueryFilters()
+                    .Where(d => d.IsDeleted)
+                    .AsNoTracking();
+            }
+            else
+            {
+                result = _context.Devices.AsNoTracking();
+            }
+
             if (!string.IsNullOrEmpty(query.Name)) 
             {
                 result = result.Where(d => d.Name.Contains(query.Name));
@@ -143,13 +156,10 @@ namespace DeviceManagement.Api.Services
             if (query.Status.HasValue) {
                 result = result.Where(d=>d.Status == query.Status.Value);
             }
-            if (query.IsDeleted.HasValue)
-            {
-                result = result.Where(d => d.IsDeleted == query.IsDeleted);
-            }
+            
 
-            //result = result.OrderBy(d => d.Name);
-            var TotalCount =  result.Count();
+                //result = result.OrderBy(d => d.Name);
+                var TotalCount = result.Count();
             result = ApplySorting(result, query);
 
             return new PagedResults<DeviceDto>

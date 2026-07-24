@@ -13,13 +13,11 @@ using DeviceManagement.Api.Data;
 using DeviceManagement.Api.DTOs;
 using DeviceManagement.Api.Models;
 using DeviceManagement.Api.Tests.Infrastructure;
-using DeviceManagement.Api.Tests.Fixtures;
 using Xunit.Abstractions;
 using Microsoft.VisualBasic;
 using DeviceManagement.Api.Models.Common;
 using DeviceManagement.Api.Tests.Helpers;
 using DeviceManagement.Api.Tests.Models;
-using DeviceManagement.Api.Tests.TestData;
 using DeviceManagement.Api.Tests.Assertions;
 
 namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
@@ -50,9 +48,10 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
             var before = DateTime.UtcNow;
             //Act
-            var response = await Client.PostAsJsonAsync(
-                DeviceUrl,
-                request);
+            //var response = await Client.PostAsJsonAsync(
+            //    DeviceUrl,
+            //    request);
+            var response = await DeviceApi.CreateAsync(request);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -115,12 +114,13 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
         [Fact]
         public async Task CreateDevice_WithoutToken_ShouldReturnUnauthorized()
         {
-            var request = DeviceTestData.CreateValidRequest(); 
+            var request = DeviceTestData.CreateValidRequest();
 
             //Act
-            var response = await Client.PostAsJsonAsync(
-                DeviceUrl,
-                request);
+            //var response = await Client.PostAsJsonAsync(
+            //    DeviceUrl,
+            //    request);
+            var response = await DeviceApi.CreateAsync(request);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -132,12 +132,13 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
         {
             await LoginAsUserAsync();
 
-            var request = DeviceTestData.CreateValidRequest(); 
+            var request = DeviceTestData.CreateValidRequest();
 
             //Act
-            var response = await Client.PostAsJsonAsync(
-                DeviceUrl,
-                request);
+            //var response = await Client.PostAsJsonAsync(
+            //    DeviceUrl,
+            //    request);
+            var response = await DeviceApi.CreateAsync(request);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
@@ -152,10 +153,10 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             request.Name = "";
 
             //Act
-            var response = await Client.PostAsJsonAsync(
-                DeviceUrl,
-                request);
-
+            //var response = await Client.PostAsJsonAsync(
+            //    DeviceUrl,
+            //    request);
+            var response = await DeviceApi.CreateAsync(request);
             //Assert
             //response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
@@ -186,9 +187,10 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             request.Name = "A";
 
             //Act
-            var response = await Client.PostAsJsonAsync(
-                DeviceUrl,
-                request);
+            //var response = await Client.PostAsJsonAsync(
+            //    DeviceUrl,
+            //    request);
+            var response = await DeviceApi.CreateAsync(request);
 
             //Assert
             //Status 
@@ -220,9 +222,10 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             request.Name = new string('A', 51);
 
             //Act
-            var response = await Client.PostAsJsonAsync(
-                DeviceUrl,
-                request);
+            //var response = await Client.PostAsJsonAsync(
+            //    DeviceUrl,
+            //    request);
+            var response = await DeviceApi.CreateAsync(request);
 
             //Assert
             //Status
@@ -254,9 +257,10 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             request.Status = (DeviceStatus)999;
 
             //Act
-            var response = await Client.PostAsJsonAsync(
-                DeviceUrl,
-                request);
+            //var response = await Client.PostAsJsonAsync(
+            //    DeviceUrl,
+            //    request);
+            var response = await DeviceApi.CreateAsync(request);
 
             //Assert
             response.StatusCode.Should()
@@ -274,10 +278,10 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             request.EmployeeId = 0;
 
             //Act
-            var response = await Client.PostAsJsonAsync(
-                DeviceUrl,
-                request);
-
+            //var response = await Client.PostAsJsonAsync(
+            //    DeviceUrl,
+            //    request);
+            var response = await DeviceApi.CreateAsync(request);
             //Assert
             response.StatusCode.Should()
                 .Be(HttpStatusCode.BadRequest);
@@ -294,11 +298,12 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             var request = DeviceTestData.CreateValidRequest(); 
             request.EmployeeId = 999;
 
-        
+
             //Act
-            var response = await Client.PostAsJsonAsync(
-                DeviceUrl,
-                request);
+            //var response = await Client.PostAsJsonAsync(
+            //    DeviceUrl,
+            //    request);
+            var response = await DeviceApi.CreateAsync(request);
 
             //Assert
             response.StatusCode.Should()
@@ -318,9 +323,10 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             request.CategoryId = 0;
 
             //Act
-            var response = await Client.PostAsJsonAsync(
-                DeviceUrl,
-                request);
+            //var response = await Client.PostAsJsonAsync(
+            //    DeviceUrl,
+            //    request);
+            var response = await DeviceApi.CreateAsync(request);
 
             //Assert
             response.StatusCode.Should()
@@ -339,9 +345,10 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             request.CategoryId = 10;
 
             //Act
-            var response = await Client.PostAsJsonAsync(
-                DeviceUrl,
-                request);
+            //var response = await Client.PostAsJsonAsync(
+            //    DeviceUrl,
+            //    request);
+            var response = await DeviceApi.CreateAsync(request);
 
             //Assert
             response.StatusCode.Should()
@@ -361,9 +368,10 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             var request = DeviceTestData.CreateValidRequest();
 
             //Act
-            var firstResponse = await Client.PostAsJsonAsync(
-                DeviceUrl,
-                request);
+            //var firstResponse = await Client.PostAsJsonAsync(
+            //    DeviceUrl,
+            //    request);
+            var firstResponse = await DeviceApi.CreateAsync(request);
 
             firstResponse.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -372,9 +380,10 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
             var countBefore = await Database.CountDevicesAsync();
 
-            var response = await Client.PostAsJsonAsync(
-                DeviceUrl,
-                duplicateRequest);
+            //var response = await Client.PostAsJsonAsync(
+            //    DeviceUrl,
+            //    duplicateRequest);
+            var response = await DeviceApi.CreateAsync(request);
 
             var countAfter = await Database.CountDevicesAsync();
 
