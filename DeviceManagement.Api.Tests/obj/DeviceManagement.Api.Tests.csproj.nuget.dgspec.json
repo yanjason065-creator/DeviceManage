@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\AspNetCore\\DeviceManagement\\DeviceManagement.Api.Tests\\DeviceManagement.Api.Tests.csproj": {}
+    "D:\\AspNetCore\\DeviceManagement\\devicemanagement.api.tests\\DeviceManagement.Api.Tests.csproj": {}
   },
   "projects": {
-    "D:\\AspNetCore\\DeviceManagement\\DeviceManagement.Api.Tests\\DeviceManagement.Api.Tests.csproj": {
+    "D:\\AspNetCore\\DeviceManagement\\devicemanagement.api.tests\\DeviceManagement.Api.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\AspNetCore\\DeviceManagement\\DeviceManagement.Api.Tests\\DeviceManagement.Api.Tests.csproj",
+        "projectUniqueName": "D:\\AspNetCore\\DeviceManagement\\devicemanagement.api.tests\\DeviceManagement.Api.Tests.csproj",
         "projectName": "DeviceManagement.Api.Tests",
-        "projectPath": "D:\\AspNetCore\\DeviceManagement\\DeviceManagement.Api.Tests\\DeviceManagement.Api.Tests.csproj",
+        "projectPath": "D:\\AspNetCore\\DeviceManagement\\devicemanagement.api.tests\\DeviceManagement.Api.Tests.csproj",
         "packagesPath": "C:\\Users\\yanja\\.nuget\\packages\\",
-        "outputPath": "D:\\AspNetCore\\DeviceManagement\\DeviceManagement.Api.Tests\\obj\\",
+        "outputPath": "D:\\AspNetCore\\DeviceManagement\\devicemanagement.api.tests\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -65,7 +65,7 @@
             },
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
-              "version": "[9.0.17, )"
+              "version": "[9.0.18, )"
             },
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
@@ -178,17 +178,21 @@
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[9.0.17, )"
+              "version": "[9.0.18, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[9.0.17, )"
+              "version": "[9.0.18, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[9.0.18, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[9.0.17, )"
+              "version": "[9.0.18, )"
             },
             "Serilog.AspNetCore": {
               "target": "Package",

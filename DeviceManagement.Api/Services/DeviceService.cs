@@ -136,7 +136,10 @@ namespace DeviceManagement.Api.Services
                       
             _logger.LogInformation("Getting devices with query: {@query}", query);
 
-            var result = _context.Devices.AsNoTracking().AsQueryable();
+            //var result = _context.Devices.AsNoTracking().AsQueryable();
+
+            IQueryable<Device> result;
+
             if (query.IsDeleted == true)
             {
                 result = _context.Devices

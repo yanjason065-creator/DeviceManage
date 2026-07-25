@@ -50,14 +50,48 @@ namespace DeviceManagement.Api.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Device>().HasData(
-                new Device { Id = 1, Name = "Laptop1", Status = DeviceStatus.Active, IsDeleted = false, CategoryId = 1, EmployeeId = 1, 
-                    CreatedAt = new DateTime(2026,1,1,0,0,0, DateTimeKind.Utc), UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                new Device
+                {
+                    Id = 1,
+                    Name = "Laptop1",
+                    Status = DeviceStatus.Active,
+                    IsDeleted = false,
+                    CategoryId = 1,
+                    EmployeeId = 1,
+                    CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                    UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc)
                 },
-                new Device { Id = 2, Name = "Desktop1", Status = DeviceStatus.Inactive, IsDeleted = false, CategoryId = 2, EmployeeId = 2,
-                    CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc), UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                new Device
+                {
+                    Id = 2,
+                    Name = "Desktop1",
+                    Status = DeviceStatus.Inactive,
+                    IsDeleted = false,
+                    CategoryId = 2,
+                    EmployeeId = 2,
+                    CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                    UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc)
                 },
-                new Device { Id = 3, Name = "Monitor1", Status = DeviceStatus.Retired, IsDeleted = false, CategoryId = 3, EmployeeId = 1,
-                    CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc), UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                new Device
+                {
+                    Id = 3,
+                    Name = "Monitor1",
+                    Status = DeviceStatus.Retired,
+                    IsDeleted = false,
+                    CategoryId = 3,
+                    EmployeeId = 1,
+                    CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                    UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                }, new Device
+                {
+                    Id = 4,
+                    Name = "DeletedLaptop",
+                    Status = DeviceStatus.Active,
+                    IsDeleted = true,
+                    CategoryId = 1,
+                    EmployeeId = 1,
+                    CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                    UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc)
                 }
                  );
 

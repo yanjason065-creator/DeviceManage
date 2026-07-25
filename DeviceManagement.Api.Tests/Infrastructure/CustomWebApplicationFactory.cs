@@ -30,26 +30,19 @@ namespace DeviceManagement.Api.Tests.Infrastructure
         {
             builder.UseEnvironment("Test");
 
-
             builder.ConfigureServices(services =>
             {
-                services.RemoveAll<
-                    DbContextOptions<AppDbContext>>();
+                services.RemoveAll<DbContextOptions<AppDbContext>>();
+
+                services.AddDbContext<AppDbContext>(options =>
+                {
+                    options.UseSqlite(_connection);
+                });
 
 
-                services.AddDbContext<AppDbContext>(
-                    options =>
-                    {
-                        options.UseSqlite(_connection);
-                    });
+                var provider = services.BuildServiceProvider();
 
-
-                var serviceProvider =
-                    services.BuildServiceProvider();
-
-
-                TestDatabaseInitializer.Initialize(
-                    serviceProvider);
+                TestDatabaseInitializer.Initialize(provider);
             });
         }
     }

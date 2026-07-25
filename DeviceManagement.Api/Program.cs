@@ -33,6 +33,8 @@ namespace DeviceManagement.Api
 
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddHealthChecks();
+
             builder.Host.UseSerilog();
             // Add services to the container.
 
@@ -96,9 +98,20 @@ namespace DeviceManagement.Api
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IJwtService, JwtService>();
 
-            builder.Services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(
-            builder.Configuration.GetConnectionString("DefaultConnection")));
+            if (builder.Environment.EnvironmentName == "Test")
+            {
+                builder.Services.AddDbContext<AppDbContext>(options =>
+                {
+                    options.UseSqlite(
+                        "DataSource=:memory:");
+                });
+            }
+            else
+            {
+                builder.Services.AddDbContext<AppDbContext>(options =>
+                    options.UseSqlServer(
+                builder.Configuration.GetConnectionString("DefaultConnection")));
+            }
 
             builder.Services.AddAutoMapper(typeof(Program));
 
@@ -133,6 +146,8 @@ namespace DeviceManagement.Api
 
             var app = builder.Build();
 
+            app.MapHealthChecks("/health");
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -140,7 +155,8 @@ namespace DeviceManagement.Api
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            
+
+           
 
             app.UseHttpsRedirection();
            

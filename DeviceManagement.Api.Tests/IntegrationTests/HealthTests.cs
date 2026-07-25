@@ -21,7 +21,10 @@ namespace DeviceManagement.Api.Tests.Intergration
         [Fact]
         public async Task Api_Should_Start_Successfully()
         {
-            var response = await _client.GetAsync("/");
+            var response = await _client.GetAsync("/health");
+
+            var body = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(body);
 
             response.StatusCode.Should()
                 .Be(System.Net.HttpStatusCode.OK);
