@@ -56,7 +56,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
             var result = await response.Content.ReadFromJsonAsync<ApiResponse<string>>();
 
-            result.Success.Should().BeTrue();
+            result!.Success.Should().BeTrue();
 
             result.Data.Should().Contain("Deleted ");
 
@@ -141,9 +141,9 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             var result = await response.Content
                 .ReadFromJsonAsync<ValidationErrorResponse>();
 
-            ApiResponseAssertions.ShouldBeFailed(result);
+            ApiResponseAssertions.ShouldBeFailed(result!);
 
-            result.Message.Should().Be(ErrorMessages.DeviceNotFound);                        
+            result!.Message.Should().Be(ErrorMessages.DeviceNotFound);                        
         }
 
         [Fact]
@@ -165,7 +165,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
             var after1 = await Database.GetDeviceIngnoreFilterAsync(deleteId);
 
-            DeviceAssertions.ShouldBeDeleted(before!, after1);
+            DeviceAssertions.ShouldBeDeleted(before!, after1!);
 
             //
             //var response = await Client.DeleteAsync($"{DeviceUrl}/{deleteId}");
@@ -177,13 +177,13 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             var result = await response.Content
                 .ReadFromJsonAsync<ValidationErrorResponse>();
 
-            ApiResponseAssertions.ShouldBeFailed(result);
+            ApiResponseAssertions.ShouldBeFailed(result!);
 
-            result.Message.Should().Be(ErrorMessages.DeviceNotFound);
+            result!.Message.Should().Be(ErrorMessages.DeviceNotFound);
 
             var after2 = await Database.GetDeviceIngnoreFilterAsync(deleteId);
 
-            DeviceAssertions.ShouldNotBeChanged(after1, after2!);
+            DeviceAssertions.ShouldNotBeChanged(after1!, after2!);
         }
 
         [Fact]

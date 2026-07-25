@@ -19,6 +19,7 @@ using DeviceManagement.Api.Models.Common;
 using DeviceManagement.Api.Tests.Helpers;
 using DeviceManagement.Api.Tests.Models;
 using DeviceManagement.Api.Tests.Assertions;
+using DeviceManagement.Api.Tests.Builders;
 
 namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 {
@@ -48,14 +49,21 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
             var originalCreatedAt = create!.CreatedAt;
 
-            var updateRequest = new UpdateDeviceDto
-            {
-                Name = $"QA Uodate Device {deviceId}",
-                Status = DeviceStatus.Maintenance,
-                EmployeeId = 2,
-                CategoryId = 2,
-                IsDeleted = false
-            };
+            //var updateRequest = new UpdateDeviceDto
+            //{
+            //    Name = $"QA Uodate Device {deviceId}",
+            //    Status = DeviceStatus.Maintenance,
+            //    EmployeeId = 2,
+            //    CategoryId = 2,
+            //    IsDeleted = false
+            //};
+
+            var updateRequest = DeviceBuilder.Default().WithName($"QA Uodate Device {deviceId}")
+                .WithEmployeeId(2)
+                .WithCategoryId(2)
+                .WithStatus(DeviceStatus.Maintenance)
+                .BuildUpdateDto();
+
 
             var before = await Database.GetDeviceAsync(deviceId);
 
@@ -72,9 +80,9 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             var result = await response.Content
                 .ReadFromJsonAsync<ApiResponse<DeviceDto>>();
             
-            ApiResponseAssertions.ShouldBeSuccessful(result);
+            ApiResponseAssertions.ShouldBeSuccessful(result!);
 
-            result.Data.Name.Should().Be(updateRequest.Name);
+            result!.Data!.Name.Should().Be(updateRequest.Name);
 
             result.Data.Status.Should().Be(updateRequest.Status.ToString());
 
@@ -91,7 +99,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
             device!.Name.Should().Be(updateRequest?.Name);
 
-            device.Status.Should().Be(updateRequest.Status);
+            device.Status.Should().Be(updateRequest!.Status);
 
             device.UpdatedAt.Should().NotBeNull();
         }
@@ -107,13 +115,19 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             Logout();
       
 
-            var updateRequest = new UpdateDeviceDto
-            {
-                Name = "Updated",
-                Status = DeviceStatus.Active,
-                EmployeeId = 1,
-                CategoryId = 1
-            };
+            //var updateRequest = new UpdateDeviceDto
+            //{
+            //    Name = "Updated",
+            //    Status = DeviceStatus.Active,
+            //    EmployeeId = 1,
+            //    CategoryId = 1
+            //};
+
+            var updateRequest = DeviceBuilder.Default().WithName("Updated 12")
+               .WithEmployeeId(1)
+               .WithCategoryId(1)
+               .WithStatus(DeviceStatus.Active)
+               .BuildUpdateDto();
 
             //var response = await Client.PutAsJsonAsync(
             //    $"{DeviceUrl}/{device.Id}",
@@ -136,13 +150,19 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
             await LoginAsUserAsync();
 
-            var updateRequest = new UpdateDeviceDto
-            {
-                Name = "Updated",
-                Status = DeviceStatus.Active,
-                EmployeeId = 1,
-                CategoryId = 1
-            };
+            //var updateRequest = new UpdateDeviceDto
+            //{
+            //    Name = "Updated",
+            //    Status = DeviceStatus.Active,
+            //    EmployeeId = 1,
+            //    CategoryId = 1
+            //};
+
+            var updateRequest = DeviceBuilder.Default().WithName("QA Uodate Device }")
+               .WithEmployeeId(1)
+               .WithCategoryId(1)
+               .WithStatus(DeviceStatus.Active)
+               .BuildUpdateDto();
 
             //var response = await Client.PutAsJsonAsync(
             //    $"{DeviceUrl}/{device.Id}",
@@ -158,16 +178,20 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
         {
             await LoginAsAdminAsync();
 
-            var request = new UpdateDeviceDto
-            {
-                Name = "Updated Device",
-                Status = DeviceStatus.Active,
-                EmployeeId = 1,
-                CategoryId = 1,
-                IsDeleted = false
-            };
+            //var request = new UpdateDeviceDto
+            //{
+            //    Name = "Updated Device",
+            //    Status = DeviceStatus.Active,
+            //    EmployeeId = 1,
+            //    CategoryId = 1,
+            //    IsDeleted = false
+            //};
 
-            
+            var request = DeviceBuilder.Default().WithName("QA Uodate Device12 }")
+               .WithEmployeeId(1)
+               .WithCategoryId(1)
+               .WithStatus(DeviceStatus.Active)
+               .BuildUpdateDto();
 
             //Act
             const long nonExistingId = 999999;
@@ -182,9 +206,9 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             var result = await response.Content
                 .ReadFromJsonAsync<ValidationErrorResponse>();
 
-            ApiResponseAssertions.ShouldBeFailed(result);           
+            ApiResponseAssertions.ShouldBeFailed(result!);           
 
-            result.Message.Should().Be(ErrorMessages.DeviceNotFound);
+            result!.Message.Should().Be(ErrorMessages.DeviceNotFound);
                        
         }
 
@@ -196,14 +220,21 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
             var device = await DeviceHelper.CreateDeviceAsync();
 
-            var request = new UpdateDeviceDto
-            {
-                Name = "",
-                Status = DeviceStatus.Active,
-                EmployeeId = 1,
-                CategoryId = 1,
-                IsDeleted = false
-            };
+            //var request = new UpdateDeviceDto
+            //{
+            //    Name = "",
+            //    Status = DeviceStatus.Active,
+            //    EmployeeId = 1,
+            //    CategoryId = 1,
+            //    IsDeleted = false
+            //};
+
+            var request = DeviceBuilder.Default().WithName("")
+               .WithEmployeeId(1)
+               .WithCategoryId(1)
+               .WithStatus(DeviceStatus.Active)
+               .BuildUpdateDto();
+
 
             var before = await Database.GetDeviceAsync(device.Id);
 
@@ -221,17 +252,17 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
                      .ReadFromJsonAsync<ValidationErrorResponse>();
 
            //validation.Should().NotBeNull();
-           ApiResponseAssertions.ShouldBeFailed(validation);
+           ApiResponseAssertions.ShouldBeFailed(validation!);
 
             ValidationAssertions
                 .ShouldContainError(
-                validation,
+                validation!,
                 "Name",
                 "Device name is required.");
 
             ValidationAssertions
                 .ShouldContainError(
-                validation,
+                validation!,
                 "Name",
                 "Device name must be between 2 and 50 characters.");
 
@@ -250,14 +281,20 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
             var device = await DeviceHelper.CreateDeviceAsync();
 
-            var request = new UpdateDeviceDto
-            {
-                Name = name,
-                Status = DeviceStatus.Active,
-                EmployeeId = 1,
-                CategoryId = 1,
-                IsDeleted = false
-            };
+            //var request = new UpdateDeviceDto
+            //{
+            //    Name = name,
+            //    Status = DeviceStatus.Active,
+            //    EmployeeId = 1,
+            //    CategoryId = 1,
+            //    IsDeleted = false
+            //};
+
+            var request = DeviceBuilder.Default().WithName(name)
+               .WithEmployeeId(1)
+               .WithCategoryId(1)
+               .WithStatus(DeviceStatus.Active)
+               .BuildUpdateDto();
 
             var before = await Database.GetDeviceAsync(device.Id);
             //Act
@@ -274,7 +311,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
                      .ReadFromJsonAsync<ValidationErrorResponse>();
 
             //validation.Should().NotBeNull();
-            ApiResponseAssertions.ShouldBeFailed(validation);
+            ApiResponseAssertions.ShouldBeFailed(validation!);
 
             //ValidationAssertions
             //    .ShouldContainError(
@@ -284,7 +321,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
             ValidationAssertions
                 .ShouldContainError(
-                validation,
+                validation!,
                 "Name",
                 "Device name must be between 2 and 50 characters.");
 
@@ -303,14 +340,20 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             var device2 = await DeviceHelper.CreateDeviceAsync();
 
             //Act
-            var request = new UpdateDeviceDto
-            {
-                Name = device1.Name,
-                Status = DeviceStatus.Active,
-                EmployeeId = 1,
-                CategoryId = 1,
-                IsDeleted = false
-            };
+            //var request = new UpdateDeviceDto
+            //{
+            //    Name = device1.Name,
+            //    Status = DeviceStatus.Active,
+            //    EmployeeId = 1,
+            //    CategoryId = 1,
+            //    IsDeleted = false
+            //};
+
+            var request = DeviceBuilder.Default().WithName(device1.Name)
+               .WithEmployeeId(1)
+               .WithCategoryId(1)
+               .WithStatus(DeviceStatus.Active)
+               .BuildUpdateDto();
 
             //var response = await Client.PutAsJsonAsync(
             //    $"{DeviceUrl}/{device2.Id}",
@@ -344,14 +387,19 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
             var device = await DeviceHelper.CreateDeviceAsync();
 
-            var request = new UpdateDeviceDto
-            {
-                Name = device.Name,
-                Status = DeviceStatus.Active,
-                EmployeeId = employeeId,
-                CategoryId = 1,
-                IsDeleted = false
-            };
+            //var request = new UpdateDeviceDto
+            //{
+            //    Name = device.Name,
+            //    Status = DeviceStatus.Active,
+            //    EmployeeId = employeeId,
+            //    CategoryId = 1,
+            //    IsDeleted = false
+            //};
+            var request = DeviceBuilder.Default().WithName(device.Name)
+               .WithEmployeeId(employeeId)
+               .WithCategoryId(1)
+               .WithStatus(DeviceStatus.Active)
+               .BuildUpdateDto();
 
             var before = await Database.GetDeviceAsync(device.Id);
 
@@ -387,14 +435,20 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
             var device = await DeviceHelper.CreateDeviceAsync();
 
-            var request = new UpdateDeviceDto
-            {
-                Name = device.Name,
-                Status = DeviceStatus.Active,
-                EmployeeId = 1,
-                CategoryId = categoryId,
-                IsDeleted = false
-            };
+            //var request = new UpdateDeviceDto
+            //{
+            //    Name = device.Name,
+            //    Status = DeviceStatus.Active,
+            //    EmployeeId = 1,
+            //    CategoryId = categoryId,
+            //    IsDeleted = false
+            //};
+
+            var request = DeviceBuilder.Default().WithName(device.Name)
+               .WithEmployeeId(1)
+               .WithCategoryId(categoryId)
+               .WithStatus(DeviceStatus.Active)
+               .BuildUpdateDto();
 
             var before = await Database.GetDeviceAsync(device.Id);
 
@@ -427,14 +481,20 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
             var device = DeviceHelper.CreateDeviceAsync();
 
-            var request = new UpdateDeviceDto
-            {
-                Name = "Update Device12",
-                Status = DeviceStatus.Active,
-                EmployeeId = 999999,
-                CategoryId = 1,
-                IsDeleted = false
-            };
+            //var request = new UpdateDeviceDto
+            //{
+            //    Name = "Update Device12",
+            //    Status = DeviceStatus.Active,
+            //    EmployeeId = 999999,
+            //    CategoryId = 1,
+            //    IsDeleted = false
+            //};
+
+            var request = DeviceBuilder.Default().WithName("Update Device1234")
+               .WithEmployeeId(9999)
+               .WithCategoryId(1)
+               .WithStatus(DeviceStatus.Active)
+               .BuildUpdateDto();
 
             var before = await Database.GetDeviceAsync(device.Id);
 
@@ -448,9 +508,9 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             var result = await response.Content
                 .ReadFromJsonAsync<ValidationErrorResponse>();
 
-            ApiResponseAssertions.ShouldBeFailed(result);
+            ApiResponseAssertions.ShouldBeFailed(result!);
 
-            result.Message.Should().Be(ErrorMessages.EmployeeNotFound);
+            result!.Message.Should().Be(ErrorMessages.EmployeeNotFound);
 
             var after = await Database.GetDeviceAsync(device.Id);
 
@@ -464,14 +524,20 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
             var device = DeviceHelper.CreateDeviceAsync();
 
-            var request = new UpdateDeviceDto
-            {
-                Name = "Update Device12",
-                Status = DeviceStatus.Active,
-                EmployeeId = 1,
-                CategoryId = 999999,
-                IsDeleted = false
-            };
+            //var request = new UpdateDeviceDto
+            //{
+            //    Name = "Update Device12",
+            //    Status = DeviceStatus.Active,
+            //    EmployeeId = 1,
+            //    CategoryId = 999999,
+            //    IsDeleted = false
+            //};
+
+            var request = DeviceBuilder.Default().WithName("Update123")
+               .WithEmployeeId(1)
+               .WithCategoryId(999999)
+               .WithStatus(DeviceStatus.Active)
+               .BuildUpdateDto();
 
             var before = await Database.GetDeviceAsync(device.Id);
             //Act
@@ -484,9 +550,9 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             var result = await response.Content
                 .ReadFromJsonAsync<ValidationErrorResponse>();
 
-            ApiResponseAssertions.ShouldBeFailed(result);
+            ApiResponseAssertions.ShouldBeFailed(result!);
 
-            result.Message.Should().Be(ErrorMessages.CategoryNotFound);
+            result!.Message.Should().Be(ErrorMessages.CategoryNotFound);
 
             var after = await Database.GetDeviceAsync (device.Id);
 

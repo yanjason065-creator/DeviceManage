@@ -101,7 +101,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             var created = await createResponse.Content
                 .ReadFromJsonAsync<ApiResponse<DeviceDto>>();
 
-            var deviceId = created!.Data.Id;
+            var deviceId = created!.Data!.Id;
 
             //Act
             var getResponse = await DeviceApi.GetAllAsync();
@@ -116,7 +116,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             //result!.Data.Items.Should()
             //    .Contain(x=> x.Id == deviceId);
 
-            result!.Data.Items.Any(x=> x.Id == deviceId);
+            result!.Data!.Items.Any(x=> x.Id == deviceId);
         }
 
         [Fact]
@@ -134,7 +134,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             var created = await createResponse.Content
                 .ReadFromJsonAsync<ApiResponse<DeviceDto>>();
 
-            var deviceId = created!.Data.Id;
+            var deviceId = created!.Data!.Id;
 
             await DeviceApi.DeleteAsync(deviceId);
 
@@ -152,7 +152,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             //    .Contain(x=> x.Id == deviceId);
 
             //result!.Data.Items.Any (x=> x.Id == deviceId);//If query hasnofilter?
-            result.Data.Items.Should().NotContain(x => x.Id == deviceId);
+            result!.Data!.Items.Should().NotContain(x => x.Id == deviceId);
         }
 
         [Fact]
@@ -178,7 +178,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             var result = await response.Content
                 .ReadFromJsonAsync<ApiResponse<PagedResults<DeviceDto>>>();
 
-            result!.Data.Items.Should().OnlyContain(
+            result!.Data!.Items.Should().OnlyContain(
                 x => x.Name.Contains("Freya"));
         }
 
@@ -198,7 +198,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             var result = await response.Content
                 .ReadFromJsonAsync<ApiResponse<PagedResults<DeviceDto>>>();
 
-            result.Data.Items.Should().NotBeEmpty();
+            result!.Data!.Items.Should().NotBeEmpty();
 
             result!.Data.Items.Should().OnlyContain(
                 x => x.Status == DeviceStatus.Inactive.ToString());
@@ -220,7 +220,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             var result = await response.Content
                 .ReadFromJsonAsync<ApiResponse<PagedResults<DeviceDto>>>();
 
-            result.Data.Items.Should().NotBeEmpty();
+            result!.Data!.Items.Should().NotBeEmpty();
 
             result!.Data.Items.Should().OnlyContain(
                 x => x.DeleteStatus == true);
@@ -238,7 +238,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             var result = await response.Content
                 .ReadFromJsonAsync<ApiResponse<PagedResults<DeviceDto>>>();
 
-            result.Data.Items.Should()
+            result!.Data!.Items.Should()
                 .OnlyContain(
                 x =>
                 x.Name.Contains("QA")
@@ -260,7 +260,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
                 .ReadFromJsonAsync<ApiResponse<PagedResults<DeviceDto>>>();
 
             //Sql排序规则和Net排序规则可能会冲突
-            result.Data.Items
+            result!.Data!.Items
                 .Select(x=>x.Name.ToLower())
                 .Should()
                 .BeInAscendingOrder();
@@ -278,7 +278,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             var result = await response.Content
                 .ReadFromJsonAsync<ApiResponse<PagedResults<DeviceDto>>>();
 
-            result.Data.Items.Count.Should().BeLessThanOrEqualTo(5);
+            result!.Data!.Items.Count.Should().BeLessThanOrEqualTo(5);
 
             result.Data.PageSize.Should().Be(5);
         }
@@ -300,8 +300,8 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             var secondPage = await response2.Content
                 .ReadFromJsonAsync<ApiResponse<PagedResults<DeviceDto>>>();
 
-            firstPage!.Data.Items.Should().NotBeEmpty();
-            secondPage!.Data.Items.Should().NotBeEmpty();
+            firstPage!.Data!.Items.Should().NotBeEmpty();
+            secondPage!.Data!.Items.Should().NotBeEmpty();
 
             var firstIds = firstPage.Data.Items.Select(x => x.Id);
             var secondIds = secondPage.Data.Items.Select(x => x.Id);
@@ -320,7 +320,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             var result = await response.Content
                 .ReadFromJsonAsync<ApiResponse<PagedResults<DeviceDto>>>();
 
-            result!.Data.Items.Should().BeEmpty();
+            result!.Data!.Items.Should().BeEmpty();
 
             result.Data.TotalCount.Should().BeGreaterThan(0);
 

@@ -46,5 +46,10 @@ namespace DeviceManagement.Api.Tests.Clients
         {
             return await _client.DeleteAsync($"{deviceUrl}/{id}");
         }
+
+        public async Task<HttpResponseMessage> GetAsync(long id)
+        {
+            return await _client.GetAsync($"{deviceUrl}/{id}");
+        }
     }
 }

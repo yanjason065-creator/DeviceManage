@@ -19,6 +19,7 @@ using DeviceManagement.Api.Models.Common;
 using DeviceManagement.Api.Tests.Helpers;
 using DeviceManagement.Api.Tests.Models;
 using DeviceManagement.Api.Tests.Assertions;
+using DeviceManagement.Api.Tests.Builders;
 
 namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 {
@@ -44,13 +45,14 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             //Arrange
             await LoginAsAdminAsync();
 
-            var request = DeviceTestData.CreateValidRequest();
+            //var request = DeviceTestData.CreateValidRequest();
+
+            //var request = new DeviceBuilder().BuildCreateDto();
+            var request = DeviceBuilder.Default().BuildCreateDto();
 
             var before = DateTime.UtcNow;
             //Act
-            //var response = await Client.PostAsJsonAsync(
-            //    DeviceUrl,
-            //    request);
+          
             var response = await DeviceApi.CreateAsync(request);
 
             //Assert
@@ -66,7 +68,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             var after = DateTime.UtcNow;
 
 
-            ApiResponseAssertions.ShouldBeSuccessful(result);
+            ApiResponseAssertions.ShouldBeSuccessful(result!);
 
             result?.Data?.Name.Should().Be(request.Name);
 
@@ -76,14 +78,8 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
             result?.Data?.CategoryName.Should().NotBeNullOrWhiteSpace();
 
-            var device = await Database.GetDeviceAsync(result.Data.Id);
-            //using var scope = Factory.Services.CreateScope();
-            //var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-            //var device = await db.Devices
-            //    .Include(x => x.Employee)
-            //    .Include(x => x.Category)
-            //    .FirstOrDefaultAsync(x => x.Id == result.Data.Id);
+            var device = await Database.GetDeviceAsync(result!.Data!.Id);
+           
 
             device.Should().NotBeNull();
 
@@ -149,7 +145,9 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
         {
             //Arrange
             await LoginAsAdminAsync();
-            var request = DeviceTestData.CreateValidRequest(); 
+            //var request = DeviceTestData.CreateValidRequest(); 
+
+            var request = DeviceBuilder.Default().WithName("").BuildCreateDto();
             request.Name = "";
 
             //Act
@@ -394,7 +392,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             var result = await response.Content
                 .ReadFromJsonAsync<ApiResponse<object>>();
 
-            result.Success.Should().BeFalse();
+            result!.Success.Should().BeFalse();
             result.Message.Should().Be(ErrorMessages.DeviceAlreadyExists);
         }
     }
