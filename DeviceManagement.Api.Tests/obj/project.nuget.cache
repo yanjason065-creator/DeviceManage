@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "zVo7ahgjojY=",
+  "dgSpecHash": "TQd4dlgPFLU=",
   "success": true,
-  "projectFilePath": "D:\\AspNetCore\\DeviceManagement\\devicemanagement.api.tests\\DeviceManagement.Api.Tests.csproj",
+  "projectFilePath": "D:\\AspNetCore\\DeviceManagement\\DeviceManagement.Api.Tests\\DeviceManagement.Api.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\yanja\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\yanja\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
