@@ -24,6 +24,12 @@ namespace DeviceManagement.Api.Tests.Infrastructure
                     "/api/auth/login",
                     request);
 
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Login failed:{(int)response.StatusCode}, body:{content}");
+            }
+
             response.EnsureSuccessStatusCode();
 
             var result = await response.Content
