@@ -1,6 +1,7 @@
 </> YAML
 
 name: DeviceManagement API CI
+
 on:
   push:
     branches:
@@ -11,31 +12,24 @@ on:
       - main
 
 jobs:
-
   build-and-test:
 
     runs-on: ubuntu-latest
 
-        steps:
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
 
+      - name: Restore dependencies
+        run: dotnet restore
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '9.0.x'
+      - name: Build solution
+        run: dotnet build --no-restore
 
-
-    - name: Restore dependencies
-      run: dotnet restore
-
-
-    - name: Build solution
-      run: dotnet build --no-restore
-
-
-    - name: Run tests
-      run: dotnet test --no-build
-
+      - name: Run tests
+        run: dotnet test --no-build
