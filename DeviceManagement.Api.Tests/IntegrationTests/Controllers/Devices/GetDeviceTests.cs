@@ -4,6 +4,7 @@ using DeviceManagement.Api.DTOs;
 using DeviceManagement.Api.Models;
 using DeviceManagement.Api.Models.Common;
 using DeviceManagement.Api.Tests.Assertions;
+using DeviceManagement.Api.Tests.Constants;
 using DeviceManagement.Api.Tests.Helpers;
 using DeviceManagement.Api.Tests.Infrastructure;
 using DeviceManagement.Api.Tests.Models;
@@ -36,6 +37,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
         {
         }
 
+        [Trait("Category", TestCategories.Smoke)]
         [Fact]
         public async Task GetAll_When_UserGetsDevices_ShouldReturn200()
         {
@@ -56,6 +58,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
         }
 
+        [Trait("Category", TestCategories.Smoke)]
         [Fact]
         public async Task GetAll_When_AdminGetsDevices_ShouldReturn200()
         {
@@ -75,6 +78,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             result.Success.Should().BeTrue();
         }
 
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task GetAll_When_NoToken_ShouldReturn401()
         {
@@ -86,6 +90,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
               .Be(HttpStatusCode.Unauthorized);
         }
 
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task GetAll_When_DeviceExists_ShouldContainDevice()
         {           
@@ -119,6 +124,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             result!.Data!.Items.Any(x=> x.Id == deviceId);
         }
 
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task GetAll_When_DeviceDeleted_ShouldNotContainDevice()
         {
@@ -155,6 +161,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             result!.Data!.Items.Should().NotContain(x => x.Id == deviceId);
         }
 
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task GetAll_When_FilterName_ShouldReturnMatchingDevices()
         {
@@ -182,6 +189,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
                 x => x.Name.Contains("Freya"));
         }
 
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task GetAll_When_FilterStatus_ShouldReturnMatchingDevices()
         {
@@ -204,6 +212,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
                 x => x.Status == DeviceStatus.Inactive.ToString());
         }
 
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task GetAll_When_FilterByDeleted_ShouldReturnMatchingDevices()
         {
@@ -226,6 +235,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
                 x => x.DeleteStatus == true);
         }
 
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task GetAll_When_FilterByNameAndStatus_ShouldReturnMatchingDevices()
         {
@@ -247,6 +257,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
         }
 
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task GetAll_When_SortByNameAscending_ShouldReturnSortedDevices()
         {
@@ -266,6 +277,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
                 .BeInAscendingOrder();
         }
 
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task GetAll_When_PageSizeSpecified_ShouldReturnLimitedRecords()
         {
@@ -283,6 +295,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             result.Data.PageSize.Should().Be(5);
         }
 
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task GetAll_When_RequestDifferentePages_ShouldReturnDifferentResults()
         {
@@ -309,6 +322,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
         }
 
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task GetAll_When_PageExceedsAvailableData_ShouldReturnEmpty()
         {

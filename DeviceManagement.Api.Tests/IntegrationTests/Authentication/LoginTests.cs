@@ -1,18 +1,18 @@
-﻿using FluentAssertions;
+﻿using DeviceManagement.Api.DTOs.Auth;
+using DeviceManagement.Api.Tests.Constants;
+using DeviceManagement.Api.Tests.Helpers;
+using DeviceManagement.Api.Tests.Infrastructure;
+using FluentAssertions;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
 using System.Net.Http.Json;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using System.Net;
-using DeviceManagement.Api.DTOs.Auth;
-using System.IdentityModel.Tokens.Jwt;
-using DeviceManagement.Api.Tests.Helpers;
-using System.Security.Claims;
 using Xunit.Abstractions;
-
-using DeviceManagement.Api.Tests.Infrastructure;
 
 namespace DeviceManagement.Api.Tests.Intergration.Authentication
 {
@@ -28,6 +28,7 @@ namespace DeviceManagement.Api.Tests.Intergration.Authentication
         {            
         }
 
+        [Trait("Category", TestCategories.Smoke)]
         [Fact]
         public async Task Login_Should_Return_Toekn_When_Credentials_Are_Valid()
         {
@@ -62,6 +63,7 @@ namespace DeviceManagement.Api.Tests.Intergration.Authentication
                 .Contain("token");
         }
 
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task Login_Should_Return_401_When_Password_Is_Invalid()
         {
@@ -85,6 +87,7 @@ namespace DeviceManagement.Api.Tests.Intergration.Authentication
                 .Be(HttpStatusCode.Unauthorized);
         }
 
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task Login_Should_Return_401_When_User_Does_Not_Exist()
         {
@@ -108,6 +111,7 @@ namespace DeviceManagement.Api.Tests.Intergration.Authentication
                 .Be(HttpStatusCode.Unauthorized);
         }
 
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task Login_Should_Return_400_When_Request_Is_Invalid()
         {
@@ -131,6 +135,7 @@ namespace DeviceManagement.Api.Tests.Intergration.Authentication
                 .Be(HttpStatusCode.BadRequest);
         }
 
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task Login_Should_Return_Valid_Jwt_Token_When_Credentials_Are_Valid()
         {

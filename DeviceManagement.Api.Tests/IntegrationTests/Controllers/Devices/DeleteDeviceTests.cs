@@ -1,24 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
+﻿using DeviceManagement.Api.Data;
+using DeviceManagement.Api.DTOs;
+using DeviceManagement.Api.Models;
+using DeviceManagement.Api.Models.Common;
+using DeviceManagement.Api.Tests.Assertions;
+using DeviceManagement.Api.Tests.Constants;
+using DeviceManagement.Api.Tests.Helpers;
+using DeviceManagement.Api.Tests.Infrastructure;
+using DeviceManagement.Api.Tests.Models;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using DeviceManagement.Api.Data;
-using DeviceManagement.Api.DTOs;
-using DeviceManagement.Api.Models;
-using DeviceManagement.Api.Tests.Infrastructure;
-using Xunit.Abstractions;
 using Microsoft.VisualBasic;
-using DeviceManagement.Api.Models.Common;
-using DeviceManagement.Api.Tests.Helpers;
-using DeviceManagement.Api.Tests.Models;
-using DeviceManagement.Api.Tests.Assertions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Text;
+using System.Threading.Tasks;
+using Xunit.Abstractions;
 
 namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 {
@@ -36,6 +37,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
         }
 
+        [Trait("Category", TestCategories.Smoke)]
         [Fact]
         public async Task Delete_When_AdminDeletesDevice_ShouldReturn200()
         {
@@ -67,6 +69,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             DeviceAssertions.ShouldBeDeleted(before!, after!);
         }
 
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task Delete_When_NoToken_ShouldReturn401()
         {
@@ -95,6 +98,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
         }
 
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task Delete_When_UserDeletesDevice_ShouldReturn403()
         {
@@ -123,6 +127,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             DeviceAssertions.ShouldNotBeChanged(before!, after!);
         }
 
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task Delete_When_DeviceNotFound_ShouldReturn404()
         {
@@ -146,6 +151,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             result!.Message.Should().Be(ErrorMessages.DeviceNotFound);                        
         }
 
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task Delete_When_DeviceAlreadyDeleted_ShouldReturn404()
         {
@@ -186,6 +192,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             DeviceAssertions.ShouldNotBeChanged(after1!, after2!);
         }
 
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task Delete_When_DeviceDeleted_ShouldNotAppearInGetAll()
         {

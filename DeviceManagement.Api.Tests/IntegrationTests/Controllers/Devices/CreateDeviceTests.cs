@@ -1,25 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
+﻿using DeviceManagement.Api.Data;
+using DeviceManagement.Api.DTOs;
+using DeviceManagement.Api.Models;
+using DeviceManagement.Api.Models.Common;
+using DeviceManagement.Api.Tests.Assertions;
+using DeviceManagement.Api.Tests.Builders;
+using DeviceManagement.Api.Tests.Constants;
+using DeviceManagement.Api.Tests.Helpers;
+using DeviceManagement.Api.Tests.Infrastructure;
+using DeviceManagement.Api.Tests.Models;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using DeviceManagement.Api.Data;
-using DeviceManagement.Api.DTOs;
-using DeviceManagement.Api.Models;
-using DeviceManagement.Api.Tests.Infrastructure;
-using Xunit.Abstractions;
 using Microsoft.VisualBasic;
-using DeviceManagement.Api.Models.Common;
-using DeviceManagement.Api.Tests.Helpers;
-using DeviceManagement.Api.Tests.Models;
-using DeviceManagement.Api.Tests.Assertions;
-using DeviceManagement.Api.Tests.Builders;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Text;
+using System.Threading.Tasks;
+using Xunit.Abstractions;
 
 namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 {
@@ -38,7 +39,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
         {
             
         }
-
+        [Trait("Category", TestCategories.Smoke)]
         [Fact]
         public async Task CreateDevice_WithAdminRole_ShouldReturnCreated()
         {                        
@@ -107,6 +108,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
         }
 
         //Case2
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task CreateDevice_WithoutToken_ShouldReturnUnauthorized()
         {
@@ -123,6 +125,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
         }
 
         //Case3
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task CreateDevice_WithUserRole_ShouldReturnForbidden()
         {
@@ -140,6 +143,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
 
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task CreateDevice_WithEmptyName_ShouldReturnBadRequest()
         {
@@ -176,6 +180,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
                 "Name",
                 "Device name is required.");
         }
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task CreateDevice_WithTooShortName_ShouldReturnBadRequest()
         {
@@ -211,6 +216,8 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
                 "Name",
                 "Device name must be between 2 and 50 characters.");
         }
+
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task CreateDevice_WithTooLongName_ShouldReturnBadRequest()
         {
@@ -245,7 +252,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
                 "Device name must be between 2 and 50 characters.");
 
         }
-
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task CreateDevice_WithInvalidStatus_ShouldReturnBadRequest()
         {
@@ -267,6 +274,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             result?.Data["Status"].Should().NotBeNull();
         }
 
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task CreateDevice_WithInvalidEmployeeId_ShouldReturnBadRequest()
         {
@@ -288,6 +296,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
                 .ContainKey("EmployeeId");
         }
 
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task CreateDevice_WithNonExistingEmployee_ShouldReturnNotFound()
         {
@@ -312,6 +321,8 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
                 .Be(ErrorMessages.EmployeeNotFound);
   
         }
+
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task CreateDevice_WithInvalidCategoryId_ShouldReturnBadRequest()
         {
@@ -334,6 +345,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
                 .ContainKey("CategoryId");
         }
 
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task CreateDevice_WithNonExistingCategory_ShouldReturnNotFound()
         {
@@ -357,6 +369,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
                 .Be(ErrorMessages.CategoryNotFound);
         }
 
+        [Trait("Category", TestCategories.Regression)]
         [Fact]
         public async Task CreateDevice_WithDuplicateName_ShouldReturnConflict()
         {

@@ -1015,3 +1015,4 @@ D:\AspNetCore\DeviceManagement\DeviceManagement.Api.Tests\obj\Debug\net9.0\refin
 D:\AspNetCore\DeviceManagement\DeviceManagement.Api.Tests\obj\Debug\net9.0\DeviceManagement.Api.Tests.pdb
 D:\AspNetCore\DeviceManagement\DeviceManagement.Api.Tests\obj\Debug\net9.0\DeviceManagement.Api.Tests.genruntimeconfig.cache
 D:\AspNetCore\DeviceManagement\DeviceManagement.Api.Tests\obj\Debug\net9.0\ref\DeviceManagement.Api.Tests.dll
+D:\AspNetCore\DeviceManagement\DeviceManagement.Api.Tests\bin\Debug\net9.0\testEnvironments.json
