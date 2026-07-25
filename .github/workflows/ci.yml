@@ -31,9 +31,11 @@ jobs:
       run: dotnet restore
 
 
-    - name: Build solution
-      run: dotnet build --no-restore
+    - name: Restore
+      run: dotnet restore DeviceManagement.Api/DeviceManagement.Api.sln
 
+    - name: Build
+      run: dotnet build DeviceManagement.Api/DeviceManagement.Api.sln --no-restore
 
-    - name: Run tests
-      run: dotnet test --no-build
+    - name: Run Tests
+      run: dotnet test DeviceManagement.Api/DeviceManagement.Api.sln --no-build
