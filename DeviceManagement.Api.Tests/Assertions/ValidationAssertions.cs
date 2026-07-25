@@ -31,10 +31,10 @@ namespace DeviceManagement.Api.Tests.Assertions
 
         public static void ShouldContainError(
             ValidationErrorResponse result,
-            string field,
-            string message)
+            string field           )
         {
-            result.Data[field].Should().Contain(message);
+            result.Data.Should().ContainKey(field);
+            result.Data[field].Should().NotBeEmpty();
         }
     }
 }

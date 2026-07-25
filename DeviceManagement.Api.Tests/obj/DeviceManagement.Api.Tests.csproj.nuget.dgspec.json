@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\AspNetCore\\DeviceManagement\\devicemanagement.api.tests\\DeviceManagement.Api.Tests.csproj": {}
+    "D:\\AspNetCore\\DeviceManagement\\DeviceManagement.Api.Tests\\DeviceManagement.Api.Tests.csproj": {}
   },
   "projects": {
-    "D:\\AspNetCore\\DeviceManagement\\devicemanagement.api.tests\\DeviceManagement.Api.Tests.csproj": {
+    "D:\\AspNetCore\\DeviceManagement\\DeviceManagement.Api.Tests\\DeviceManagement.Api.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\AspNetCore\\DeviceManagement\\devicemanagement.api.tests\\DeviceManagement.Api.Tests.csproj",
+        "projectUniqueName": "D:\\AspNetCore\\DeviceManagement\\DeviceManagement.Api.Tests\\DeviceManagement.Api.Tests.csproj",
         "projectName": "DeviceManagement.Api.Tests",
-        "projectPath": "D:\\AspNetCore\\DeviceManagement\\devicemanagement.api.tests\\DeviceManagement.Api.Tests.csproj",
+        "projectPath": "D:\\AspNetCore\\DeviceManagement\\DeviceManagement.Api.Tests\\DeviceManagement.Api.Tests.csproj",
         "packagesPath": "C:\\Users\\yanja\\.nuget\\packages\\",
-        "outputPath": "D:\\AspNetCore\\DeviceManagement\\devicemanagement.api.tests\\obj\\",
+        "outputPath": "D:\\AspNetCore\\DeviceManagement\\DeviceManagement.Api.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

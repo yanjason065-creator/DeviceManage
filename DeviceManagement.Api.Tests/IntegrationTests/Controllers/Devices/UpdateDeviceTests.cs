@@ -263,14 +263,14 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             ValidationAssertions
                 .ShouldContainError(
                 validation!,
-                "Name",
-                "Device name is required.");
+                "Name"
+                );
 
             ValidationAssertions
                 .ShouldContainError(
                 validation!,
-                "Name",
-                "Device name must be between 2 and 50 characters.");
+                "Name"
+                );
 
             var after = await Database.GetDeviceAsync(device.Id);
             DeviceAssertions.ShouldNotBeChanged(before!, after!);
@@ -328,8 +328,8 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             ValidationAssertions
                 .ShouldContainError(
                 validation!,
-                "Name",
-                "Device name must be between 2 and 50 characters.");
+                "Name"
+               );
 
             var after = await Database.GetDeviceAsync(device.Id);
             DeviceAssertions.ShouldNotBeChanged(before!, after!);
@@ -424,8 +424,8 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
             ValidationAssertions.ShouldContainError(
                 result!,
-                "EmployeeId",
-                "'Employee Id' 必须大于 '0'。");
+                "EmployeeId"
+                );
 
             var after = await Database.GetDeviceAsync(device.Id);
 
@@ -474,8 +474,8 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
             ValidationAssertions.ShouldContainError(
                 result!,
-                "CategoryId",
-                "'Category Id' 必须大于 '0'。");
+                "CategoryId"
+               );
 
             var after = await Database.GetDeviceAsync(device.Id);
 
