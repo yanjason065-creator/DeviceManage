@@ -10,6 +10,7 @@ using DeviceManagement.Api.Tests.Clients;
 
 namespace DeviceManagement.Api.Tests.Infrastructure
 {
+    [Collection("Integration Test Collection")]
     public abstract class IntegrationTestBase
     {
         protected readonly HttpClient Client;
