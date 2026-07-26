@@ -101,7 +101,7 @@ jobs:
         with:
           path: coverage-report
 
-    deploy:
+  deploy:
 
 
     needs: regression
