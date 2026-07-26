@@ -78,8 +78,26 @@ jobs:
       - name: Restore
         run: dotnet restore DeviceManagement.Api/DeviceManagement.Api.sln
 
-      - name: Run Regression Tests
+      - name: Run Regression Tests With Coverage
         run: 
           dotnet test DeviceManagement.Api/DeviceManagement.Api.sln
           --filter "Category=Regression"
           --collect:"XPlat Code Coverage"
+
+          - name: Install ReportGenerator
+  run: dotnet tool install -g dotnet-reportgenerator-globaltool
+
+
+- name: Generate Coverage Report
+  run: |
+    reportgenerator \
+    -reports:"**/coverage.cobertura.xml" \
+    -targetdir:"coverage-report" \
+    -reporttypes:Html
+
+
+- name: Upload Coverage Report
+  uses: actions/upload-artifact@v4
+  with:
+    name: coverage-report
+    path: coverage-report
