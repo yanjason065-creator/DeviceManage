@@ -53,9 +53,8 @@ jobs:
         run: dotnet restore DeviceManagement.Api/DeviceManagement.Api.sln
 
       - name: Run Smoke Tests
-        run: 
+        run: >
           dotnet test DeviceManagement.Api/DeviceManagement.Api.sln
-          --no-build
           --filter "Category=Smoke"
 
   regression:
@@ -82,5 +81,4 @@ jobs:
       - name: Run Regression Tests
         run: 
           dotnet test DeviceManagement.Api/DeviceManagement.Api.sln
-          --no-build
           --filter "Category=Regression"
