@@ -84,20 +84,20 @@ jobs:
           --filter "Category=Regression"
           --collect:"XPlat Code Coverage"
 
-          - name: Install ReportGenerator
-  run: dotnet tool install -g dotnet-reportgenerator-globaltool
+      - name: Install ReportGenerator
+        run: dotnet tool install -g dotnet-reportgenerator-globaltool
 
 
-- name: Generate Coverage Report
-  run: |
-    reportgenerator \
-    -reports:"**/coverage.cobertura.xml" \
-    -targetdir:"coverage-report" \
-    -reporttypes:Html
+      - name: Generate Coverage Report
+        run: |
+          reportgenerator \
+          -reports:"**/coverage.cobertura.xml" \
+          -targetdir:"coverage-report" \
+          -reporttypes:Html
 
 
-- name: Upload Coverage Report
-  uses: actions/upload-artifact@v4
-  with:
-    name: coverage-report
-    path: coverage-report
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage-report
