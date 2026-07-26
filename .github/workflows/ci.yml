@@ -11,27 +11,76 @@ on:
 
 jobs:
 
-  build-and-test:
+  build:
 
     runs-on: ubuntu-latest
 
     steps:
 
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '9.0.x'
+      - name: Restore
+        run: dotnet restore DeviceManagement.Api/DeviceManagement.Api.sln
 
+      - name: Build
+        run: dotnet build DeviceManagement.Api/DeviceManagement.Api.sln --no-restore
 
-    - name: Restore
-      run: dotnet restore DeviceManagement.Api/DeviceManagement.Api.sln
+  smoke:
 
-    - name: Build
-      run: dotnet build DeviceManagement.Api/DeviceManagement.Api.sln --no-restore
+    needs: build
 
-    - name: Run Tests
-      run: dotnet test DeviceManagement.Api/DeviceManagement.Api.sln --no-build
+    runs-on: ubuntu-latest
+
+    if: github.event_name == 'pull_request'
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore
+        run: dotnet restore DeviceManagement.Api/DeviceManagement.Api.sln
+
+      - name: Run Smoke Tests
+        run: 
+          dotnet test DeviceManagement.Api/DeviceManagement.Api.sln
+          --no-build
+          --filter "Category=Smoke"
+
+  regression:
+
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore
+        run: dotnet restore DeviceManagement.Api/DeviceManagement.Api.sln
+
+      - name: Run Regression Tests
+        run: 
+          dotnet test DeviceManagement.Api/DeviceManagement.Api.sln
+          --no-build
+          --filter "Category=Regression"
