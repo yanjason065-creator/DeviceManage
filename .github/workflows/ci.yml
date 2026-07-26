@@ -80,8 +80,8 @@ jobs:
 
       - name: Run Regression Tests With Coverage
         run: 
-          dotnet test DeviceManagement.Api/DeviceManagement.Api.sln \
-          --filter "Category=Regression"\
+          dotnet test DeviceManagement.Api/DeviceManagement.Api.sln 
+          --filter "Category=Regression"
           --collect:"XPlat Code Coverage"
 
       - name: Install ReportGenerator
