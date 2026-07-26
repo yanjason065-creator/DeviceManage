@@ -233,13 +233,21 @@ namespace DeviceManagement.Api.Services
                     ErrorMessages.EmployeeNotFound);
             }
 
+            _logger.LogInformation(
+                "Checking CategoryId: {CategoryId}",
+                dto.CategoryId);
 
             var categoryExists =
                 _context.Categories.Any(c =>
                 c.Id == dto.CategoryId);
 
+            _logger.LogInformation(
+                "Category exists: {Exists}",
+                categoryExists);
+
             if (!categoryExists)
             {
+                _logger.LogInformation("Throw Category NotFound");
                 throw new NotFoundException(
                     ErrorMessages.CategoryNotFound);
             }
