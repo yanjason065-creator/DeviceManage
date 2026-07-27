@@ -9,6 +9,11 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
 
   build:
@@ -102,24 +107,14 @@ jobs:
           path: coverage-report
 
   deploy:
-
-
     needs: regression
-
     runs-on: ubuntu-latest
 
-
     environment:
-
       name: github-pages
-
       url: ${{ steps.deployment.outputs.page_url }}
 
-
-
     steps:
-
-
       - name: Deploy Coverage Report
         id: deployment
         uses: actions/deploy-pages@v4
