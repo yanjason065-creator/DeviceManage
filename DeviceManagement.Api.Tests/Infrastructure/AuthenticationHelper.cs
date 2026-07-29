@@ -57,5 +57,23 @@ namespace DeviceManagement.Api.Tests.Infrastructure
 
             return result!.Token;
         }
+
+        public static LoginRequestDto AdminLog()
+        {
+            return new LoginRequestDto
+            {
+                Username = "admin",
+                Password = "123456"
+            };
+        }
+
+        public static LoginRequestDto UserLogin()
+        {
+            return new LoginRequestDto
+            {
+                Username = "JasonYan",
+                Password = "123456"
+            };
+        }
     }
 }

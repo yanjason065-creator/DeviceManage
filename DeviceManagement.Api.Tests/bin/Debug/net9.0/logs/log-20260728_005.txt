@@ -1,0 +1,1199 @@
+2026-07-28 21:35:46.407 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "type" = 'table' AND "rootpage" IS NOT NULL;
+2026-07-28 21:35:46.414 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Categories" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_Categories" PRIMARY KEY AUTOINCREMENT,
+    "Name" TEXT NOT NULL,
+    "IsDeleted" INTEGER NOT NULL
+);
+2026-07-28 21:35:46.414 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Employees" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_Employees" PRIMARY KEY AUTOINCREMENT,
+    "Name" TEXT NOT NULL,
+    "IsDeleted" INTEGER NOT NULL
+);
+2026-07-28 21:35:46.415 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Users" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_Users" PRIMARY KEY AUTOINCREMENT,
+    "Username" TEXT NOT NULL,
+    "PasswordHash" TEXT NOT NULL,
+    "Role" TEXT NOT NULL,
+    "IsDeleted" INTEGER NOT NULL
+);
+2026-07-28 21:35:46.415 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Devices" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_Devices" PRIMARY KEY AUTOINCREMENT,
+    "Name" TEXT NOT NULL,
+    "Status" INTEGER NOT NULL,
+    "IsDeleted" INTEGER NOT NULL,
+    "CategoryId" INTEGER NOT NULL,
+    "EmployeeId" INTEGER NOT NULL,
+    "CreatedAt" TEXT NOT NULL,
+    "UpdatedAt" TEXT NULL,
+    CONSTRAINT "FK_Devices_Categories_CategoryId" FOREIGN KEY ("CategoryId") REFERENCES "Categories" ("Id") ON DELETE RESTRICT,
+    CONSTRAINT "FK_Devices_Employees_EmployeeId" FOREIGN KEY ("EmployeeId") REFERENCES "Employees" ("Id") ON DELETE RESTRICT
+);
+2026-07-28 21:35:46.415 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Categories" ("Id", "IsDeleted", "Name")
+VALUES (1, 0, 'Laptop');
+SELECT changes();
+
+INSERT INTO "Categories" ("Id", "IsDeleted", "Name")
+VALUES (2, 0, 'Desktop');
+SELECT changes();
+
+INSERT INTO "Categories" ("Id", "IsDeleted", "Name")
+VALUES (3, 0, 'Monitor');
+SELECT changes();
+2026-07-28 21:35:46.415 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Employees" ("Id", "IsDeleted", "Name")
+VALUES (1, 0, 'Jason Yan');
+SELECT changes();
+
+INSERT INTO "Employees" ("Id", "IsDeleted", "Name")
+VALUES (2, 0, 'Freya Liu');
+SELECT changes();
+2026-07-28 21:35:46.415 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Users" ("Id", "IsDeleted", "PasswordHash", "Role", "Username")
+VALUES (1, 0, '$2a$11$ogfduxgaoWgAXcmymvqCG.Xd3ud9PrXV.0eFiCMDuu2Kx25cnf/pu', 'Admin', 'admin');
+SELECT changes();
+
+INSERT INTO "Users" ("Id", "IsDeleted", "PasswordHash", "Role", "Username")
+VALUES (2, 0, '$2a$11$ogfduxgaoWgAXcmymvqCG.Xd3ud9PrXV.0eFiCMDuu2Kx25cnf/pu', 'User', 'JasonYan');
+SELECT changes();
+2026-07-28 21:35:46.415 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Devices" ("Id", "CategoryId", "CreatedAt", "EmployeeId", "IsDeleted", "Name", "Status", "UpdatedAt")
+VALUES (1, 1, '2026-01-01 00:00:00', 1, 0, 'Laptop1', 0, '2026-01-01 00:00:00');
+SELECT changes();
+
+INSERT INTO "Devices" ("Id", "CategoryId", "CreatedAt", "EmployeeId", "IsDeleted", "Name", "Status", "UpdatedAt")
+VALUES (2, 2, '2026-01-01 00:00:00', 2, 0, 'Desktop1', 1, '2026-01-01 00:00:00');
+SELECT changes();
+
+INSERT INTO "Devices" ("Id", "CategoryId", "CreatedAt", "EmployeeId", "IsDeleted", "Name", "Status", "UpdatedAt")
+VALUES (3, 3, '2026-01-01 00:00:00', 1, 0, 'Monitor1', 3, '2026-01-01 00:00:00');
+SELECT changes();
+
+INSERT INTO "Devices" ("Id", "CategoryId", "CreatedAt", "EmployeeId", "IsDeleted", "Name", "Status", "UpdatedAt")
+VALUES (4, 1, '2026-01-01 00:00:00', 1, 1, 'DeletedLaptop', 0, '2026-01-01 00:00:00');
+SELECT changes();
+2026-07-28 21:35:46.415 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "IX_Devices_CategoryId" ON "Devices" ("CategoryId");
+2026-07-28 21:35:46.415 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "IX_Devices_EmployeeId" ON "Devices" ("EmployeeId");
+2026-07-28 21:35:46.420 -04:00 [INF] User profile is available. Using 'C:\Users\yanja\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-07-28 21:35:46.425 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/auth/login - application/json; charset=utf-8 40
+2026-07-28 21:35:46.425 -04:00 [WRN] Failed to determine the https port for redirect.
+2026-07-28 21:35:46.425 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:46.427 -04:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[DeviceManagement.Api.DTOs.Auth.LoginResponseDto]] Login(DeviceManagement.Api.DTOs.Auth.LoginRequestDto) on controller DeviceManagement.Api.Controllers.AuthController (DeviceManagement.Api).
+2026-07-28 21:35:46.429 -04:00 [INF] Login started. User: admin
+2026-07-28 21:35:46.429 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__request_Username_0='?' (Size = 5)], CommandType='"Text"', CommandTimeout='30']
+SELECT "u"."Id", "u"."IsDeleted", "u"."PasswordHash", "u"."Role", "u"."Username"
+FROM "Users" AS "u"
+WHERE "u"."Username" = @__request_Username_0 AND NOT ("u"."IsDeleted")
+LIMIT 1
+2026-07-28 21:35:46.575 -04:00 [INF] Login successful. User: admin, Role: Admin
+2026-07-28 21:35:46.575 -04:00 [INF] Executing OkObjectResult, writing value of type 'DeviceManagement.Api.DTOs.Auth.LoginResponseDto'.
+2026-07-28 21:35:46.576 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api) in 148.9992ms
+2026-07-28 21:35:46.576 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:46.576 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/auth/login - 200 null application/json; charset=utf-8 151.7385ms
+2026-07-28 21:35:46.577 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/device - application/json; charset=utf-8 98
+2026-07-28 21:35:46.577 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/auth/login - application/json; charset=utf-8 43
+2026-07-28 21:35:46.578 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:46.578 -04:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[DeviceManagement.Api.DTOs.Auth.LoginResponseDto]] Login(DeviceManagement.Api.DTOs.Auth.LoginRequestDto) on controller DeviceManagement.Api.Controllers.AuthController (DeviceManagement.Api).
+2026-07-28 21:35:46.578 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:46.579 -04:00 [INF] Login started. User: JasonYan
+2026-07-28 21:35:46.579 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__request_Username_0='?' (Size = 8)], CommandType='"Text"', CommandTimeout='30']
+SELECT "u"."Id", "u"."IsDeleted", "u"."PasswordHash", "u"."Role", "u"."Username"
+FROM "Users" AS "u"
+WHERE "u"."Username" = @__request_Username_0 AND NOT ("u"."IsDeleted")
+LIMIT 1
+2026-07-28 21:35:46.580 -04:00 [INF] Route matched with {action = "CreateDevice", controller = "Device"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult CreateDevice(DeviceManagement.Api.DTOs.CreateDeviceDto) on controller DeviceManagement.Api.Controllers.DeviceController (DeviceManagement.Api).
+2026-07-28 21:35:46.583 -04:00 [INF] CreateDevice started
+2026-07-28 21:35:46.583 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__dto_Name_0='?' (Size = 46)], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Devices" AS "d"
+    WHERE NOT ("d"."IsDeleted") AND "d"."Name" = @__dto_Name_0 AND NOT ("d"."IsDeleted"))
+2026-07-28 21:35:46.584 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "e"."Id", "e"."IsDeleted", "e"."Name"
+FROM "Employees" AS "e"
+WHERE "e"."Id" = @__p_0
+LIMIT 1
+2026-07-28 21:35:46.584 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Categories" AS "c"
+WHERE "c"."Id" = @__p_0
+LIMIT 1
+2026-07-28 21:35:46.584 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int64), @p1='?' (DbType = DateTime), @p2='?' (DbType = Int64), @p3='?' (DbType = Boolean), @p4='?' (Size = 46), @p5='?' (DbType = Int32), @p6='?' (DbType = DateTime)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Devices" ("CategoryId", "CreatedAt", "EmployeeId", "IsDeleted", "Name", "Status", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
+RETURNING "Id";
+2026-07-28 21:35:46.585 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__entity_Id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "c"."Id", "c"."IsDeleted", "c"."Name", "e"."Id", "e"."IsDeleted", "e"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__entity_Id_0
+LIMIT 1
+2026-07-28 21:35:46.586 -04:00 [INF] Executing ObjectResult, writing value of type 'DeviceManagement.Api.Models.Common.ApiResponse`1[[DeviceManagement.Api.DTOs.DeviceDto, DeviceManagement.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-07-28 21:35:46.586 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api) in 6.7391ms
+2026-07-28 21:35:46.587 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:46.587 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/device - 201 null application/json; charset=utf-8 9.3065ms
+2026-07-28 21:35:46.724 -04:00 [INF] Login successful. User: JasonYan, Role: User
+2026-07-28 21:35:46.725 -04:00 [INF] Executing OkObjectResult, writing value of type 'DeviceManagement.Api.DTOs.Auth.LoginResponseDto'.
+2026-07-28 21:35:46.725 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api) in 146.4973ms
+2026-07-28 21:35:46.725 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:46.725 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/auth/login - 200 null application/json; charset=utf-8 147.4876ms
+2026-07-28 21:35:46.727 -04:00 [INF] Request starting HTTP/1.1 PUT http://localhost/api/device/1 - application/json; charset=utf-8 88
+2026-07-28 21:35:46.728 -04:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2026-07-28 21:35:46.728 -04:00 [INF] AuthenticationScheme: Bearer was forbidden.
+2026-07-28 21:35:46.728 -04:00 [INF] Request finished HTTP/1.1 PUT http://localhost/api/device/1 - 403 null null 1.3412ms
+2026-07-28 21:35:46.731 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/auth/login - application/json; charset=utf-8 40
+2026-07-28 21:35:46.731 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:46.731 -04:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[DeviceManagement.Api.DTOs.Auth.LoginResponseDto]] Login(DeviceManagement.Api.DTOs.Auth.LoginRequestDto) on controller DeviceManagement.Api.Controllers.AuthController (DeviceManagement.Api).
+2026-07-28 21:35:46.733 -04:00 [INF] Login started. User: admin
+2026-07-28 21:35:46.734 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__request_Username_0='?' (Size = 5)], CommandType='"Text"', CommandTimeout='30']
+SELECT "u"."Id", "u"."IsDeleted", "u"."PasswordHash", "u"."Role", "u"."Username"
+FROM "Users" AS "u"
+WHERE "u"."Username" = @__request_Username_0 AND NOT ("u"."IsDeleted")
+LIMIT 1
+2026-07-28 21:35:46.886 -04:00 [INF] Login successful. User: admin, Role: Admin
+2026-07-28 21:35:46.886 -04:00 [INF] Executing OkObjectResult, writing value of type 'DeviceManagement.Api.DTOs.Auth.LoginResponseDto'.
+2026-07-28 21:35:46.886 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api) in 155.278ms
+2026-07-28 21:35:46.886 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:46.886 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/auth/login - 200 null application/json; charset=utf-8 155.9378ms
+2026-07-28 21:35:46.887 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/device - application/json; charset=utf-8 98
+2026-07-28 21:35:46.888 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:46.889 -04:00 [INF] Route matched with {action = "CreateDevice", controller = "Device"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult CreateDevice(DeviceManagement.Api.DTOs.CreateDeviceDto) on controller DeviceManagement.Api.Controllers.DeviceController (DeviceManagement.Api).
+2026-07-28 21:35:46.889 -04:00 [INF] CreateDevice started
+2026-07-28 21:35:46.890 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__dto_Name_0='?' (Size = 46)], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Devices" AS "d"
+    WHERE NOT ("d"."IsDeleted") AND "d"."Name" = @__dto_Name_0 AND NOT ("d"."IsDeleted"))
+2026-07-28 21:35:46.890 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "e"."Id", "e"."IsDeleted", "e"."Name"
+FROM "Employees" AS "e"
+WHERE "e"."Id" = @__p_0
+LIMIT 1
+2026-07-28 21:35:46.890 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Categories" AS "c"
+WHERE "c"."Id" = @__p_0
+LIMIT 1
+2026-07-28 21:35:46.891 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int64), @p1='?' (DbType = DateTime), @p2='?' (DbType = Int64), @p3='?' (DbType = Boolean), @p4='?' (Size = 46), @p5='?' (DbType = Int32), @p6='?' (DbType = DateTime)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Devices" ("CategoryId", "CreatedAt", "EmployeeId", "IsDeleted", "Name", "Status", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
+RETURNING "Id";
+2026-07-28 21:35:46.891 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__entity_Id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "c"."Id", "c"."IsDeleted", "c"."Name", "e"."Id", "e"."IsDeleted", "e"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__entity_Id_0
+LIMIT 1
+2026-07-28 21:35:46.891 -04:00 [INF] Executing ObjectResult, writing value of type 'DeviceManagement.Api.Models.Common.ApiResponse`1[[DeviceManagement.Api.DTOs.DeviceDto, DeviceManagement.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-07-28 21:35:46.891 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api) in 2.6303ms
+2026-07-28 21:35:46.891 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:46.891 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/device - 201 null application/json; charset=utf-8 3.817ms
+2026-07-28 21:35:46.892 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/device - application/json; charset=utf-8 98
+2026-07-28 21:35:46.892 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:46.892 -04:00 [INF] Route matched with {action = "CreateDevice", controller = "Device"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult CreateDevice(DeviceManagement.Api.DTOs.CreateDeviceDto) on controller DeviceManagement.Api.Controllers.DeviceController (DeviceManagement.Api).
+2026-07-28 21:35:46.893 -04:00 [INF] CreateDevice started
+2026-07-28 21:35:46.894 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__dto_Name_0='?' (Size = 46)], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Devices" AS "d"
+    WHERE NOT ("d"."IsDeleted") AND "d"."Name" = @__dto_Name_0 AND NOT ("d"."IsDeleted"))
+2026-07-28 21:35:46.894 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "e"."Id", "e"."IsDeleted", "e"."Name"
+FROM "Employees" AS "e"
+WHERE "e"."Id" = @__p_0
+LIMIT 1
+2026-07-28 21:35:46.894 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Categories" AS "c"
+WHERE "c"."Id" = @__p_0
+LIMIT 1
+2026-07-28 21:35:46.894 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int64), @p1='?' (DbType = DateTime), @p2='?' (DbType = Int64), @p3='?' (DbType = Boolean), @p4='?' (Size = 46), @p5='?' (DbType = Int32), @p6='?' (DbType = DateTime)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Devices" ("CategoryId", "CreatedAt", "EmployeeId", "IsDeleted", "Name", "Status", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
+RETURNING "Id";
+2026-07-28 21:35:46.895 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__entity_Id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "c"."Id", "c"."IsDeleted", "c"."Name", "e"."Id", "e"."IsDeleted", "e"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__entity_Id_0
+LIMIT 1
+2026-07-28 21:35:46.895 -04:00 [INF] Executing ObjectResult, writing value of type 'DeviceManagement.Api.Models.Common.ApiResponse`1[[DeviceManagement.Api.DTOs.DeviceDto, DeviceManagement.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-07-28 21:35:46.895 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api) in 2.8301ms
+2026-07-28 21:35:46.895 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:46.895 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/device - 201 null application/json; charset=utf-8 3.2201ms
+2026-07-28 21:35:46.902 -04:00 [INF] Request starting HTTP/1.1 PUT http://localhost/api/device/7 - application/json; charset=utf-8 116
+2026-07-28 21:35:46.903 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:46.904 -04:00 [INF] Route matched with {action = "UpdateDevice", controller = "Device"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult UpdateDevice(Int64, DeviceManagement.Api.DTOs.UpdateDeviceDto) on controller DeviceManagement.Api.Controllers.DeviceController (DeviceManagement.Api).
+2026-07-28 21:35:46.909 -04:00 [INF] UpdateDevice started. Id: 7
+2026-07-28 21:35:46.909 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt"
+FROM "Devices" AS "d"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__id_0
+LIMIT 1
+2026-07-28 21:35:46.912 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__dto_Name_0='?' (Size = 46), @__id_1='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Devices" AS "d"
+    WHERE NOT ("d"."IsDeleted") AND "d"."Name" = @__dto_Name_0 AND "d"."Id" <> @__id_1 AND NOT ("d"."IsDeleted"))
+2026-07-28 21:35:46.912 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api) in 7.8506ms
+2026-07-28 21:35:46.912 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:46.912 -04:00 [WRN] Conflict occurred
+DeviceManagement.Api.Services.ConflictException: Device already exists
+   at DeviceManagement.Api.Services.DeviceService.UpdateDevice(Int64 id, UpdateDeviceDto dto) in D:\AspNetCore\DeviceManagement\DeviceManagement.Api\Services\DeviceService.cs:line 222
+   at DeviceManagement.Api.Controllers.DeviceController.UpdateDevice(Int64 id, UpdateDeviceDto dto) in D:\AspNetCore\DeviceManagement\DeviceManagement.Api\Controllers\DeviceController.cs:line 54
+   at lambda_method624(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at DeviceManagement.Api.Middleware.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\AspNetCore\DeviceManagement\DeviceManagement.Api\Middleware\ExceptionHandlingMiddleware.cs:line 21
+2026-07-28 21:35:46.914 -04:00 [INF] Request finished HTTP/1.1 PUT http://localhost/api/device/7 - 409 null application/json; charset=utf-8 11.7562ms
+2026-07-28 21:35:46.915 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "e"."Id", "e"."IsDeleted", "e"."Name", "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__id_0
+LIMIT 1
+2026-07-28 21:35:46.917 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/auth/login - application/json; charset=utf-8 40
+2026-07-28 21:35:46.917 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:46.917 -04:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[DeviceManagement.Api.DTOs.Auth.LoginResponseDto]] Login(DeviceManagement.Api.DTOs.Auth.LoginRequestDto) on controller DeviceManagement.Api.Controllers.AuthController (DeviceManagement.Api).
+2026-07-28 21:35:46.918 -04:00 [INF] Login started. User: admin
+2026-07-28 21:35:46.918 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__request_Username_0='?' (Size = 5)], CommandType='"Text"', CommandTimeout='30']
+SELECT "u"."Id", "u"."IsDeleted", "u"."PasswordHash", "u"."Role", "u"."Username"
+FROM "Users" AS "u"
+WHERE "u"."Username" = @__request_Username_0 AND NOT ("u"."IsDeleted")
+LIMIT 1
+2026-07-28 21:35:47.061 -04:00 [INF] Login successful. User: admin, Role: Admin
+2026-07-28 21:35:47.061 -04:00 [INF] Executing OkObjectResult, writing value of type 'DeviceManagement.Api.DTOs.Auth.LoginResponseDto'.
+2026-07-28 21:35:47.062 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api) in 144.6517ms
+2026-07-28 21:35:47.062 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:47.062 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/auth/login - 200 null application/json; charset=utf-8 145.0942ms
+2026-07-28 21:35:47.063 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/device - application/json; charset=utf-8 98
+2026-07-28 21:35:47.064 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:47.064 -04:00 [INF] Route matched with {action = "CreateDevice", controller = "Device"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult CreateDevice(DeviceManagement.Api.DTOs.CreateDeviceDto) on controller DeviceManagement.Api.Controllers.DeviceController (DeviceManagement.Api).
+2026-07-28 21:35:47.064 -04:00 [INF] CreateDevice started
+2026-07-28 21:35:47.065 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__dto_Name_0='?' (Size = 46)], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Devices" AS "d"
+    WHERE NOT ("d"."IsDeleted") AND "d"."Name" = @__dto_Name_0 AND NOT ("d"."IsDeleted"))
+2026-07-28 21:35:47.065 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "e"."Id", "e"."IsDeleted", "e"."Name"
+FROM "Employees" AS "e"
+WHERE "e"."Id" = @__p_0
+LIMIT 1
+2026-07-28 21:35:47.066 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Categories" AS "c"
+WHERE "c"."Id" = @__p_0
+LIMIT 1
+2026-07-28 21:35:47.066 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int64), @p1='?' (DbType = DateTime), @p2='?' (DbType = Int64), @p3='?' (DbType = Boolean), @p4='?' (Size = 46), @p5='?' (DbType = Int32), @p6='?' (DbType = DateTime)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Devices" ("CategoryId", "CreatedAt", "EmployeeId", "IsDeleted", "Name", "Status", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
+RETURNING "Id";
+2026-07-28 21:35:47.066 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__entity_Id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "c"."Id", "c"."IsDeleted", "c"."Name", "e"."Id", "e"."IsDeleted", "e"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__entity_Id_0
+LIMIT 1
+2026-07-28 21:35:47.067 -04:00 [INF] Executing ObjectResult, writing value of type 'DeviceManagement.Api.Models.Common.ApiResponse`1[[DeviceManagement.Api.DTOs.DeviceDto, DeviceManagement.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-07-28 21:35:47.067 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api) in 3.2807ms
+2026-07-28 21:35:47.067 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:47.067 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/device - 201 null application/json; charset=utf-8 4.0708ms
+2026-07-28 21:35:47.068 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "e"."Id", "e"."IsDeleted", "e"."Name", "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__id_0
+LIMIT 1
+2026-07-28 21:35:47.069 -04:00 [INF] Request starting HTTP/1.1 PUT http://localhost/api/device/8 - application/json; charset=utf-8 117
+2026-07-28 21:35:47.069 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:47.069 -04:00 [INF] Route matched with {action = "UpdateDevice", controller = "Device"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult UpdateDevice(Int64, DeviceManagement.Api.DTOs.UpdateDeviceDto) on controller DeviceManagement.Api.Controllers.DeviceController (DeviceManagement.Api).
+2026-07-28 21:35:47.070 -04:00 [INF] Executing BadRequestObjectResult, writing value of type 'DeviceManagement.Api.Models.Common.ApiResponse`1[[System.Object, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-07-28 21:35:47.071 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api) in 1.5312ms
+2026-07-28 21:35:47.071 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:47.071 -04:00 [INF] Request finished HTTP/1.1 PUT http://localhost/api/device/8 - 400 null application/json; charset=utf-8 2.0386ms
+2026-07-28 21:35:47.072 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "e"."Id", "e"."IsDeleted", "e"."Name", "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__id_0
+LIMIT 1
+2026-07-28 21:35:47.073 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/auth/login - application/json; charset=utf-8 40
+2026-07-28 21:35:47.073 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:47.073 -04:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[DeviceManagement.Api.DTOs.Auth.LoginResponseDto]] Login(DeviceManagement.Api.DTOs.Auth.LoginRequestDto) on controller DeviceManagement.Api.Controllers.AuthController (DeviceManagement.Api).
+2026-07-28 21:35:47.073 -04:00 [INF] Login started. User: admin
+2026-07-28 21:35:47.074 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__request_Username_0='?' (Size = 5)], CommandType='"Text"', CommandTimeout='30']
+SELECT "u"."Id", "u"."IsDeleted", "u"."PasswordHash", "u"."Role", "u"."Username"
+FROM "Users" AS "u"
+WHERE "u"."Username" = @__request_Username_0 AND NOT ("u"."IsDeleted")
+LIMIT 1
+2026-07-28 21:35:47.216 -04:00 [INF] Login successful. User: admin, Role: Admin
+2026-07-28 21:35:47.217 -04:00 [INF] Executing OkObjectResult, writing value of type 'DeviceManagement.Api.DTOs.Auth.LoginResponseDto'.
+2026-07-28 21:35:47.217 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api) in 143.9972ms
+2026-07-28 21:35:47.217 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:47.217 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/auth/login - 200 null application/json; charset=utf-8 144.3408ms
+2026-07-28 21:35:47.218 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/device - application/json; charset=utf-8 98
+2026-07-28 21:35:47.218 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:47.218 -04:00 [INF] Route matched with {action = "CreateDevice", controller = "Device"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult CreateDevice(DeviceManagement.Api.DTOs.CreateDeviceDto) on controller DeviceManagement.Api.Controllers.DeviceController (DeviceManagement.Api).
+2026-07-28 21:35:47.219 -04:00 [INF] CreateDevice started
+2026-07-28 21:35:47.219 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__dto_Name_0='?' (Size = 46)], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Devices" AS "d"
+    WHERE NOT ("d"."IsDeleted") AND "d"."Name" = @__dto_Name_0 AND NOT ("d"."IsDeleted"))
+2026-07-28 21:35:47.219 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "e"."Id", "e"."IsDeleted", "e"."Name"
+FROM "Employees" AS "e"
+WHERE "e"."Id" = @__p_0
+LIMIT 1
+2026-07-28 21:35:47.219 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Categories" AS "c"
+WHERE "c"."Id" = @__p_0
+LIMIT 1
+2026-07-28 21:35:47.220 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int64), @p1='?' (DbType = DateTime), @p2='?' (DbType = Int64), @p3='?' (DbType = Boolean), @p4='?' (Size = 46), @p5='?' (DbType = Int32), @p6='?' (DbType = DateTime)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Devices" ("CategoryId", "CreatedAt", "EmployeeId", "IsDeleted", "Name", "Status", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
+RETURNING "Id";
+2026-07-28 21:35:47.220 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__entity_Id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "c"."Id", "c"."IsDeleted", "c"."Name", "e"."Id", "e"."IsDeleted", "e"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__entity_Id_0
+LIMIT 1
+2026-07-28 21:35:47.220 -04:00 [INF] Executing ObjectResult, writing value of type 'DeviceManagement.Api.Models.Common.ApiResponse`1[[DeviceManagement.Api.DTOs.DeviceDto, DeviceManagement.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-07-28 21:35:47.221 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api) in 2.3226ms
+2026-07-28 21:35:47.221 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:47.221 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/device - 201 null application/json; charset=utf-8 2.7983ms
+2026-07-28 21:35:47.221 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "e"."Id", "e"."IsDeleted", "e"."Name", "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__id_0
+LIMIT 1
+2026-07-28 21:35:47.221 -04:00 [INF] Request starting HTTP/1.1 PUT http://localhost/api/device/9 - application/json; charset=utf-8 116
+2026-07-28 21:35:47.222 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:47.222 -04:00 [INF] Route matched with {action = "UpdateDevice", controller = "Device"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult UpdateDevice(Int64, DeviceManagement.Api.DTOs.UpdateDeviceDto) on controller DeviceManagement.Api.Controllers.DeviceController (DeviceManagement.Api).
+2026-07-28 21:35:47.223 -04:00 [INF] Executing BadRequestObjectResult, writing value of type 'DeviceManagement.Api.Models.Common.ApiResponse`1[[System.Object, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-07-28 21:35:47.223 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api) in 0.9702ms
+2026-07-28 21:35:47.223 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:47.223 -04:00 [INF] Request finished HTTP/1.1 PUT http://localhost/api/device/9 - 400 null application/json; charset=utf-8 1.2809ms
+2026-07-28 21:35:47.223 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "e"."Id", "e"."IsDeleted", "e"."Name", "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__id_0
+LIMIT 1
+2026-07-28 21:35:47.225 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/auth/login - application/json; charset=utf-8 40
+2026-07-28 21:35:47.225 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:47.225 -04:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[DeviceManagement.Api.DTOs.Auth.LoginResponseDto]] Login(DeviceManagement.Api.DTOs.Auth.LoginRequestDto) on controller DeviceManagement.Api.Controllers.AuthController (DeviceManagement.Api).
+2026-07-28 21:35:47.225 -04:00 [INF] Login started. User: admin
+2026-07-28 21:35:47.226 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__request_Username_0='?' (Size = 5)], CommandType='"Text"', CommandTimeout='30']
+SELECT "u"."Id", "u"."IsDeleted", "u"."PasswordHash", "u"."Role", "u"."Username"
+FROM "Users" AS "u"
+WHERE "u"."Username" = @__request_Username_0 AND NOT ("u"."IsDeleted")
+LIMIT 1
+2026-07-28 21:35:47.372 -04:00 [INF] Login successful. User: admin, Role: Admin
+2026-07-28 21:35:47.372 -04:00 [INF] Executing OkObjectResult, writing value of type 'DeviceManagement.Api.DTOs.Auth.LoginResponseDto'.
+2026-07-28 21:35:47.372 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api) in 147.4999ms
+2026-07-28 21:35:47.373 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:47.373 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/auth/login - 200 null application/json; charset=utf-8 148.0117ms
+2026-07-28 21:35:47.374 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/device - application/json; charset=utf-8 98
+2026-07-28 21:35:47.374 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:47.374 -04:00 [INF] Route matched with {action = "CreateDevice", controller = "Device"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult CreateDevice(DeviceManagement.Api.DTOs.CreateDeviceDto) on controller DeviceManagement.Api.Controllers.DeviceController (DeviceManagement.Api).
+2026-07-28 21:35:47.375 -04:00 [INF] CreateDevice started
+2026-07-28 21:35:47.375 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__dto_Name_0='?' (Size = 46)], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Devices" AS "d"
+    WHERE NOT ("d"."IsDeleted") AND "d"."Name" = @__dto_Name_0 AND NOT ("d"."IsDeleted"))
+2026-07-28 21:35:47.376 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "e"."Id", "e"."IsDeleted", "e"."Name"
+FROM "Employees" AS "e"
+WHERE "e"."Id" = @__p_0
+LIMIT 1
+2026-07-28 21:35:47.376 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Categories" AS "c"
+WHERE "c"."Id" = @__p_0
+LIMIT 1
+2026-07-28 21:35:47.377 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int64), @p1='?' (DbType = DateTime), @p2='?' (DbType = Int64), @p3='?' (DbType = Boolean), @p4='?' (Size = 46), @p5='?' (DbType = Int32), @p6='?' (DbType = DateTime)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Devices" ("CategoryId", "CreatedAt", "EmployeeId", "IsDeleted", "Name", "Status", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
+RETURNING "Id";
+2026-07-28 21:35:47.377 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__entity_Id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "c"."Id", "c"."IsDeleted", "c"."Name", "e"."Id", "e"."IsDeleted", "e"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__entity_Id_0
+LIMIT 1
+2026-07-28 21:35:47.377 -04:00 [INF] Executing ObjectResult, writing value of type 'DeviceManagement.Api.Models.Common.ApiResponse`1[[DeviceManagement.Api.DTOs.DeviceDto, DeviceManagement.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-07-28 21:35:47.377 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api) in 2.7998ms
+2026-07-28 21:35:47.377 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:47.377 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/device - 201 null application/json; charset=utf-8 3.3175ms
+2026-07-28 21:35:47.378 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "e"."Id", "e"."IsDeleted", "e"."Name", "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__id_0
+LIMIT 1
+2026-07-28 21:35:47.379 -04:00 [INF] Request starting HTTP/1.1 PUT http://localhost/api/device/10 - application/json; charset=utf-8 71
+2026-07-28 21:35:47.379 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:47.379 -04:00 [INF] Route matched with {action = "UpdateDevice", controller = "Device"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult UpdateDevice(Int64, DeviceManagement.Api.DTOs.UpdateDeviceDto) on controller DeviceManagement.Api.Controllers.DeviceController (DeviceManagement.Api).
+2026-07-28 21:35:47.380 -04:00 [INF] Executing BadRequestObjectResult, writing value of type 'DeviceManagement.Api.Models.Common.ApiResponse`1[[System.Object, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-07-28 21:35:47.380 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api) in 0.858ms
+2026-07-28 21:35:47.380 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:47.380 -04:00 [INF] Request finished HTTP/1.1 PUT http://localhost/api/device/10 - 400 null application/json; charset=utf-8 1.3625ms
+2026-07-28 21:35:47.381 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "e"."Id", "e"."IsDeleted", "e"."Name", "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__id_0
+LIMIT 1
+2026-07-28 21:35:47.382 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/auth/login - application/json; charset=utf-8 40
+2026-07-28 21:35:47.382 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:47.382 -04:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[DeviceManagement.Api.DTOs.Auth.LoginResponseDto]] Login(DeviceManagement.Api.DTOs.Auth.LoginRequestDto) on controller DeviceManagement.Api.Controllers.AuthController (DeviceManagement.Api).
+2026-07-28 21:35:47.383 -04:00 [INF] Login started. User: admin
+2026-07-28 21:35:47.383 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__request_Username_0='?' (Size = 5)], CommandType='"Text"', CommandTimeout='30']
+SELECT "u"."Id", "u"."IsDeleted", "u"."PasswordHash", "u"."Role", "u"."Username"
+FROM "Users" AS "u"
+WHERE "u"."Username" = @__request_Username_0 AND NOT ("u"."IsDeleted")
+LIMIT 1
+2026-07-28 21:35:47.529 -04:00 [INF] Login successful. User: admin, Role: Admin
+2026-07-28 21:35:47.530 -04:00 [INF] Executing OkObjectResult, writing value of type 'DeviceManagement.Api.DTOs.Auth.LoginResponseDto'.
+2026-07-28 21:35:47.530 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api) in 147.7284ms
+2026-07-28 21:35:47.530 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:47.530 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/auth/login - 200 null application/json; charset=utf-8 148.2434ms
+2026-07-28 21:35:47.532 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/device - application/json; charset=utf-8 98
+2026-07-28 21:35:47.532 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:47.532 -04:00 [INF] Route matched with {action = "CreateDevice", controller = "Device"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult CreateDevice(DeviceManagement.Api.DTOs.CreateDeviceDto) on controller DeviceManagement.Api.Controllers.DeviceController (DeviceManagement.Api).
+2026-07-28 21:35:47.533 -04:00 [INF] CreateDevice started
+2026-07-28 21:35:47.534 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__dto_Name_0='?' (Size = 46)], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Devices" AS "d"
+    WHERE NOT ("d"."IsDeleted") AND "d"."Name" = @__dto_Name_0 AND NOT ("d"."IsDeleted"))
+2026-07-28 21:35:47.534 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "e"."Id", "e"."IsDeleted", "e"."Name"
+FROM "Employees" AS "e"
+WHERE "e"."Id" = @__p_0
+LIMIT 1
+2026-07-28 21:35:47.534 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Categories" AS "c"
+WHERE "c"."Id" = @__p_0
+LIMIT 1
+2026-07-28 21:35:47.535 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int64), @p1='?' (DbType = DateTime), @p2='?' (DbType = Int64), @p3='?' (DbType = Boolean), @p4='?' (Size = 46), @p5='?' (DbType = Int32), @p6='?' (DbType = DateTime)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Devices" ("CategoryId", "CreatedAt", "EmployeeId", "IsDeleted", "Name", "Status", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
+RETURNING "Id";
+2026-07-28 21:35:47.535 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__entity_Id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "c"."Id", "c"."IsDeleted", "c"."Name", "e"."Id", "e"."IsDeleted", "e"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__entity_Id_0
+LIMIT 1
+2026-07-28 21:35:47.535 -04:00 [INF] Executing ObjectResult, writing value of type 'DeviceManagement.Api.Models.Common.ApiResponse`1[[DeviceManagement.Api.DTOs.DeviceDto, DeviceManagement.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-07-28 21:35:47.535 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api) in 2.6351ms
+2026-07-28 21:35:47.535 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:47.535 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/device - 201 null application/json; charset=utf-8 3.2767ms
+2026-07-28 21:35:47.536 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "e"."Id", "e"."IsDeleted", "e"."Name", "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__id_0
+LIMIT 1
+2026-07-28 21:35:47.536 -04:00 [INF] Request starting HTTP/1.1 PUT http://localhost/api/device/11 - application/json; charset=utf-8 121
+2026-07-28 21:35:47.537 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:47.537 -04:00 [INF] Route matched with {action = "UpdateDevice", controller = "Device"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult UpdateDevice(Int64, DeviceManagement.Api.DTOs.UpdateDeviceDto) on controller DeviceManagement.Api.Controllers.DeviceController (DeviceManagement.Api).
+2026-07-28 21:35:47.537 -04:00 [INF] Executing BadRequestObjectResult, writing value of type 'DeviceManagement.Api.Models.Common.ApiResponse`1[[System.Object, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-07-28 21:35:47.537 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api) in 0.4957ms
+2026-07-28 21:35:47.537 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:47.537 -04:00 [INF] Request finished HTTP/1.1 PUT http://localhost/api/device/11 - 400 null application/json; charset=utf-8 0.8923ms
+2026-07-28 21:35:47.538 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "e"."Id", "e"."IsDeleted", "e"."Name", "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__id_0
+LIMIT 1
+2026-07-28 21:35:47.539 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/auth/login - application/json; charset=utf-8 40
+2026-07-28 21:35:47.539 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:47.539 -04:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[DeviceManagement.Api.DTOs.Auth.LoginResponseDto]] Login(DeviceManagement.Api.DTOs.Auth.LoginRequestDto) on controller DeviceManagement.Api.Controllers.AuthController (DeviceManagement.Api).
+2026-07-28 21:35:47.540 -04:00 [INF] Login started. User: admin
+2026-07-28 21:35:47.540 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__request_Username_0='?' (Size = 5)], CommandType='"Text"', CommandTimeout='30']
+SELECT "u"."Id", "u"."IsDeleted", "u"."PasswordHash", "u"."Role", "u"."Username"
+FROM "Users" AS "u"
+WHERE "u"."Username" = @__request_Username_0 AND NOT ("u"."IsDeleted")
+LIMIT 1
+2026-07-28 21:35:47.690 -04:00 [INF] Login successful. User: admin, Role: Admin
+2026-07-28 21:35:47.690 -04:00 [INF] Executing OkObjectResult, writing value of type 'DeviceManagement.Api.DTOs.Auth.LoginResponseDto'.
+2026-07-28 21:35:47.691 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api) in 151.4334ms
+2026-07-28 21:35:47.691 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:47.691 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/auth/login - 200 null application/json; charset=utf-8 151.9978ms
+2026-07-28 21:35:47.692 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/device - application/json; charset=utf-8 98
+2026-07-28 21:35:47.692 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:47.693 -04:00 [INF] Route matched with {action = "CreateDevice", controller = "Device"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult CreateDevice(DeviceManagement.Api.DTOs.CreateDeviceDto) on controller DeviceManagement.Api.Controllers.DeviceController (DeviceManagement.Api).
+2026-07-28 21:35:47.693 -04:00 [INF] CreateDevice started
+2026-07-28 21:35:47.693 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__dto_Name_0='?' (Size = 46)], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Devices" AS "d"
+    WHERE NOT ("d"."IsDeleted") AND "d"."Name" = @__dto_Name_0 AND NOT ("d"."IsDeleted"))
+2026-07-28 21:35:47.694 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "e"."Id", "e"."IsDeleted", "e"."Name"
+FROM "Employees" AS "e"
+WHERE "e"."Id" = @__p_0
+LIMIT 1
+2026-07-28 21:35:47.694 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Categories" AS "c"
+WHERE "c"."Id" = @__p_0
+LIMIT 1
+2026-07-28 21:35:47.694 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int64), @p1='?' (DbType = DateTime), @p2='?' (DbType = Int64), @p3='?' (DbType = Boolean), @p4='?' (Size = 46), @p5='?' (DbType = Int32), @p6='?' (DbType = DateTime)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Devices" ("CategoryId", "CreatedAt", "EmployeeId", "IsDeleted", "Name", "Status", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
+RETURNING "Id";
+2026-07-28 21:35:47.695 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__entity_Id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "c"."Id", "c"."IsDeleted", "c"."Name", "e"."Id", "e"."IsDeleted", "e"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__entity_Id_0
+LIMIT 1
+2026-07-28 21:35:47.695 -04:00 [INF] Executing ObjectResult, writing value of type 'DeviceManagement.Api.Models.Common.ApiResponse`1[[DeviceManagement.Api.DTOs.DeviceDto, DeviceManagement.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-07-28 21:35:47.695 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api) in 2.3986ms
+2026-07-28 21:35:47.695 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:47.695 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/device - 201 null application/json; charset=utf-8 2.9432ms
+2026-07-28 21:35:47.695 -04:00 [INF] Request starting HTTP/1.1 PUT http://localhost/api/device/12 - application/json; charset=utf-8 80
+2026-07-28 21:35:47.695 -04:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2026-07-28 21:35:47.695 -04:00 [INF] AuthenticationScheme: Bearer was challenged.
+2026-07-28 21:35:47.695 -04:00 [INF] Request finished HTTP/1.1 PUT http://localhost/api/device/12 - 401 null null 0.2444ms
+2026-07-28 21:35:47.697 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/auth/login - application/json; charset=utf-8 40
+2026-07-28 21:35:47.698 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:47.698 -04:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[DeviceManagement.Api.DTOs.Auth.LoginResponseDto]] Login(DeviceManagement.Api.DTOs.Auth.LoginRequestDto) on controller DeviceManagement.Api.Controllers.AuthController (DeviceManagement.Api).
+2026-07-28 21:35:47.698 -04:00 [INF] Login started. User: admin
+2026-07-28 21:35:47.699 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__request_Username_0='?' (Size = 5)], CommandType='"Text"', CommandTimeout='30']
+SELECT "u"."Id", "u"."IsDeleted", "u"."PasswordHash", "u"."Role", "u"."Username"
+FROM "Users" AS "u"
+WHERE "u"."Username" = @__request_Username_0 AND NOT ("u"."IsDeleted")
+LIMIT 1
+2026-07-28 21:35:47.847 -04:00 [INF] Login successful. User: admin, Role: Admin
+2026-07-28 21:35:47.848 -04:00 [INF] Executing OkObjectResult, writing value of type 'DeviceManagement.Api.DTOs.Auth.LoginResponseDto'.
+2026-07-28 21:35:47.849 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api) in 151.1012ms
+2026-07-28 21:35:47.849 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:47.849 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/auth/login - 200 null application/json; charset=utf-8 151.6939ms
+2026-07-28 21:35:47.850 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/device - application/json; charset=utf-8 98
+2026-07-28 21:35:47.850 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:47.850 -04:00 [INF] Route matched with {action = "CreateDevice", controller = "Device"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult CreateDevice(DeviceManagement.Api.DTOs.CreateDeviceDto) on controller DeviceManagement.Api.Controllers.DeviceController (DeviceManagement.Api).
+2026-07-28 21:35:47.851 -04:00 [INF] CreateDevice started
+2026-07-28 21:35:47.851 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__dto_Name_0='?' (Size = 46)], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Devices" AS "d"
+    WHERE NOT ("d"."IsDeleted") AND "d"."Name" = @__dto_Name_0 AND NOT ("d"."IsDeleted"))
+2026-07-28 21:35:47.852 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "e"."Id", "e"."IsDeleted", "e"."Name"
+FROM "Employees" AS "e"
+WHERE "e"."Id" = @__p_0
+LIMIT 1
+2026-07-28 21:35:47.852 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Categories" AS "c"
+WHERE "c"."Id" = @__p_0
+LIMIT 1
+2026-07-28 21:35:47.853 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int64), @p1='?' (DbType = DateTime), @p2='?' (DbType = Int64), @p3='?' (DbType = Boolean), @p4='?' (Size = 46), @p5='?' (DbType = Int32), @p6='?' (DbType = DateTime)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Devices" ("CategoryId", "CreatedAt", "EmployeeId", "IsDeleted", "Name", "Status", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
+RETURNING "Id";
+2026-07-28 21:35:47.853 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__entity_Id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "c"."Id", "c"."IsDeleted", "c"."Name", "e"."Id", "e"."IsDeleted", "e"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__entity_Id_0
+LIMIT 1
+2026-07-28 21:35:47.853 -04:00 [INF] Executing ObjectResult, writing value of type 'DeviceManagement.Api.Models.Common.ApiResponse`1[[DeviceManagement.Api.DTOs.DeviceDto, DeviceManagement.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-07-28 21:35:47.853 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api) in 3.0414ms
+2026-07-28 21:35:47.853 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:47.854 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/device - 201 null application/json; charset=utf-8 3.6369ms
+2026-07-28 21:35:47.854 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "e"."Id", "e"."IsDeleted", "e"."Name", "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__id_0
+LIMIT 1
+2026-07-28 21:35:47.855 -04:00 [INF] Request starting HTTP/1.1 PUT http://localhost/api/device/13 - application/json; charset=utf-8 70
+2026-07-28 21:35:47.855 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:47.855 -04:00 [INF] Route matched with {action = "UpdateDevice", controller = "Device"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult UpdateDevice(Int64, DeviceManagement.Api.DTOs.UpdateDeviceDto) on controller DeviceManagement.Api.Controllers.DeviceController (DeviceManagement.Api).
+2026-07-28 21:35:47.856 -04:00 [INF] Executing BadRequestObjectResult, writing value of type 'DeviceManagement.Api.Models.Common.ApiResponse`1[[System.Object, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-07-28 21:35:47.856 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api) in 0.8369ms
+2026-07-28 21:35:47.856 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:47.856 -04:00 [INF] Request finished HTTP/1.1 PUT http://localhost/api/device/13 - 400 null application/json; charset=utf-8 1.4289ms
+2026-07-28 21:35:47.857 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "e"."Id", "e"."IsDeleted", "e"."Name", "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__id_0
+LIMIT 1
+2026-07-28 21:35:47.859 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/auth/login - application/json; charset=utf-8 40
+2026-07-28 21:35:47.859 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:47.859 -04:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[DeviceManagement.Api.DTOs.Auth.LoginResponseDto]] Login(DeviceManagement.Api.DTOs.Auth.LoginRequestDto) on controller DeviceManagement.Api.Controllers.AuthController (DeviceManagement.Api).
+2026-07-28 21:35:47.859 -04:00 [INF] Login started. User: admin
+2026-07-28 21:35:47.860 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__request_Username_0='?' (Size = 5)], CommandType='"Text"', CommandTimeout='30']
+SELECT "u"."Id", "u"."IsDeleted", "u"."PasswordHash", "u"."Role", "u"."Username"
+FROM "Users" AS "u"
+WHERE "u"."Username" = @__request_Username_0 AND NOT ("u"."IsDeleted")
+LIMIT 1
+2026-07-28 21:35:48.008 -04:00 [INF] Login successful. User: admin, Role: Admin
+2026-07-28 21:35:48.008 -04:00 [INF] Executing OkObjectResult, writing value of type 'DeviceManagement.Api.DTOs.Auth.LoginResponseDto'.
+2026-07-28 21:35:48.009 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api) in 149.9017ms
+2026-07-28 21:35:48.009 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:48.009 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/auth/login - 200 null application/json; charset=utf-8 150.216ms
+2026-07-28 21:35:48.010 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/device - application/json; charset=utf-8 98
+2026-07-28 21:35:48.010 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:48.010 -04:00 [INF] Route matched with {action = "CreateDevice", controller = "Device"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult CreateDevice(DeviceManagement.Api.DTOs.CreateDeviceDto) on controller DeviceManagement.Api.Controllers.DeviceController (DeviceManagement.Api).
+2026-07-28 21:35:48.011 -04:00 [INF] CreateDevice started
+2026-07-28 21:35:48.011 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__dto_Name_0='?' (Size = 46)], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Devices" AS "d"
+    WHERE NOT ("d"."IsDeleted") AND "d"."Name" = @__dto_Name_0 AND NOT ("d"."IsDeleted"))
+2026-07-28 21:35:48.012 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "e"."Id", "e"."IsDeleted", "e"."Name"
+FROM "Employees" AS "e"
+WHERE "e"."Id" = @__p_0
+LIMIT 1
+2026-07-28 21:35:48.012 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Categories" AS "c"
+WHERE "c"."Id" = @__p_0
+LIMIT 1
+2026-07-28 21:35:48.012 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int64), @p1='?' (DbType = DateTime), @p2='?' (DbType = Int64), @p3='?' (DbType = Boolean), @p4='?' (Size = 46), @p5='?' (DbType = Int32), @p6='?' (DbType = DateTime)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Devices" ("CategoryId", "CreatedAt", "EmployeeId", "IsDeleted", "Name", "Status", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
+RETURNING "Id";
+2026-07-28 21:35:48.013 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__entity_Id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "c"."Id", "c"."IsDeleted", "c"."Name", "e"."Id", "e"."IsDeleted", "e"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__entity_Id_0
+LIMIT 1
+2026-07-28 21:35:48.013 -04:00 [INF] Executing ObjectResult, writing value of type 'DeviceManagement.Api.Models.Common.ApiResponse`1[[DeviceManagement.Api.DTOs.DeviceDto, DeviceManagement.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-07-28 21:35:48.013 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api) in 2.6353ms
+2026-07-28 21:35:48.013 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:48.013 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/device - 201 null application/json; charset=utf-8 3.1889ms
+2026-07-28 21:35:48.014 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "e"."Id", "e"."IsDeleted", "e"."Name", "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__id_0
+LIMIT 1
+2026-07-28 21:35:48.015 -04:00 [INF] Request starting HTTP/1.1 PUT http://localhost/api/device/14 - application/json; charset=utf-8 117
+2026-07-28 21:35:48.015 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:48.015 -04:00 [INF] Route matched with {action = "UpdateDevice", controller = "Device"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult UpdateDevice(Int64, DeviceManagement.Api.DTOs.UpdateDeviceDto) on controller DeviceManagement.Api.Controllers.DeviceController (DeviceManagement.Api).
+2026-07-28 21:35:48.016 -04:00 [INF] Executing BadRequestObjectResult, writing value of type 'DeviceManagement.Api.Models.Common.ApiResponse`1[[System.Object, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-07-28 21:35:48.016 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api) in 0.7234ms
+2026-07-28 21:35:48.016 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:48.016 -04:00 [INF] Request finished HTTP/1.1 PUT http://localhost/api/device/14 - 400 null application/json; charset=utf-8 1.3487ms
+2026-07-28 21:35:48.017 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "e"."Id", "e"."IsDeleted", "e"."Name", "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__id_0
+LIMIT 1
+2026-07-28 21:35:48.018 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/auth/login - application/json; charset=utf-8 40
+2026-07-28 21:35:48.018 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:48.019 -04:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[DeviceManagement.Api.DTOs.Auth.LoginResponseDto]] Login(DeviceManagement.Api.DTOs.Auth.LoginRequestDto) on controller DeviceManagement.Api.Controllers.AuthController (DeviceManagement.Api).
+2026-07-28 21:35:48.019 -04:00 [INF] Login started. User: admin
+2026-07-28 21:35:48.019 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__request_Username_0='?' (Size = 5)], CommandType='"Text"', CommandTimeout='30']
+SELECT "u"."Id", "u"."IsDeleted", "u"."PasswordHash", "u"."Role", "u"."Username"
+FROM "Users" AS "u"
+WHERE "u"."Username" = @__request_Username_0 AND NOT ("u"."IsDeleted")
+LIMIT 1
+2026-07-28 21:35:48.169 -04:00 [INF] Login successful. User: admin, Role: Admin
+2026-07-28 21:35:48.169 -04:00 [INF] Executing OkObjectResult, writing value of type 'DeviceManagement.Api.DTOs.Auth.LoginResponseDto'.
+2026-07-28 21:35:48.169 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api) in 150.935ms
+2026-07-28 21:35:48.170 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:48.170 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/auth/login - 200 null application/json; charset=utf-8 151.2684ms
+2026-07-28 21:35:48.171 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/device - application/json; charset=utf-8 98
+2026-07-28 21:35:48.171 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:48.171 -04:00 [INF] Route matched with {action = "CreateDevice", controller = "Device"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult CreateDevice(DeviceManagement.Api.DTOs.CreateDeviceDto) on controller DeviceManagement.Api.Controllers.DeviceController (DeviceManagement.Api).
+2026-07-28 21:35:48.171 -04:00 [INF] CreateDevice started
+2026-07-28 21:35:48.172 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__dto_Name_0='?' (Size = 46)], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Devices" AS "d"
+    WHERE NOT ("d"."IsDeleted") AND "d"."Name" = @__dto_Name_0 AND NOT ("d"."IsDeleted"))
+2026-07-28 21:35:48.172 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "e"."Id", "e"."IsDeleted", "e"."Name"
+FROM "Employees" AS "e"
+WHERE "e"."Id" = @__p_0
+LIMIT 1
+2026-07-28 21:35:48.173 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Categories" AS "c"
+WHERE "c"."Id" = @__p_0
+LIMIT 1
+2026-07-28 21:35:48.173 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int64), @p1='?' (DbType = DateTime), @p2='?' (DbType = Int64), @p3='?' (DbType = Boolean), @p4='?' (Size = 46), @p5='?' (DbType = Int32), @p6='?' (DbType = DateTime)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Devices" ("CategoryId", "CreatedAt", "EmployeeId", "IsDeleted", "Name", "Status", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
+RETURNING "Id";
+2026-07-28 21:35:48.174 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__entity_Id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "c"."Id", "c"."IsDeleted", "c"."Name", "e"."Id", "e"."IsDeleted", "e"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__entity_Id_0
+LIMIT 1
+2026-07-28 21:35:48.174 -04:00 [INF] Executing ObjectResult, writing value of type 'DeviceManagement.Api.Models.Common.ApiResponse`1[[DeviceManagement.Api.DTOs.DeviceDto, DeviceManagement.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-07-28 21:35:48.174 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api) in 2.7494ms
+2026-07-28 21:35:48.174 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:48.174 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/device - 201 null application/json; charset=utf-8 3.3389ms
+2026-07-28 21:35:48.174 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "e"."Id", "e"."IsDeleted", "e"."Name", "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__id_0
+LIMIT 1
+2026-07-28 21:35:48.175 -04:00 [INF] Request starting HTTP/1.1 PUT http://localhost/api/device/15 - application/json; charset=utf-8 116
+2026-07-28 21:35:48.175 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:48.175 -04:00 [INF] Route matched with {action = "UpdateDevice", controller = "Device"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult UpdateDevice(Int64, DeviceManagement.Api.DTOs.UpdateDeviceDto) on controller DeviceManagement.Api.Controllers.DeviceController (DeviceManagement.Api).
+2026-07-28 21:35:48.176 -04:00 [INF] Executing BadRequestObjectResult, writing value of type 'DeviceManagement.Api.Models.Common.ApiResponse`1[[System.Object, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-07-28 21:35:48.176 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api) in 0.55ms
+2026-07-28 21:35:48.176 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:48.176 -04:00 [INF] Request finished HTTP/1.1 PUT http://localhost/api/device/15 - 400 null application/json; charset=utf-8 0.9442ms
+2026-07-28 21:35:48.176 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "e"."Id", "e"."IsDeleted", "e"."Name", "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__id_0
+LIMIT 1
+2026-07-28 21:35:48.178 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/auth/login - application/json; charset=utf-8 40
+2026-07-28 21:35:48.178 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:48.178 -04:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[DeviceManagement.Api.DTOs.Auth.LoginResponseDto]] Login(DeviceManagement.Api.DTOs.Auth.LoginRequestDto) on controller DeviceManagement.Api.Controllers.AuthController (DeviceManagement.Api).
+2026-07-28 21:35:48.178 -04:00 [INF] Login started. User: admin
+2026-07-28 21:35:48.179 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__request_Username_0='?' (Size = 5)], CommandType='"Text"', CommandTimeout='30']
+SELECT "u"."Id", "u"."IsDeleted", "u"."PasswordHash", "u"."Role", "u"."Username"
+FROM "Users" AS "u"
+WHERE "u"."Username" = @__request_Username_0 AND NOT ("u"."IsDeleted")
+LIMIT 1
+2026-07-28 21:35:48.323 -04:00 [INF] Login successful. User: admin, Role: Admin
+2026-07-28 21:35:48.324 -04:00 [INF] Executing OkObjectResult, writing value of type 'DeviceManagement.Api.DTOs.Auth.LoginResponseDto'.
+2026-07-28 21:35:48.324 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api) in 146.0658ms
+2026-07-28 21:35:48.324 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:48.324 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/auth/login - 200 null application/json; charset=utf-8 146.3671ms
+2026-07-28 21:35:48.325 -04:00 [INF] Request starting HTTP/1.1 PUT http://localhost/api/device/999999 - application/json; charset=utf-8 90
+2026-07-28 21:35:48.326 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:48.326 -04:00 [INF] Route matched with {action = "UpdateDevice", controller = "Device"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult UpdateDevice(Int64, DeviceManagement.Api.DTOs.UpdateDeviceDto) on controller DeviceManagement.Api.Controllers.DeviceController (DeviceManagement.Api).
+2026-07-28 21:35:48.326 -04:00 [INF] UpdateDevice started. Id: 999999
+2026-07-28 21:35:48.327 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt"
+FROM "Devices" AS "d"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__id_0
+LIMIT 1
+2026-07-28 21:35:48.327 -04:00 [WRN] Device not found. Id: 999999
+2026-07-28 21:35:48.327 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api) in 1.4076ms
+2026-07-28 21:35:48.327 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:48.327 -04:00 [WRN] Not found
+DeviceManagement.Api.Services.NotFoundException: Device not found
+   at DeviceManagement.Api.Services.DeviceService.UpdateDevice(Int64 id, UpdateDeviceDto dto) in D:\AspNetCore\DeviceManagement\DeviceManagement.Api\Services\DeviceService.cs:line 212
+   at DeviceManagement.Api.Controllers.DeviceController.UpdateDevice(Int64 id, UpdateDeviceDto dto) in D:\AspNetCore\DeviceManagement\DeviceManagement.Api\Controllers\DeviceController.cs:line 54
+   at lambda_method624(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at DeviceManagement.Api.Middleware.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\AspNetCore\DeviceManagement\DeviceManagement.Api\Middleware\ExceptionHandlingMiddleware.cs:line 21
+2026-07-28 21:35:48.328 -04:00 [INF] Request finished HTTP/1.1 PUT http://localhost/api/device/999999 - 404 null application/json; charset=utf-8 2.3103ms
+2026-07-28 21:35:48.329 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/auth/login - application/json; charset=utf-8 40
+2026-07-28 21:35:48.329 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:48.329 -04:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[DeviceManagement.Api.DTOs.Auth.LoginResponseDto]] Login(DeviceManagement.Api.DTOs.Auth.LoginRequestDto) on controller DeviceManagement.Api.Controllers.AuthController (DeviceManagement.Api).
+2026-07-28 21:35:48.329 -04:00 [INF] Login started. User: admin
+2026-07-28 21:35:48.330 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__request_Username_0='?' (Size = 5)], CommandType='"Text"', CommandTimeout='30']
+SELECT "u"."Id", "u"."IsDeleted", "u"."PasswordHash", "u"."Role", "u"."Username"
+FROM "Users" AS "u"
+WHERE "u"."Username" = @__request_Username_0 AND NOT ("u"."IsDeleted")
+LIMIT 1
+2026-07-28 21:35:48.476 -04:00 [INF] Login successful. User: admin, Role: Admin
+2026-07-28 21:35:48.477 -04:00 [INF] Executing OkObjectResult, writing value of type 'DeviceManagement.Api.DTOs.Auth.LoginResponseDto'.
+2026-07-28 21:35:48.477 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api) in 147.9048ms
+2026-07-28 21:35:48.477 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:48.477 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/auth/login - 200 null application/json; charset=utf-8 148.2762ms
+2026-07-28 21:35:48.478 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/device - application/json; charset=utf-8 98
+2026-07-28 21:35:48.479 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:48.479 -04:00 [INF] Route matched with {action = "CreateDevice", controller = "Device"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult CreateDevice(DeviceManagement.Api.DTOs.CreateDeviceDto) on controller DeviceManagement.Api.Controllers.DeviceController (DeviceManagement.Api).
+2026-07-28 21:35:48.479 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "e"."Id", "e"."IsDeleted", "e"."Name", "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__id_0
+LIMIT 1
+2026-07-28 21:35:48.480 -04:00 [INF] CreateDevice started
+2026-07-28 21:35:48.480 -04:00 [INF] Request starting HTTP/1.1 PUT http://localhost/api/device/2 - application/json; charset=utf-8 84
+2026-07-28 21:35:48.480 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:48.480 -04:00 [INF] Route matched with {action = "UpdateDevice", controller = "Device"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult UpdateDevice(Int64, DeviceManagement.Api.DTOs.UpdateDeviceDto) on controller DeviceManagement.Api.Controllers.DeviceController (DeviceManagement.Api).
+2026-07-28 21:35:48.481 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__dto_Name_0='?' (Size = 46)], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Devices" AS "d"
+    WHERE NOT ("d"."IsDeleted") AND "d"."Name" = @__dto_Name_0 AND NOT ("d"."IsDeleted"))
+2026-07-28 21:35:48.481 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "e"."Id", "e"."IsDeleted", "e"."Name"
+FROM "Employees" AS "e"
+WHERE "e"."Id" = @__p_0
+LIMIT 1
+2026-07-28 21:35:48.481 -04:00 [INF] UpdateDevice started. Id: 2
+2026-07-28 21:35:48.481 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Categories" AS "c"
+WHERE "c"."Id" = @__p_0
+LIMIT 1
+2026-07-28 21:35:48.482 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt"
+FROM "Devices" AS "d"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__id_0
+LIMIT 1
+2026-07-28 21:35:48.482 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__dto_Name_0='?' (Size = 9), @__id_1='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Devices" AS "d"
+    WHERE NOT ("d"."IsDeleted") AND "d"."Name" = @__dto_Name_0 AND "d"."Id" <> @__id_1 AND NOT ("d"."IsDeleted"))
+2026-07-28 21:35:48.482 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int64), @p1='?' (DbType = DateTime), @p2='?' (DbType = Int64), @p3='?' (DbType = Boolean), @p4='?' (Size = 46), @p5='?' (DbType = Int32), @p6='?' (DbType = DateTime)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Devices" ("CategoryId", "CreatedAt", "EmployeeId", "IsDeleted", "Name", "Status", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
+RETURNING "Id";
+2026-07-28 21:35:48.483 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__entity_Id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "c"."Id", "c"."IsDeleted", "c"."Name", "e"."Id", "e"."IsDeleted", "e"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__entity_Id_0
+LIMIT 1
+2026-07-28 21:35:48.483 -04:00 [INF] Executing ObjectResult, writing value of type 'DeviceManagement.Api.Models.Common.ApiResponse`1[[DeviceManagement.Api.DTOs.DeviceDto, DeviceManagement.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-07-28 21:35:48.483 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api) in 4.0004ms
+2026-07-28 21:35:48.483 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:48.483 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/device - 201 null application/json; charset=utf-8 4.9166ms
+2026-07-28 21:35:48.484 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Employees" AS "e"
+    WHERE "e"."Id" = @__p_0)
+2026-07-28 21:35:48.484 -04:00 [INF] Checking CategoryId: 999999
+2026-07-28 21:35:48.488 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Categories" AS "c"
+    WHERE "c"."Id" = @__p_0)
+2026-07-28 21:35:48.488 -04:00 [INF] Category exists: false
+2026-07-28 21:35:48.488 -04:00 [INF] Throw Category NotFound
+2026-07-28 21:35:48.488 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api) in 7.4985ms
+2026-07-28 21:35:48.488 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:48.488 -04:00 [WRN] Not found
+DeviceManagement.Api.Services.NotFoundException: Category not found
+   at DeviceManagement.Api.Services.DeviceService.UpdateDevice(Int64 id, UpdateDeviceDto dto) in D:\AspNetCore\DeviceManagement\DeviceManagement.Api\Services\DeviceService.cs:line 251
+   at DeviceManagement.Api.Controllers.DeviceController.UpdateDevice(Int64 id, UpdateDeviceDto dto) in D:\AspNetCore\DeviceManagement\DeviceManagement.Api\Controllers\DeviceController.cs:line 54
+   at lambda_method624(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at DeviceManagement.Api.Middleware.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\AspNetCore\DeviceManagement\DeviceManagement.Api\Middleware\ExceptionHandlingMiddleware.cs:line 21
+2026-07-28 21:35:48.489 -04:00 [INF] Request finished HTTP/1.1 PUT http://localhost/api/device/2 - 404 null application/json; charset=utf-8 8.7537ms
+2026-07-28 21:35:48.489 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "e"."Id", "e"."IsDeleted", "e"."Name", "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__id_0
+LIMIT 1
+2026-07-28 21:35:48.491 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/auth/login - application/json; charset=utf-8 40
+2026-07-28 21:35:48.492 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:48.492 -04:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[DeviceManagement.Api.DTOs.Auth.LoginResponseDto]] Login(DeviceManagement.Api.DTOs.Auth.LoginRequestDto) on controller DeviceManagement.Api.Controllers.AuthController (DeviceManagement.Api).
+2026-07-28 21:35:48.492 -04:00 [INF] Login started. User: admin
+2026-07-28 21:35:48.492 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__request_Username_0='?' (Size = 5)], CommandType='"Text"', CommandTimeout='30']
+SELECT "u"."Id", "u"."IsDeleted", "u"."PasswordHash", "u"."Role", "u"."Username"
+FROM "Users" AS "u"
+WHERE "u"."Username" = @__request_Username_0 AND NOT ("u"."IsDeleted")
+LIMIT 1
+2026-07-28 21:35:48.635 -04:00 [INF] Login successful. User: admin, Role: Admin
+2026-07-28 21:35:48.635 -04:00 [INF] Executing OkObjectResult, writing value of type 'DeviceManagement.Api.DTOs.Auth.LoginResponseDto'.
+2026-07-28 21:35:48.636 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api) in 144.1513ms
+2026-07-28 21:35:48.636 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:48.636 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/auth/login - 200 null application/json; charset=utf-8 144.5541ms
+2026-07-28 21:35:48.637 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/device - application/json; charset=utf-8 98
+2026-07-28 21:35:48.637 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:48.637 -04:00 [INF] Route matched with {action = "CreateDevice", controller = "Device"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult CreateDevice(DeviceManagement.Api.DTOs.CreateDeviceDto) on controller DeviceManagement.Api.Controllers.DeviceController (DeviceManagement.Api).
+2026-07-28 21:35:48.637 -04:00 [INF] CreateDevice started
+2026-07-28 21:35:48.638 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__dto_Name_0='?' (Size = 46)], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Devices" AS "d"
+    WHERE NOT ("d"."IsDeleted") AND "d"."Name" = @__dto_Name_0 AND NOT ("d"."IsDeleted"))
+2026-07-28 21:35:48.638 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "e"."Id", "e"."IsDeleted", "e"."Name"
+FROM "Employees" AS "e"
+WHERE "e"."Id" = @__p_0
+LIMIT 1
+2026-07-28 21:35:48.638 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Categories" AS "c"
+WHERE "c"."Id" = @__p_0
+LIMIT 1
+2026-07-28 21:35:48.639 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int64), @p1='?' (DbType = DateTime), @p2='?' (DbType = Int64), @p3='?' (DbType = Boolean), @p4='?' (Size = 46), @p5='?' (DbType = Int32), @p6='?' (DbType = DateTime)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Devices" ("CategoryId", "CreatedAt", "EmployeeId", "IsDeleted", "Name", "Status", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
+RETURNING "Id";
+2026-07-28 21:35:48.639 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__entity_Id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "c"."Id", "c"."IsDeleted", "c"."Name", "e"."Id", "e"."IsDeleted", "e"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__entity_Id_0
+LIMIT 1
+2026-07-28 21:35:48.639 -04:00 [INF] Executing ObjectResult, writing value of type 'DeviceManagement.Api.Models.Common.ApiResponse`1[[DeviceManagement.Api.DTOs.DeviceDto, DeviceManagement.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-07-28 21:35:48.639 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api) in 2.2182ms
+2026-07-28 21:35:48.639 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:48.639 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/device - 201 null application/json; charset=utf-8 2.6899ms
+2026-07-28 21:35:48.640 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "e"."Id", "e"."IsDeleted", "e"."Name", "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__id_0
+LIMIT 1
+2026-07-28 21:35:48.640 -04:00 [INF] Request starting HTTP/1.1 PUT http://localhost/api/device/17 - application/json; charset=utf-8 89
+2026-07-28 21:35:48.640 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:48.640 -04:00 [INF] Route matched with {action = "UpdateDevice", controller = "Device"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult UpdateDevice(Int64, DeviceManagement.Api.DTOs.UpdateDeviceDto) on controller DeviceManagement.Api.Controllers.DeviceController (DeviceManagement.Api).
+2026-07-28 21:35:48.641 -04:00 [INF] UpdateDevice started. Id: 17
+2026-07-28 21:35:48.641 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt"
+FROM "Devices" AS "d"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__id_0
+LIMIT 1
+2026-07-28 21:35:48.641 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__dto_Name_0='?' (Size = 19), @__id_1='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Devices" AS "d"
+    WHERE NOT ("d"."IsDeleted") AND "d"."Name" = @__dto_Name_0 AND "d"."Id" <> @__id_1 AND NOT ("d"."IsDeleted"))
+2026-07-28 21:35:48.642 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Employees" AS "e"
+    WHERE "e"."Id" = @__p_0)
+2026-07-28 21:35:48.642 -04:00 [INF] Checking CategoryId: 2
+2026-07-28 21:35:48.642 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Categories" AS "c"
+    WHERE "c"."Id" = @__p_0)
+2026-07-28 21:35:48.642 -04:00 [INF] Category exists: true
+2026-07-28 21:35:48.643 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@p5='?' (DbType = Int64), @p0='?' (DbType = Int64), @p1='?' (DbType = Int64), @p2='?' (Size = 19), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Devices" SET "CategoryId" = @p0, "EmployeeId" = @p1, "Name" = @p2, "Status" = @p3, "UpdatedAt" = @p4
+WHERE "Id" = @p5
+RETURNING 1;
+2026-07-28 21:35:48.643 -04:00 [INF] Device updated successfully. Id: 17
+2026-07-28 21:35:48.649 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__device_Id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "c"."Id", "c"."IsDeleted", "c"."Name", "e"."Id", "e"."IsDeleted", "e"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__device_Id_0
+LIMIT 1
+2026-07-28 21:35:48.649 -04:00 [INF] Executing OkObjectResult, writing value of type 'DeviceManagement.Api.Models.Common.ApiResponse`1[[DeviceManagement.Api.DTOs.DeviceDto, DeviceManagement.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-07-28 21:35:48.649 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api) in 8.9699ms
+2026-07-28 21:35:48.650 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:48.650 -04:00 [INF] Request finished HTTP/1.1 PUT http://localhost/api/device/17 - 200 null application/json; charset=utf-8 9.3216ms
+2026-07-28 21:35:48.650 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "e"."Id", "e"."IsDeleted", "e"."Name", "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__id_0
+LIMIT 1
+2026-07-28 21:35:48.652 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/auth/login - application/json; charset=utf-8 40
+2026-07-28 21:35:48.652 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:48.652 -04:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[DeviceManagement.Api.DTOs.Auth.LoginResponseDto]] Login(DeviceManagement.Api.DTOs.Auth.LoginRequestDto) on controller DeviceManagement.Api.Controllers.AuthController (DeviceManagement.Api).
+2026-07-28 21:35:48.653 -04:00 [INF] Login started. User: admin
+2026-07-28 21:35:48.653 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__request_Username_0='?' (Size = 5)], CommandType='"Text"', CommandTimeout='30']
+SELECT "u"."Id", "u"."IsDeleted", "u"."PasswordHash", "u"."Role", "u"."Username"
+FROM "Users" AS "u"
+WHERE "u"."Username" = @__request_Username_0 AND NOT ("u"."IsDeleted")
+LIMIT 1
+2026-07-28 21:35:48.812 -04:00 [INF] Login successful. User: admin, Role: Admin
+2026-07-28 21:35:48.813 -04:00 [INF] Executing OkObjectResult, writing value of type 'DeviceManagement.Api.DTOs.Auth.LoginResponseDto'.
+2026-07-28 21:35:48.814 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api) in 161.7485ms
+2026-07-28 21:35:48.814 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.AuthController.Login (DeviceManagement.Api)'
+2026-07-28 21:35:48.814 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/auth/login - 200 null application/json; charset=utf-8 162.2791ms
+2026-07-28 21:35:48.816 -04:00 [INF] Request starting HTTP/1.1 POST http://localhost/api/device - application/json; charset=utf-8 98
+2026-07-28 21:35:48.816 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:48.816 -04:00 [INF] Route matched with {action = "CreateDevice", controller = "Device"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult CreateDevice(DeviceManagement.Api.DTOs.CreateDeviceDto) on controller DeviceManagement.Api.Controllers.DeviceController (DeviceManagement.Api).
+2026-07-28 21:35:48.817 -04:00 [INF] CreateDevice started
+2026-07-28 21:35:48.817 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "e"."Id", "e"."IsDeleted", "e"."Name", "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__id_0
+LIMIT 1
+2026-07-28 21:35:48.817 -04:00 [INF] Request starting HTTP/1.1 PUT http://localhost/api/device/3 - application/json; charset=utf-8 90
+2026-07-28 21:35:48.817 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:48.817 -04:00 [INF] Route matched with {action = "UpdateDevice", controller = "Device"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult UpdateDevice(Int64, DeviceManagement.Api.DTOs.UpdateDeviceDto) on controller DeviceManagement.Api.Controllers.DeviceController (DeviceManagement.Api).
+2026-07-28 21:35:48.818 -04:00 [INF] UpdateDevice started. Id: 3
+2026-07-28 21:35:48.818 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt"
+FROM "Devices" AS "d"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__id_0
+LIMIT 1
+2026-07-28 21:35:48.818 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api) in 1.9686ms
+2026-07-28 21:35:48.818 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.DeviceController.CreateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:48.818 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__dto_Name_0='?' (Size = 17), @__id_1='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Devices" AS "d"
+    WHERE NOT ("d"."IsDeleted") AND "d"."Name" = @__dto_Name_0 AND "d"."Id" <> @__id_1 AND NOT ("d"."IsDeleted"))
+2026-07-28 21:35:48.818 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Employees" AS "e"
+    WHERE "e"."Id" = @__p_0)
+2026-07-28 21:35:48.818 -04:00 [INF] Executed action DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api) in 1.1637ms
+2026-07-28 21:35:48.818 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.Controllers.DeviceController.UpdateDevice (DeviceManagement.Api)'
+2026-07-28 21:35:48.819 -04:00 [WRN] Not found
+DeviceManagement.Api.Services.NotFoundException: Employee not found
+   at DeviceManagement.Api.Services.DeviceService.UpdateDevice(Int64 id, UpdateDeviceDto dto) in D:\AspNetCore\DeviceManagement\DeviceManagement.Api\Services\DeviceService.cs:line 232
+   at DeviceManagement.Api.Controllers.DeviceController.UpdateDevice(Int64 id, UpdateDeviceDto dto) in D:\AspNetCore\DeviceManagement\DeviceManagement.Api\Controllers\DeviceController.cs:line 54
+   at lambda_method624(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at DeviceManagement.Api.Middleware.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\AspNetCore\DeviceManagement\DeviceManagement.Api\Middleware\ExceptionHandlingMiddleware.cs:line 21
+2026-07-28 21:35:48.819 -04:00 [INF] Request finished HTTP/1.1 PUT http://localhost/api/device/3 - 404 null application/json; charset=utf-8 1.878ms
+2026-07-28 21:35:48.818 -04:00 [ERR] Unhandled exception occurred
+Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 5: 'database is locked For more information on this error code see https://www.sqlite.org/rescode.html'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteConnection.CreateFunctionCore[TState,TResult](String name, Int32 arity, TState state, Func`3 function, Boolean isDeterministic)
+   at Microsoft.Data.Sqlite.SqliteConnection.CreateFunction[T1,T2,TResult](String name, Func`3 function, Boolean isDeterministic)
+   at Microsoft.EntityFrameworkCore.Sqlite.Storage.Internal.SqliteRelationalConnection.InitializeDbConnection(DbConnection connection)
+   at Microsoft.EntityFrameworkCore.Sqlite.Storage.Internal.SqliteRelationalConnection..ctor(RelationalConnectionDependencies dependencies, IRawSqlCommandBuilder rawSqlCommandBuilder, IDiagnosticsLogger`1 logger)
+   at ResolveService(ILEmitResolverBuilderRuntimeContext, ServiceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(ServiceIdentifier serviceIdentifier, ServiceProviderEngineScope serviceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope.GetService(Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at Microsoft.Extensions.DependencyInjection.SqliteServiceCollectionExtensions.<>c.<AddEntityFrameworkSqlite>b__1_0(IServiceProvider p)
+   at ResolveService(ILEmitResolverBuilderRuntimeContext, ServiceProviderEngineScope)
+   at ResolveService(ILEmitResolverBuilderRuntimeContext, ServiceProviderEngineScope)
+   at ResolveService(ILEmitResolverBuilderRuntimeContext, ServiceProviderEngineScope)
+   at ResolveService(ILEmitResolverBuilderRuntimeContext, ServiceProviderEngineScope)
+   at ResolveService(ILEmitResolverBuilderRuntimeContext, ServiceProviderEngineScope)
+   at ResolveService(ILEmitResolverBuilderRuntimeContext, ServiceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(ServiceIdentifier serviceIdentifier, ServiceProviderEngineScope serviceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope.GetService(Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at Microsoft.EntityFrameworkCore.DbContext.get_DbContextDependencies()
+   at Microsoft.EntityFrameworkCore.DbContext.get_ContextServices()
+   at Microsoft.EntityFrameworkCore.DbContext.get_Model()
+   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityType()
+   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.CheckState()
+   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityQueryable()
+   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.Any[TSource](IQueryable`1 source, Expression`1 predicate)
+   at DeviceManagement.Api.Services.DeviceService.AddDevice(CreateDeviceDto dto) in D:\AspNetCore\DeviceManagement\DeviceManagement.Api\Services\DeviceService.cs:line 35
+   at DeviceManagement.Api.Controllers.DeviceController.CreateDevice(CreateDeviceDto dto) in D:\AspNetCore\DeviceManagement\DeviceManagement.Api\Controllers\DeviceController.cs:line 46
+   at lambda_method621(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at DeviceManagement.Api.Middleware.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\AspNetCore\DeviceManagement\DeviceManagement.Api\Middleware\ExceptionHandlingMiddleware.cs:line 21
+2026-07-28 21:35:48.819 -04:00 [INF] Request finished HTTP/1.1 POST http://localhost/api/device - 500 null application/json; charset=utf-8 3.7824ms
+2026-07-28 21:35:48.820 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."CategoryId", "d"."CreatedAt", "d"."EmployeeId", "d"."IsDeleted", "d"."Name", "d"."Status", "d"."UpdatedAt", "e"."Id", "e"."IsDeleted", "e"."Name", "c"."Id", "c"."IsDeleted", "c"."Name"
+FROM "Devices" AS "d"
+INNER JOIN "Employees" AS "e" ON "d"."EmployeeId" = "e"."Id"
+INNER JOIN "Categories" AS "c" ON "d"."CategoryId" = "c"."Id"
+WHERE NOT ("d"."IsDeleted") AND "d"."Id" = @__id_0
+LIMIT 1

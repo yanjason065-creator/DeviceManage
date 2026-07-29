@@ -46,9 +46,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             //Arrange
             await LoginAsAdminAsync();
 
-            //var request = DeviceTestData.CreateValidRequest();
-
-            //var request = new DeviceBuilder().BuildCreateDto();
+          
             var request = DeviceBuilder.Default().BuildCreateDto();
 
             var before = DateTime.UtcNow;
@@ -115,9 +113,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             var request = DeviceTestData.CreateValidRequest();
 
             //Act
-            //var response = await Client.PostAsJsonAsync(
-            //    DeviceUrl,
-            //    request);
+        
             var response = await DeviceApi.CreateAsync(request);
 
             //Assert
@@ -134,9 +130,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             var request = DeviceTestData.CreateValidRequest();
 
             //Act
-            //var response = await Client.PostAsJsonAsync(
-            //    DeviceUrl,
-            //    request);
+         
             var response = await DeviceApi.CreateAsync(request);
 
             //Assert
@@ -155,25 +149,10 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             request.Name = "";
 
             //Act
-            //var response = await Client.PostAsJsonAsync(
-            //    DeviceUrl,
-            //    request);
+          
             var response = await DeviceApi.CreateAsync(request);
             //Assert
-            //response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-
-            //var result = await response.Content.ReadFromJsonAsync<ValidationErrorResponse>();
-
-            //result.Should().NotBeNull();
-
-            //result!.Success.Should().BeFalse();
-
-            //result.Message.Should().Be("Validation failed");
-
-            //result.Data.Should().ContainKey("Name");
-
-            //result.Data["Name"].Should()
-            //    .Contain("Device name is required.");
+          
 
             await ValidationAssertions.ShouldHaveValidationError(
                 response,
@@ -190,9 +169,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             request.Name = "A";
 
             //Act
-            //var response = await Client.PostAsJsonAsync(
-            //    DeviceUrl,
-            //    request);
+       
             var response = await DeviceApi.CreateAsync(request);
 
             //Assert
@@ -201,15 +178,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
                 .Be(HttpStatusCode.BadRequest);
 
             //Response
-            //var result = await response.Content
-            //    .ReadFromJsonAsync<ValidationErrorResponse>();
-            //result.Should().NotBeNull();
-            //result!.Success.Should().BeFalse();
-            //result.Message.Should().Be("Validation failed");
-            //result.Data?.Should().ContainKey("Name");
-            //result.Data["Name"]
-            //    .Should()
-            //    .Contain("Device name must be between 2 and 50 characters.");
+          
 
             await ValidationAssertions.ShouldHaveValidationError(
                 response,
@@ -227,9 +196,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             request.Name = new string('A', 51);
 
             //Act
-            //var response = await Client.PostAsJsonAsync(
-            //    DeviceUrl,
-            //    request);
+ 
             var response = await DeviceApi.CreateAsync(request);
 
             //Assert
@@ -237,14 +204,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
             //Response
-            //var result = await response.Content.ReadFromJsonAsync<ValidationErrorResponse>();
-            //result.Should().NotBeNull();
-            //result!.Success.Should().BeFalse();
-            //result.Message.Should().Be("Validation failed");
-            //result.Data?.Should().ContainKey("Name");
-            //result.Data["Name"]
-            //    .Should()
-            //    .Contain("Device name must be between 2 and 50 characters.");
+         
 
             await ValidationAssertions.ShouldHaveValidationError(
                 response,
@@ -262,9 +222,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             request.Status = (DeviceStatus)999;
 
             //Act
-            //var response = await Client.PostAsJsonAsync(
-            //    DeviceUrl,
-            //    request);
+          
             var response = await DeviceApi.CreateAsync(request);
 
             //Assert
@@ -284,9 +242,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             request.EmployeeId = 0;
 
             //Act
-            //var response = await Client.PostAsJsonAsync(
-            //    DeviceUrl,
-            //    request);
+          
             var response = await DeviceApi.CreateAsync(request);
             //Assert
             response.StatusCode.Should()
@@ -307,9 +263,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
 
             //Act
-            //var response = await Client.PostAsJsonAsync(
-            //    DeviceUrl,
-            //    request);
+         
             var response = await DeviceApi.CreateAsync(request);
 
             //Assert
@@ -332,9 +286,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             request.CategoryId = 0;
 
             //Act
-            //var response = await Client.PostAsJsonAsync(
-            //    DeviceUrl,
-            //    request);
+          
             var response = await DeviceApi.CreateAsync(request);
 
             //Assert
@@ -355,9 +307,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             request.CategoryId = 10;
 
             //Act
-            //var response = await Client.PostAsJsonAsync(
-            //    DeviceUrl,
-            //    request);
+       
             var response = await DeviceApi.CreateAsync(request);
 
             //Assert
@@ -379,9 +329,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
             var request = DeviceTestData.CreateValidRequest();
 
             //Act
-            //var firstResponse = await Client.PostAsJsonAsync(
-            //    DeviceUrl,
-            //    request);
+         
             var firstResponse = await DeviceApi.CreateAsync(request);
 
             firstResponse.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -391,9 +339,7 @@ namespace DeviceManagement.Api.Tests.IntegrationTests.Controllers.Devices
 
             var countBefore = await Database.CountDevicesAsync();
 
-            //var response = await Client.PostAsJsonAsync(
-            //    DeviceUrl,
-            //    duplicateRequest);
+         
             var response = await DeviceApi.CreateAsync(request);
 
             var countAfter = await Database.CountDevicesAsync();

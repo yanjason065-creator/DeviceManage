@@ -52,10 +52,7 @@ namespace DeviceManagement.Api.Controllers
         {
 
             var result = _deviceService.UpdateDevice(id, dto);
-            if (null == result)
-            {
-                return NotFound();
-            }
+            
             return Ok(ApiResponse<DeviceDto>.Ok(result));
         }
 
