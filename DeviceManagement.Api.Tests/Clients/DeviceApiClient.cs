@@ -12,7 +12,7 @@ namespace DeviceManagement.Api.Tests.Clients
     public class DeviceApiClient
     {
         private readonly HttpClient _client;
-        private const string deviceUrl = "/api/device";
+        private const string DeviceUrl = "/api/device";
         public DeviceApiClient(HttpClient client)
         {
             _client = client;
@@ -21,35 +21,43 @@ namespace DeviceManagement.Api.Tests.Clients
         public async Task<HttpResponseMessage> GetAllAsync(string? query = null) 
         {
 
-            var url = deviceUrl;
-            if(!string.IsNullOrEmpty(query))
-            {
-                url += query;
-            }
+            var url = BuildUrl(query);            
 
             return await _client.GetAsync(url);
         }
 
         public async Task<HttpResponseMessage> CreateAsync(CreateDeviceDto dto)
         {
-            return await _client.PostAsJsonAsync(deviceUrl, dto);
+            return await _client.PostAsJsonAsync(DeviceUrl, dto);
         }
 
         public async Task<HttpResponseMessage> UpdateAsync(long id, UpdateDeviceDto dto)
         {
             return await _client.PutAsJsonAsync(
-                $"{deviceUrl}/{id}",
+                $"{DeviceUrl}/{id}",
                 dto);
         }
 
         public async Task<HttpResponseMessage> DeleteAsync(long id)
         {
-            return await _client.DeleteAsync($"{deviceUrl}/{id}");
+            return await _client.DeleteAsync($"{DeviceUrl}/{id}");
         }
 
-        public async Task<HttpResponseMessage> GetAsync(long id)
+        public async Task<HttpResponseMessage> GetByIdAsync(long id)
         {
-            return await _client.GetAsync($"{deviceUrl}/{id}");
+            return await _client.GetAsync($"{DeviceUrl}/{id}");
+        }
+
+        private static string BuildUrl(string? query)
+        {
+            if(string.IsNullOrEmpty(query))
+            {
+                return DeviceUrl;
+            }
+
+            return query.StartsWith("?")
+                ? $"{DeviceUrl}{query}"
+                :$"{DeviceUrl}?{query}";
         }
     }
 }

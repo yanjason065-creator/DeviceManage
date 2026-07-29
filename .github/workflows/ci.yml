@@ -99,6 +99,8 @@ jobs:
           -reports:"**/coverage.cobertura.xml" \
           -targetdir:"coverage-report" \
           -reporttypes:Html
+          -historydir:coverage-history
+          -classfiltres:"-DeviceManagement.Api.Migrations.*"
 
 
       - name: Upload Coverage Report

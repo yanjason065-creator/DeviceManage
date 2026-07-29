@@ -165,6 +165,7 @@ namespace DeviceManagement.Api
             
             app.UseMiddleware<ExceptionHandlingMiddleware>();
 
+
             app.MapControllers();
 
             app.Run();

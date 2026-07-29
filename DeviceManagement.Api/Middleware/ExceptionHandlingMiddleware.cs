@@ -35,7 +35,7 @@ namespace DeviceManagement.Api.Middleware
 
                 await context.Response.WriteAsJsonAsync(response);
             }
-            catch(ValidationException ex)
+            catch(FluentValidation.ValidationException ex)
             {
                 _logger.LogWarning(ex, "Bad Request");
                 context.Response.ContentType = "application/json";
@@ -50,21 +50,21 @@ namespace DeviceManagement.Api.Middleware
 
                 await context.Response.WriteAsJsonAsync(response);
             }
-            catch (KeyNotFoundException ex)
-            {
-                _logger.LogWarning(ex, "Unauthorized access");
-                context.Response.ContentType = "application/json";
-                context.Response.StatusCode =
-                    StatusCodes.Status404NotFound;
+            //catch (KeyNotFoundException ex)
+            //{
+            //    _logger.LogWarning(ex, "Unauthorized access");
+            //    context.Response.ContentType = "application/json";
+            //    context.Response.StatusCode =
+            //        StatusCodes.Status404NotFound;
 
-                var response = new
-                {
-                    success = false,
-                    message = ex.Message
-                };
+            //    var response = new
+            //    {
+            //        success = false,
+            //        message = ex.Message
+            //    };
 
-                await context.Response.WriteAsJsonAsync(response);
-            }
+            //    await context.Response.WriteAsJsonAsync(response);
+            //}
             catch(NotFoundException ex)
             {
                 _logger.LogWarning(ex, "Not found");
@@ -82,7 +82,7 @@ namespace DeviceManagement.Api.Middleware
             }
             catch(ConflictException ex)
             {
-                _logger.LogWarning($"Conflict {ex.Message}");
+                _logger.LogWarning(ex,"Conflict occurred");
                 context.Response.ContentType = "application/json";
                 context.Response.StatusCode = 
                     StatusCodes.Status409Conflict;
@@ -105,8 +105,8 @@ namespace DeviceManagement.Api.Middleware
                 var response = new
                 {
                     success = false,
-                    message = "Internal Server Error",
-                    error = ex.Message
+                    message = "Internal Server Error"
+                    //error = ex.Message
                 };
 
                 await context.Response.WriteAsJsonAsync(response);
