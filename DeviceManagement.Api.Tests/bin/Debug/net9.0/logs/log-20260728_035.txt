@@ -183,3 +183,92 @@ DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
 DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
 2026-07-28 21:58:38.129 -04:00 [INF] AuthenticationScheme: Bearer was challenged.
 2026-07-28 21:58:38.129 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost/api/device - 401 null null 0.5154ms
+2026-07-28 22:21:15.781 -04:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "type" = 'table' AND "rootpage" IS NOT NULL;
+2026-07-28 22:21:15.891 -04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Categories" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_Categories" PRIMARY KEY AUTOINCREMENT,
+    "Name" TEXT NOT NULL,
+    "IsDeleted" INTEGER NOT NULL
+);
+2026-07-28 22:21:15.891 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Employees" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_Employees" PRIMARY KEY AUTOINCREMENT,
+    "Name" TEXT NOT NULL,
+    "IsDeleted" INTEGER NOT NULL
+);
+2026-07-28 22:21:15.891 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Users" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_Users" PRIMARY KEY AUTOINCREMENT,
+    "Username" TEXT NOT NULL,
+    "PasswordHash" TEXT NOT NULL,
+    "Role" TEXT NOT NULL,
+    "IsDeleted" INTEGER NOT NULL
+);
+2026-07-28 22:21:15.891 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Devices" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_Devices" PRIMARY KEY AUTOINCREMENT,
+    "Name" TEXT NOT NULL,
+    "Status" INTEGER NOT NULL,
+    "IsDeleted" INTEGER NOT NULL,
+    "CategoryId" INTEGER NOT NULL,
+    "EmployeeId" INTEGER NOT NULL,
+    "CreatedAt" TEXT NOT NULL,
+    "UpdatedAt" TEXT NULL,
+    CONSTRAINT "FK_Devices_Categories_CategoryId" FOREIGN KEY ("CategoryId") REFERENCES "Categories" ("Id") ON DELETE RESTRICT,
+    CONSTRAINT "FK_Devices_Employees_EmployeeId" FOREIGN KEY ("EmployeeId") REFERENCES "Employees" ("Id") ON DELETE RESTRICT
+);
+2026-07-28 22:21:15.892 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Categories" ("Id", "IsDeleted", "Name")
+VALUES (1, 0, 'Laptop');
+SELECT changes();
+
+INSERT INTO "Categories" ("Id", "IsDeleted", "Name")
+VALUES (2, 0, 'Desktop');
+SELECT changes();
+
+INSERT INTO "Categories" ("Id", "IsDeleted", "Name")
+VALUES (3, 0, 'Monitor');
+SELECT changes();
+2026-07-28 22:21:15.892 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Employees" ("Id", "IsDeleted", "Name")
+VALUES (1, 0, 'Jason Yan');
+SELECT changes();
+
+INSERT INTO "Employees" ("Id", "IsDeleted", "Name")
+VALUES (2, 0, 'Freya Liu');
+SELECT changes();
+2026-07-28 22:21:15.892 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Users" ("Id", "IsDeleted", "PasswordHash", "Role", "Username")
+VALUES (1, 0, '$2a$11$ogfduxgaoWgAXcmymvqCG.Xd3ud9PrXV.0eFiCMDuu2Kx25cnf/pu', 'Admin', 'admin');
+SELECT changes();
+
+INSERT INTO "Users" ("Id", "IsDeleted", "PasswordHash", "Role", "Username")
+VALUES (2, 0, '$2a$11$ogfduxgaoWgAXcmymvqCG.Xd3ud9PrXV.0eFiCMDuu2Kx25cnf/pu', 'User', 'JasonYan');
+SELECT changes();
+2026-07-28 22:21:15.892 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Devices" ("Id", "CategoryId", "CreatedAt", "EmployeeId", "IsDeleted", "Name", "Status", "UpdatedAt")
+VALUES (1, 1, '2026-01-01 00:00:00', 1, 0, 'Laptop1', 0, '2026-01-01 00:00:00');
+SELECT changes();
+
+INSERT INTO "Devices" ("Id", "CategoryId", "CreatedAt", "EmployeeId", "IsDeleted", "Name", "Status", "UpdatedAt")
+VALUES (2, 2, '2026-01-01 00:00:00', 2, 0, 'Desktop1', 1, '2026-01-01 00:00:00');
+SELECT changes();
+
+INSERT INTO "Devices" ("Id", "CategoryId", "CreatedAt", "EmployeeId", "IsDeleted", "Name", "Status", "UpdatedAt")
+VALUES (3, 3, '2026-01-01 00:00:00', 1, 0, 'Monitor1', 3, '2026-01-01 00:00:00');
+SELECT changes();
+
+INSERT INTO "Devices" ("Id", "CategoryId", "CreatedAt", "EmployeeId", "IsDeleted", "Name", "Status", "UpdatedAt")
+VALUES (4, 1, '2026-01-01 00:00:00', 1, 1, 'DeletedLaptop', 0, '2026-01-01 00:00:00');
+SELECT changes();
+2026-07-28 22:21:15.892 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "IX_Devices_CategoryId" ON "Devices" ("CategoryId");
+2026-07-28 22:21:15.892 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "IX_Devices_EmployeeId" ON "Devices" ("EmployeeId");
+2026-07-28 22:21:15.947 -04:00 [INF] User profile is available. Using 'C:\Users\yanja\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-07-28 22:21:16.118 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost/health - null null
+2026-07-28 22:21:16.127 -04:00 [WRN] Failed to determine the https port for redirect.
+2026-07-28 22:21:17.657 -04:00 [INF] Executing endpoint 'Health checks'
+2026-07-28 22:21:17.665 -04:00 [INF] Executed endpoint 'Health checks'
+2026-07-28 22:21:17.668 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost/health - 200 null text/plain 1551.4154ms
