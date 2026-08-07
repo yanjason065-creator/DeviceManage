@@ -1,0 +1,16 @@
+{
+  "stryker-config": {
+    "test-projects": [
+      "DeviceManagement.Api.Tests.csproj"
+    ],
+    "mutate": [
+      "../DeviceManagement.Api/**/*.cs",
+      "!../DeviceManagement.Api/Migrations/**/*.cs",
+      "!../DeviceManagement.Api/Program.cs"
+    ],
+    "reporters": [
+      "html",
+      "progress"
+    ]
+  }
+}

@@ -1,0 +1,181 @@
+2026-07-28 22:21:31.531 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "type" = 'table' AND "rootpage" IS NOT NULL;
+2026-07-28 22:21:31.539 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Categories" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_Categories" PRIMARY KEY AUTOINCREMENT,
+    "Name" TEXT NOT NULL,
+    "IsDeleted" INTEGER NOT NULL
+);
+2026-07-28 22:21:31.539 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Employees" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_Employees" PRIMARY KEY AUTOINCREMENT,
+    "Name" TEXT NOT NULL,
+    "IsDeleted" INTEGER NOT NULL
+);
+2026-07-28 22:21:31.540 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Users" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_Users" PRIMARY KEY AUTOINCREMENT,
+    "Username" TEXT NOT NULL,
+    "PasswordHash" TEXT NOT NULL,
+    "Role" TEXT NOT NULL,
+    "IsDeleted" INTEGER NOT NULL
+);
+2026-07-28 22:21:31.540 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Devices" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_Devices" PRIMARY KEY AUTOINCREMENT,
+    "Name" TEXT NOT NULL,
+    "Status" INTEGER NOT NULL,
+    "IsDeleted" INTEGER NOT NULL,
+    "CategoryId" INTEGER NOT NULL,
+    "EmployeeId" INTEGER NOT NULL,
+    "CreatedAt" TEXT NOT NULL,
+    "UpdatedAt" TEXT NULL,
+    CONSTRAINT "FK_Devices_Categories_CategoryId" FOREIGN KEY ("CategoryId") REFERENCES "Categories" ("Id") ON DELETE RESTRICT,
+    CONSTRAINT "FK_Devices_Employees_EmployeeId" FOREIGN KEY ("EmployeeId") REFERENCES "Employees" ("Id") ON DELETE RESTRICT
+);
+2026-07-28 22:21:31.540 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Categories" ("Id", "IsDeleted", "Name")
+VALUES (1, 0, 'Laptop');
+SELECT changes();
+
+INSERT INTO "Categories" ("Id", "IsDeleted", "Name")
+VALUES (2, 0, 'Desktop');
+SELECT changes();
+
+INSERT INTO "Categories" ("Id", "IsDeleted", "Name")
+VALUES (3, 0, 'Monitor');
+SELECT changes();
+2026-07-28 22:21:31.541 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Employees" ("Id", "IsDeleted", "Name")
+VALUES (1, 0, 'Jason Yan');
+SELECT changes();
+
+INSERT INTO "Employees" ("Id", "IsDeleted", "Name")
+VALUES (2, 0, 'Freya Liu');
+SELECT changes();
+2026-07-28 22:21:31.541 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Users" ("Id", "IsDeleted", "PasswordHash", "Role", "Username")
+VALUES (1, 0, '$2a$11$ogfduxgaoWgAXcmymvqCG.Xd3ud9PrXV.0eFiCMDuu2Kx25cnf/pu', 'Admin', 'admin');
+SELECT changes();
+
+INSERT INTO "Users" ("Id", "IsDeleted", "PasswordHash", "Role", "Username")
+VALUES (2, 0, '$2a$11$ogfduxgaoWgAXcmymvqCG.Xd3ud9PrXV.0eFiCMDuu2Kx25cnf/pu', 'User', 'JasonYan');
+SELECT changes();
+2026-07-28 22:21:31.541 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Devices" ("Id", "CategoryId", "CreatedAt", "EmployeeId", "IsDeleted", "Name", "Status", "UpdatedAt")
+VALUES (1, 1, '2026-01-01 00:00:00', 1, 0, 'Laptop1', 0, '2026-01-01 00:00:00');
+SELECT changes();
+
+INSERT INTO "Devices" ("Id", "CategoryId", "CreatedAt", "EmployeeId", "IsDeleted", "Name", "Status", "UpdatedAt")
+VALUES (2, 2, '2026-01-01 00:00:00', 2, 0, 'Desktop1', 1, '2026-01-01 00:00:00');
+SELECT changes();
+
+INSERT INTO "Devices" ("Id", "CategoryId", "CreatedAt", "EmployeeId", "IsDeleted", "Name", "Status", "UpdatedAt")
+VALUES (3, 3, '2026-01-01 00:00:00', 1, 0, 'Monitor1', 3, '2026-01-01 00:00:00');
+SELECT changes();
+
+INSERT INTO "Devices" ("Id", "CategoryId", "CreatedAt", "EmployeeId", "IsDeleted", "Name", "Status", "UpdatedAt")
+VALUES (4, 1, '2026-01-01 00:00:00', 1, 1, 'DeletedLaptop', 0, '2026-01-01 00:00:00');
+SELECT changes();
+2026-07-28 22:21:31.541 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "IX_Devices_CategoryId" ON "Devices" ("CategoryId");
+2026-07-28 22:21:31.541 -04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "IX_Devices_EmployeeId" ON "Devices" ("EmployeeId");
+2026-07-28 22:21:31.551 -04:00 [INF] User profile is available. Using 'C:\Users\yanja\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-07-28 22:21:31.559 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost/api/test/exceptions/unknown - null null
+2026-07-28 22:21:31.561 -04:00 [WRN] Failed to determine the https port for redirect.
+2026-07-28 22:21:31.562 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.TestSupport.TestExceptionController.Unknown (DeviceManagement.Api)'
+2026-07-28 22:21:31.567 -04:00 [INF] Route matched with {action = "Unknown", controller = "TestException"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Unknown() on controller DeviceManagement.Api.TestSupport.TestExceptionController (DeviceManagement.Api).
+2026-07-28 22:21:31.570 -04:00 [INF] Executed action DeviceManagement.Api.TestSupport.TestExceptionController.Unknown (DeviceManagement.Api) in 0.5948ms
+2026-07-28 22:21:31.570 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.TestSupport.TestExceptionController.Unknown (DeviceManagement.Api)'
+2026-07-28 22:21:31.571 -04:00 [ERR] Unhandled exception occurred
+System.Exception: Unexpected error
+   at DeviceManagement.Api.TestSupport.TestExceptionController.Unknown()
+   at lambda_method118(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at DeviceManagement.Api.Middleware.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context)
+2026-07-28 22:21:31.619 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost/api/test/exceptions/unknown - 500 null application/json; charset=utf-8 59.4044ms
+2026-07-28 22:21:31.623 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost/api/test/exceptions/conflict - null null
+2026-07-28 22:21:31.624 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.TestSupport.TestExceptionController.Conflict (DeviceManagement.Api)'
+2026-07-28 22:21:31.625 -04:00 [INF] Route matched with {action = "Conflict", controller = "TestException"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Conflict() on controller DeviceManagement.Api.TestSupport.TestExceptionController (DeviceManagement.Api).
+2026-07-28 22:21:31.625 -04:00 [INF] Executed action DeviceManagement.Api.TestSupport.TestExceptionController.Conflict (DeviceManagement.Api) in 0.2224ms
+2026-07-28 22:21:31.625 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.TestSupport.TestExceptionController.Conflict (DeviceManagement.Api)'
+2026-07-28 22:21:31.625 -04:00 [WRN] Conflict occurred
+DeviceManagement.Api.Services.ConflictException: Device already exists
+   at DeviceManagement.Api.TestSupport.TestExceptionController.Conflict()
+   at lambda_method120(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at DeviceManagement.Api.Middleware.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context)
+2026-07-28 22:21:31.626 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost/api/test/exceptions/conflict - 409 null application/json; charset=utf-8 2.9571ms
+2026-07-28 22:21:31.628 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost/api/test/exceptions/validation - null null
+2026-07-28 22:21:31.630 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.TestSupport.TestExceptionController.Validation (DeviceManagement.Api)'
+2026-07-28 22:21:31.630 -04:00 [INF] Route matched with {action = "Validation", controller = "TestException"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Validation() on controller DeviceManagement.Api.TestSupport.TestExceptionController (DeviceManagement.Api).
+2026-07-28 22:21:31.630 -04:00 [INF] Executed action DeviceManagement.Api.TestSupport.TestExceptionController.Validation (DeviceManagement.Api) in 0.2447ms
+2026-07-28 22:21:31.630 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.TestSupport.TestExceptionController.Validation (DeviceManagement.Api)'
+2026-07-28 22:21:31.631 -04:00 [WRN] Bad Request
+FluentValidation.ValidationException: Test validation exception
+   at DeviceManagement.Api.TestSupport.TestExceptionController.Validation()
+   at lambda_method122(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at DeviceManagement.Api.Middleware.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context)
+2026-07-28 22:21:31.631 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost/api/test/exceptions/validation - 400 null application/json; charset=utf-8 2.6554ms
+2026-07-28 22:21:31.654 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost/api/test/exceptions/notfound - null null
+2026-07-28 22:21:31.655 -04:00 [INF] Executing endpoint 'DeviceManagement.Api.TestSupport.TestExceptionController.NotFoundException (DeviceManagement.Api)'
+2026-07-28 22:21:31.655 -04:00 [INF] Route matched with {action = "NotFoundException", controller = "TestException"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult NotFoundException() on controller DeviceManagement.Api.TestSupport.TestExceptionController (DeviceManagement.Api).
+2026-07-28 22:21:31.655 -04:00 [INF] Executed action DeviceManagement.Api.TestSupport.TestExceptionController.NotFoundException (DeviceManagement.Api) in 0.1645ms
+2026-07-28 22:21:31.655 -04:00 [INF] Executed endpoint 'DeviceManagement.Api.TestSupport.TestExceptionController.NotFoundException (DeviceManagement.Api)'
+2026-07-28 22:21:31.656 -04:00 [WRN] Not found
+DeviceManagement.Api.Services.NotFoundException: Device not found
+   at DeviceManagement.Api.TestSupport.TestExceptionController.NotFoundException()
+   at lambda_method124(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at DeviceManagement.Api.Middleware.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context)
+2026-07-28 22:21:31.656 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost/api/test/exceptions/notfound - 404 null application/json; charset=utf-8 1.8541ms
