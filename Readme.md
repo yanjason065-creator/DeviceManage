@@ -38,7 +38,7 @@ The project includes:
 
 Detailed architecture:
 
-[Architecture Diagram](docs/architecture.md)
+[Architecture Diagram](architecture.md)
 
 ---
 
