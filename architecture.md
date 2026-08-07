@@ -24,11 +24,15 @@ graph TD
     B --> H[FluentValidation]
 
     B --> I[Exception Middleware]
+```
+
+---
+
+## Test Automation Architecture
 
 
-    Test Automation Architecture
-
-    graph TD
+```mermaid
+graph TD
 
     A[xUnit Test Cases]
 
@@ -40,16 +44,22 @@ graph TD
 
     D --> E[HttpClient API Layer]
 
-    D --> F[SQLite In-Memory Database]
+    D --> F[(SQLite In-Memory Database)]
 
     E --> G[Controllers]
 
     G --> H[Services]
 
     H --> I[EF Core]
+```
 
-    CI/CD Pipeline
-    graph LR
+---
+
+## CI/CD Pipeline
+
+
+```mermaid
+graph LR
 
     A[Feature Branch]
 
@@ -61,6 +71,9 @@ graph TD
 
     D --> E[Regression Test]
 
-    E --> F[Coverage Report]
+    E --> F[Code Coverage]
 
-    F --> G[GitHub Pages]
+    F --> G[ReportGenerator]
+
+    G --> H[GitHub Pages]
+```
