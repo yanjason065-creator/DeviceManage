@@ -32,6 +32,13 @@ The project includes:
 - Test Data Management
 - Automated Quality Pipeline
 
+```markdown
+## Architecture
+
+
+Detailed architecture:
+
+[Architecture Diagram](docs/architecture.md)
 
 ---
 
